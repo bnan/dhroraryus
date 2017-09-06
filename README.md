@@ -4,8 +4,17 @@ Picking a schedule in universities where you have to make your own is difficult 
 
 ## Development
 
+1. [Install Node and Yarn](https://yarnpkg.com/en/docs/install).
+
+2. Install dependencies.
+
 ```shell
 $ yarn install
+```
+
+3. Start
+
+```shell
 $ yarn start
 ```
 
