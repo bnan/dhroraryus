@@ -1,9 +1,31 @@
 
 export class Date{
     constructor(day, hour, min){
-        this.day = day
+        this.day = day;
         this.hour = hour;
         this.min = min;
+    }
+
+    /*
+        if a < b    : return -1
+        if a == b   : return 0
+        if a > b    : return 1
+    */
+    static compare(a, b){
+        if (a.day<b.day)
+            return -1;
+        if (a.day>b.day)
+            return 1;
+        if (a.hour<b.hour)
+            return -1;
+        if (a.hour>b.hour)
+            return 1;
+        if (a.min<b.min)
+            return -1;
+        if (a.min>b.min)
+            return 1;
+        return 0;
+
     }
 }
 
@@ -22,8 +44,7 @@ export class EventOption{
 }
 
 export class EventOptionInstance{
-    constructor(day, start, end){
-        this.day = day;
+    constructor(start, end){
         this.start = start;
         this.end = start;
     }
