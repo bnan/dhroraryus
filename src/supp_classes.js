@@ -15,6 +15,10 @@ export class Date{
         if a > b    : return 1
     */
     static compare(a, b){
+        if (a.day == 6 && b.day == 0)
+            return -1;
+        if (a.day == 0 && b.day == 6)
+            return 1;
         if (a.day<b.day)
             return -1;
         if (a.day>b.day)
