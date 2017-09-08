@@ -126,7 +126,16 @@ function overlapConstraint(c1, c2)
 {
   for (const e1 of c1.instances) {
     for (const e2 of c2.instances) {
-      if (e1.day == e2.day && e1.end > e2.start) {
+      console.log("BLLLLLLLLLLLLLLLLLLLLLAAAAAAAAAAAAAAAAAAAAA");
+      console.log("e1.start:" + e1.start);
+      console.log("e1.end:" + e1.end);
+      console.log("e2.start:" + e2.start);
+      console.log("e2.end:" + e2.end);
+      
+
+
+      if ((Date.compare(e1.start, e2.end) < 0) && (Date.compare(e1.end, e2.start) > 0)) {
+        console.log("TRUUUUE");
         return true
       }
     }

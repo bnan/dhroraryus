@@ -6,6 +6,9 @@ export class Date{
         this.min = min;
     }
 
+    toString(){
+        return ("date: " + this.day + "-- " + this.hour + ":" + this.min);
+    }
     /*
         if a < b    : return -1
         if a == b   : return 0
@@ -27,6 +30,7 @@ export class Date{
         return 0;
 
     }
+
 }
 
 export class Event{
@@ -46,6 +50,6 @@ export class EventOption{
 export class EventOptionInstance{
     constructor(start, end){
         this.start = start;
-        this.end = start;
+        this.end = end;
     }
 }
