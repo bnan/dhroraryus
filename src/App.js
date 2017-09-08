@@ -52,16 +52,15 @@ class App extends Component {
     var domain = new Map();
 
     for ( var c in cl ){
-      if ( !domain.has(cl[c].event)) {
-        domain.set(cl[c].event, [cl[c].option,]);
+      if ( !domain.has(cl[c].event.name)) {
+        domain.set(cl[c].event.name, [cl[c],]);
       }
       else {
-        let value = domain.get(cl[c].event);
-        value.push(cl[c].option);
-        domain.set(cl[c].event, value);
+        let value = domain.get(cl[c].event.name);
+        value.push(cl[c]);
+        domain.set(cl[c].event.name, value);
       }
     }
-
     let sol = search(domain, [overlapConstraint])
     console.log(sol)
   }
@@ -74,6 +73,8 @@ class App extends Component {
 // Returns dictionaries with the solutions
 function search(domain, constraints)
 {
+
+  console.log(domain)
   // Return null if there is no solution
   if (Array.from(domain.values()).some(v => v.length == 0)) {
     return null
@@ -88,16 +89,16 @@ function search(domain, constraints)
   const keys = Array.from(domain.keys()).concat().sort(e => domain.get(e).length)
 
   const key = keys.filter( k => domain.get(k).length > 1)[0]
-  console.log(key)
   // Missing picking value by most constraints created
   let solutions = []
 
   for (const value of domain.get(key)) {
+
     // Copy map
     const newDomain = new Map(domain)
+
     // Pick a value
     newDomain.set(key, [value])
-
     // Other variables values are the ones that are not constrained by picked value
     for (const key2 of keys.filter(k => k != key)) {
       const tmp = []
@@ -115,21 +116,21 @@ function search(domain, constraints)
       solutions = solutions.concat(s)
     }
   }
-
+  
+  console.log('Sol')
+  console.log(solutions)
   return solutions
 }
 
 function overlapConstraint(c1, c2)
 {
-  console.log(c1)
-  console.log(c2)
-  //for (const e1 of c1.instances) {
-  //  for (const e2 of c2.instances) {
-  //    if (e1.day == e2.day && e1.end > e2.start) {
-  //      return true
-  //    }
-  //  }
-  //}
+  for (const e1 of c1.instances) {
+    for (const e2 of c2.instances) {
+      if (e1.day == e2.day && e1.end > e2.start) {
+        return true
+      }
+    }
+  }
 
   return false
 }
