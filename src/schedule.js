@@ -10,8 +10,19 @@ export class Schedule{
     	this.prefLongLunch = NaN;
     	this.prefFreeDays = NaN;
     	this.prefFridayMorning = false;
+
+        this.parseSchedule()
     }
 
+    parseSchedule(){
+        let prefCont = 0
+        for ( var w of this.schedule.keys()){
+            let workday = this.schedule.get(w)
+            let pc = prefContinuous(workday)
+            prefCont += pc
+        }
+        this.prefContinuous = prefCont/5
+    }
     processWorkdays(solution){
 
     	const temp_workdays = new Map();
@@ -74,7 +85,6 @@ export class Workday{
           // Morning
           if ( Time.compare(event.start.time, bM) < 0)
             bM = event.start.time
-            console.log(bM)
           if ( Time.compare(event.end.time, eM) > 0)
             eM = event.end.time
         }else{
@@ -101,43 +111,47 @@ export class Workday{
 
 }
 
-export function prefFreeAfternoon(workday){
+function prefFreeAfternoon(workday){
 	if (workday.end_afternoon)
       return Time.interval(workday.end_afternoon, new Time(20,0)) / 8; // eight hours for the afternoon := 20-12 
   	return 1;
 }
-export function prefFreeDay(workday){
-	if(workday.free_day);
+
+function prefFreeDay(workday){
+	if(workday.free_day)
 		return 1;
 	return 1 - (workday.workload / 24);	
 }
-export function prefFreeMorning(workday){
+
+function prefFreeMorning(workday){
 	if(workday.begin_morning)
 		return Time.interval(new Time(7, 0), workday.start_begin) / 5; // five hours for the morning := 12-7 
 	return 1;
 }
 
-
-
-
 function prefContinuous(workday){
     let diff = 0;
-    if (workday.begin_morning == NaN){
+    if ( !(workday.begin_morning instanceof Time) && !(workday.begin_afternoon instanceof Time)){
+      return 0
+    }
+
+    if (!(workday.begin_morning instanceof Time)){
       diff = Time.interval(workday.begin_afternoon, workday.end_afternoon)
       return (workday.workload/diff)
     }
 
-    if (workday.end_afternoon == NaN){
+    if (!(workday.end_afternoon instanceof Time)){
       diff = Time.interval(workday.begin_morning, workday.end_morning)
       return (workday.workload/diff)
     }
 
     diff = Time.interval(workday.begin_morning, workday.end_afternoon)
+    console.log(workday.workload/diff)
     return (workday.workload/diff)
 }
 
 function prefLongLunchtimes(workday){
-    r = 0.5
+    let r = 0.5
     if (workday.lunch_time && Time.interval(workday.end_morning, workday.begin_afternoon) > 60)
       r = 1
     return r
