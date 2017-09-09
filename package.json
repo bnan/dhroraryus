@@ -4,7 +4,10 @@
   "private": true,
   "dependencies": {
     "firebase": "^4.3.1",
+    "moment": "^2.18.1",
     "react": "^15.6.1",
+    "react-bootstrap": "^0.31.3",
+    "react-datetime": "^2.10.1",
     "react-dom": "^15.6.1",
     "react-scripts": "1.0.13"
   },
