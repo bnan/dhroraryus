@@ -1,35 +1,11 @@
 import {Time} from './suppClasses'
 
 export class Schedule{
-	/*
-		solution =	{	event1 	: [eventOption choosen],
-				  		event2	: [eventOption choosen],
-				  		...
-		 		  	}
-
-		schedule =	{ 
-						'Monday' : [eventOption1, eventOption2],
-						...
-					}
-	*/
     constructor(solution) {
-    	this.solution = solution;
     	this.schedule = this.processWorkdays(solution);
     	this.events  = this.getEvents(solution);
     }
- 
-    parse(solution){
-    	let shedule = [];
-    	for (var event of solution.keys())
-    		shedule.push(solution.get(event[0]));
-	}
-	/*
-		returns  { 
-					'Monday' : Workday([EventOption1, EventOption2]),
-					...
-				}
 
-	*/
     processWorkdays(solution){
 
     	const temp_workdays = new Map();
@@ -45,14 +21,7 @@ export class Schedule{
     		workdays.set(day, new Workday(temp_workdays.get(day)));
     	return workdays;
     }
-    /*
-		return {
-					'title' : event name,
-					'start' : start week date,
-					'end' 	: end week date
 
-			   }
-    */
     getEvents(solution){
     	const eventOptions = Array.from(solution.values()).map(eventOption => eventOption[0])
     	const events = []
@@ -74,19 +43,54 @@ export class Schedule{
 export class Workday{
 	constructor(events){
 		this.events 			= events;
-		this.daily_workload 	= this.daily_workload();
-		//this.begin_morning		= ;  
-		//this.end_morning		= ;
-		//this.begin_afternoon 	= ;
-		//this.end_afternoon		= ;
-
-	}
-	daily_workload(){
-		let workload = 0;
-		for (var event of this.events)
-			workload += Time.interval(event.start, event.end);
-		return workload;
+		this.daily_workload 	= 0;
+		this.begin_morning		= NaN;  
+		this.end_morning		= NaN;
+		this.begin_afternoon 	= NaN;
+		this.end_afternoon		= NaN;
+        this.free_day = true;
+        this.lunch_time = false;
+        this.parseWorkDay();
 	}
 
+
+    parseWorkDay(){
+      let noon = new Time(12,0)
+
+      let bM = new Time(12,0)
+      let eM = new Time(0,0)
+      let bA = new Time(24,0)
+      let eA = new Time(12,0)
+      for ( var event of this.events){
+        this.free_day = false
+        this.workload += Time.interval(event.start, event.end);
+        if ( Time.compare(event.start.time,noon) < 0){
+          // Morning
+          if ( Time.compare(event.start.time, bM) < 0)
+            bM = event.start.time
+          if ( Time.compare(event.end.time, eM) > 0)
+            eM = event.end.time
+        }else{
+          // Afternoon
+          if ( Time.compare(event.start.time, bA) < 0)
+            bM = event.start.time
+          if ( Time.compare(event.end.time, eA) > 0)
+            eM = event.end.time
+
+        }
+      }
+
+      if ( Time.interval(eM,bA) > 0)
+        this.lunch_time = true
+
+      if ( Time.compare( bM, new Time(12,0)) == 0 )
+        this.begin_morning = bM;
+      if ( Time.compare( eM ,new Time(0,0)) == 0)
+        this.end_morning = eM;
+      if ( Time.compare( bA ,new Time(24,0)) == 0)
+        this.begin_afternoon = bA;
+      if ( Time.compare( eA ,new Time(12,0)) == 0)
+        this.end_afternoon = eA;
+    }
 
 }

@@ -83,6 +83,7 @@ class App extends Component {
     }
 
     render() {
+        test()
         return (
             <Grid>
                 <img src={logo} className="App-logo" alt="Dhroraryus" />

@@ -147,13 +147,15 @@ export function test(){
     SEGT1, SEGP1, SEGP2, SEGP3, SEGP4
   ]
 
-  console.log("ASDQWPIHDQIOWHDOQWEIHDQWEIOH");
   let domain = makeDomain(cl)
-
   let sol = search(domain)
-  console.log(sol)
+
   let schedule = new Schedule(sol[0]);
-  console.log(schedule);
-  //for (var solution of sol)
-  //  schedule = new Schedule(solution);
+
+  let mySol = []
+  for (var solution of sol)
+      mySol.push(new Schedule(solution));
+
+  console.log(mySol)
 }
+
