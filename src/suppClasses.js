@@ -34,16 +34,7 @@ export class WeekDate{
             return -1;
         if (a.day>b.day)
             return 1;
-        if (a.time.hour<b.time.hour)
-            return -1;
-        if (a.time.hour>b.time.hour)
-            return 1;
-        if (a.time.min<b.time.min)
-            return -1;
-        if (a.time.min>b.time.min)
-            return 1;
-        return 0;
-
+        return Time.compare(a.time,b.time);
     }
 
 }
@@ -60,6 +51,17 @@ export class Time{
         if (duration < 0)
             duration = duration + 1440;
         return duration;
+    }
+    static compare(a,b){
+        if (a.hour<b.hour)
+            return -1;
+        if (a.hour>b.hour)
+            return 1;
+        if (a.min<b.min)
+            return -1;
+        if (a.min>b.min)
+            return 1;
+        return 0;
     }
 
 }
