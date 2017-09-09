@@ -12,13 +12,23 @@ export const init = () => {
   }
   firebase.initializeApp(config)
   
-  var databaseRef = firebase.database().ref('heuristics')
+  var heuristicRef = firebase.database().ref('heuristics')
 
-  databaseRef.child("long_lunch").on("value", gotData);
+  var constraintRef = firebase.database().ref('constraints')
   
-  function gotData(data) {
-    var heuristics = data.val();
-    document.getElementById("llcount").innerHTML = "Long lunch schedules: " + heuristics
+  //heuristicRef.child("free_afternoon").set([6,0,,0,2,6,4,8,5,7,2])
+  //heuristicRef.child("long_lunch").set([0,0,0,0,0,0,0,0,0,0,0])
+  //heuristicRef.child("free_mornings").set([0,0,0,0,0,0,0,0,0,0,0])
+  //incHeuristicValue('free_afternoon',0)
+
+
+  // checks value
+  //heuristicRef.child("free_afternoon").on("value", gotData);
+  
+  //function gotData(data) {
+    //var heuristics = data.val();
+   
+
     // Grab the keys to iterate over the object
     /*
     var keys = Object.keys(fruits);
@@ -37,13 +47,20 @@ export const init = () => {
     databaseRef.child("free_afternoon").set(snapshot.val() + 1);
   });
  */
+//}
+//updates value
+export function incHeuristicValue(heuristic,score){
+  var heuristicValRef = firebase.database().ref('heuristics').child(heuristic).child(score)
+
+  heuristicValRef.once('value', function (snapshot) {
+    heuristicValRef.set(snapshot.val() + 1);
+  });
 }
 
-export function incLongLunch(){
-  var databaseRef = firebase.database().ref('heuristics')
+export function getHeuristicRef(){
+  return firebase.database().ref('heuristics')
+}
 
-  databaseRef.child("long_lunch").once('value', function (snapshot) {
-    databaseRef.child("long_lunch").set(snapshot.val() + 1);
-  });
-
+export function getConstraintRef(){
+  return firebase.database().ref('constraints')
 }
