@@ -10,23 +10,13 @@
     Friday      : 6
 */
 export class WeekDate{
-    constructor(day, hour, min){
-        this.day    = day;
-        this.hour   = hour;
-        this.min    = min;
+    constructor(day, time){
+        this.day = day;
+        this.time = time; 
     }
 
     toString(){
-        return ("date: " + this.day + "-- " + this.hour + ":" + this.min);
-    }
-
-    static interval(start,end){
-        const start_mins  = start.hour * 60 + start.min;
-        const end_mins    = end.hour * 60 + end.min;
-        let duration      = end_mins - start_mins;
-        if (duration < 0)
-            duration = duration + 1440;
-        return duration;
+        return ("date: " + this.day + "-- " + this.time.hour + ":" + this.min);
     }
     /*
         if a < b    : return -1
@@ -44,16 +34,32 @@ export class WeekDate{
             return -1;
         if (a.day>b.day)
             return 1;
-        if (a.hour<b.hour)
+        if (a.time.hour<b.time.hour)
             return -1;
-        if (a.hour>b.hour)
+        if (a.time.hour>b.time.hour)
             return 1;
-        if (a.min<b.min)
+        if (a.time.min<b.time.min)
             return -1;
-        if (a.min>b.min)
+        if (a.time.min>b.time.min)
             return 1;
         return 0;
 
+    }
+
+}
+
+export class Time{
+    constructor(hour, min){
+        this.hour = hour;
+        this.min  = min;
+    }
+    static interval(start,end){
+        const start_mins  = start.hour * 60 + start.min;
+        const end_mins    = end.hour * 60 + end.min;
+        let duration      = end_mins - start_mins;
+        if (duration < 0)
+            duration = duration + 1440;
+        return duration;
     }
 
 }

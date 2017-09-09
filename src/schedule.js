@@ -1,4 +1,4 @@
-import {WeekDate} from './suppClasses'
+import {Time} from './suppClasses'
 
 export class Schedule{
 	/*
@@ -84,7 +84,7 @@ export class Workday{
 	daily_workload(){
 		let workload = 0;
 		for (var event of this.events)
-			workload += WeekDate.interval(event.start, event.end);
+			workload += Time.interval(event.start, event.end);
 		return workload;
 	}
 
