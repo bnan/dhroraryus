@@ -1,6 +1,14 @@
 // Bunch of Supp Classes
-
-
+ 
+/*
+    Saturday    : 0
+    Sunday      : 1
+    Monday      : 2
+    TUesday     : 3
+    Wednesday   : 4
+    Thursady    : 5
+    Friday      : 6
+*/
 export class WeekDate{
     constructor(day, hour, min){
         this.day = day;
@@ -17,9 +25,9 @@ export class WeekDate{
         if a > b    : return 1
     */
     static compare(a, b){
-        if (a.day == 6 && b.day == 0)
+        if (a.day === 6 && b.day === 0)
             return -1;
-        if (a.day == 0 && b.day == 6)
+        if (a.day === 0 && b.day === 6)
             return 1;
         if (a.day<b.day)
             return -1;
