@@ -4,6 +4,12 @@ export class Schedule{
     constructor(solution) {
     	this.schedule = this.processWorkdays(solution);
     	this.events  = this.getEvents(solution);
+    	this.prefContinuous = NaN;
+    	this.prefFreeAfternoons = NaN;
+    	this.prefFreeMornings = NaN;
+    	this.prefLongLunch = NaN;
+    	this.prefFreeDays = NaN;
+    	this.prefFridayMorning = false;
     }
 
     processWorkdays(solution){
@@ -93,7 +99,25 @@ export class Workday{
       if ( Time.compare( eA ,new Time(12,0)) != 0)
         this.end_afternoon = eA;
     }
+
 }
+
+export function prefFreeAfternoon(workday){
+	if (workday.end_afternoon)
+      return Time.interval(workday.end_afternoon, new Time(20,0)) / 8; // eight hours for the afternoon := 20-12 
+  	return 1;
+}
+export function prefFreeDay(workday){
+	if(workday.free_day);
+		return 1;
+	return 1 - (workday.workload / 24);	
+}
+export function prefFreeMorning(workday){
+	if(workday.begin_morning)
+		return Time.interval(new Time(7, 0), workday.start_begin) / 5; // five hours for the morning := 12-7 
+	return 1;
+}
+
 
 
 
