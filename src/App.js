@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Date, Event, EventOption, EventOptionInstance} from './supp_classes'
+import {WeekDate, Event, EventOption, EventOptionInstance} from './supp_classes'
 
 import logo from './logo.svg';
 import './App.css';
@@ -34,33 +34,33 @@ class App extends Component {
     const CVT = new Event('CV-T');
     const CVP = new Event('CV-P');
 
-    const ARAT1 = new EventOption(ARAT, 1,[ new EventOptionInstance( new Date(3,13,0) , new Date(3,15,0)), ]);
-    const ARAP1 = new EventOption(ARAP, 1,[ new EventOptionInstance( new Date(2,15,0) , new Date(2,17,0)), ]);
-    const ARAP2 = new EventOption(ARAP, 2,[ new EventOptionInstance( new Date(5,11,0) , new Date(5,13,0)), ]);
-    const ARAP3 = new EventOption(ARAP, 3,[ new EventOptionInstance( new Date(2,17,0) , new Date(2,19,0)), ]);
-    const ARAP4 = new EventOption(ARAP, 4,[ new EventOptionInstance( new Date(5, 9,0) , new Date(5,11,0)), ]);
+    const ARAT1 = new EventOption(ARAT, 1,[ new EventOptionInstance( new WeekDate(3,13,0) , new WeekDate(3,15,0)), ]);
+    const ARAP1 = new EventOption(ARAP, 1,[ new EventOptionInstance( new WeekDate(2,15,0) , new WeekDate(2,17,0)), ]);
+    const ARAP2 = new EventOption(ARAP, 2,[ new EventOptionInstance( new WeekDate(5,11,0) , new WeekDate(5,13,0)), ]);
+    const ARAP3 = new EventOption(ARAP, 3,[ new EventOptionInstance( new WeekDate(2,17,0) , new WeekDate(2,19,0)), ]);
+    const ARAP4 = new EventOption(ARAP, 4,[ new EventOptionInstance( new WeekDate(5, 9,0) , new WeekDate(5,11,0)), ]);
 
-    const ACAP1 = new EventOption(ACAP, 1,[ new EventOptionInstance( new Date(2,11,0) , new Date(2,13,0)), ]);
-    const ACAP2 = new EventOption(ACAP, 2,[ new EventOptionInstance( new Date(6,14,0) , new Date(6,16,0)), ]);
-    const ACAP3 = new EventOption(ACAP, 3,[ new EventOptionInstance( new Date(2, 9,0) , new Date(2,11,0)), ]);
-    const ACAP4 = new EventOption(ACAP, 4,[ new EventOptionInstance( new Date(2,14,0) , new Date(2,16,0)), ]);
-    const ACAT1 = new EventOption(ACAT, 1,[ new EventOptionInstance( new Date(4,10,0) , new Date(4,12,0)), ]);
+    const ACAP1 = new EventOption(ACAP, 1,[ new EventOptionInstance( new WeekDate(2,11,0) , new WeekDate(2,13,0)), ]);
+    const ACAP2 = new EventOption(ACAP, 2,[ new EventOptionInstance( new WeekDate(6,14,0) , new WeekDate(6,16,0)), ]);
+    const ACAP3 = new EventOption(ACAP, 3,[ new EventOptionInstance( new WeekDate(2, 9,0) , new WeekDate(2,11,0)), ]);
+    const ACAP4 = new EventOption(ACAP, 4,[ new EventOptionInstance( new WeekDate(2,14,0) , new WeekDate(2,16,0)), ]);
+    const ACAT1 = new EventOption(ACAT, 1,[ new EventOptionInstance( new WeekDate(4,10,0) , new WeekDate(4,12,0)), ]);
 
-    const CVP1 = new EventOption(CVP, 1,[ new EventOptionInstance( new Date(2,15,0), new Date(2,17,0)), ]);
-    const CVP2 = new EventOption(CVP, 2,[ new EventOptionInstance( new Date(2,13,0), new Date(2,15,0)), ]);
-    const CVP3 = new EventOption(CVP, 3,[ new EventOptionInstance( new Date(5,11,0), new Date(5,13,0)), ]);
-    const CVT1 = new EventOption(CVT, 1,[ new EventOptionInstance( new Date(3,15,0), new Date(3,17,0)), ]);
+    const CVP1 = new EventOption(CVP, 1,[ new EventOptionInstance( new WeekDate(2,15,0), new WeekDate(2,17,0)), ]);
+    const CVP2 = new EventOption(CVP, 2,[ new EventOptionInstance( new WeekDate(2,13,0), new WeekDate(2,15,0)), ]);
+    const CVP3 = new EventOption(CVP, 3,[ new EventOptionInstance( new WeekDate(5,11,0), new WeekDate(5,13,0)), ]);
+    const CVT1 = new EventOption(CVT, 1,[ new EventOptionInstance( new WeekDate(3,15,0), new WeekDate(3,17,0)), ]);
 
-    const EDCP1 = new EventOption(EDCP , 1,[ new EventOptionInstance( new Date(6, 9, 0), new Date(6,11, 0)), ]);
-    const EDCP2 = new EventOption(EDCP , 2,[ new EventOptionInstance( new Date(5,16,30), new Date(5,18,30)), ]);
-    const EDCP3 = new EventOption(EDCP , 3,[ new EventOptionInstance( new Date(6,11, 0), new Date(6,13, 0)), ]);
-    const EDCT1 = new EventOption(EDCT , 1,[ new EventOptionInstance( new Date(5,14,30), new Date(5,16,30)), ]);
+    const EDCP1 = new EventOption(EDCP , 1,[ new EventOptionInstance( new WeekDate(6, 9, 0), new WeekDate(6,11, 0)), ]);
+    const EDCP2 = new EventOption(EDCP , 2,[ new EventOptionInstance( new WeekDate(5,16,30), new WeekDate(5,18,30)), ]);
+    const EDCP3 = new EventOption(EDCP , 3,[ new EventOptionInstance( new WeekDate(6,11, 0), new WeekDate(6,13, 0)), ]);
+    const EDCT1 = new EventOption(EDCT , 1,[ new EventOptionInstance( new WeekDate(5,14,30), new WeekDate(5,16,30)), ]);
 
-    const SEGP1 = new EventOption(SEGP , 1,[ new EventOptionInstance( new Date(5, 9,0), new Date(5,11,0)), ]);
-    const SEGP2 = new EventOption(SEGP , 2,[ new EventOptionInstance( new Date(6,11,0), new Date(6,13,0)), ]);
-    const SEGP3 = new EventOption(SEGP , 3,[ new EventOptionInstance( new Date(6, 9,0), new Date(6,11,0)), ]);
-    const SEGP4 = new EventOption(SEGP , 4,[ new EventOptionInstance( new Date(6,14,0), new Date(6,16,0)), ]);
-    const SEGT1 = new EventOption(SEGT , 1,[ new EventOptionInstance( new Date(4,13,0), new Date(4,15,0)), ]);
+    const SEGP1 = new EventOption(SEGP , 1,[ new EventOptionInstance( new WeekDate(5, 9,0), new WeekDate(5,11,0)), ]);
+    const SEGP2 = new EventOption(SEGP , 2,[ new EventOptionInstance( new WeekDate(6,11,0), new WeekDate(6,13,0)), ]);
+    const SEGP3 = new EventOption(SEGP , 3,[ new EventOptionInstance( new WeekDate(6, 9,0), new WeekDate(6,11,0)), ]);
+    const SEGP4 = new EventOption(SEGP , 4,[ new EventOptionInstance( new WeekDate(6,14,0), new WeekDate(6,16,0)), ]);
+    const SEGT1 = new EventOption(SEGT , 1,[ new EventOptionInstance( new WeekDate(4,13,0), new WeekDate(4,15,0)), ]);
 
     let cl = [
               ARAT1, ARAP1, ARAP2, ARAP3, ARAP4,
@@ -73,6 +73,7 @@ class App extends Component {
     let domain = createDomain(cl)
 
     let sol = search(domain)
+    console.log("BLAAAAAAAAAAAAAAAAAAAAAAAA")
     console.log(sol)
   }
 
@@ -152,7 +153,7 @@ function overlapConstraint(c1, c2)
 {
   for (const e1 of c1.instances) {
     for (const e2 of c2.instances) {
-      if ((Date.compare(e1.start, e2.end) < 0)) {
+      if ((WeekDate.compare(e1.start, e2.end) < 0)) {
         return true
       }
     }
