@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import {test} from './cSearch';
+
+import {test} from './cSearch'
 
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
   render() {
-    test()
+    test();
     return (
       <div className="App">
       <div className="App-header">
