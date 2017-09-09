@@ -1,3 +1,11 @@
 .App-logo {
   width: 50%;
 }
+
+.form-inline .rdt {
+    display: inline-block;
+}
+
+.rdt .form-control {
+    width: 70px; 
+}

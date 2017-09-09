@@ -2,41 +2,48 @@ import React, { Component } from 'react';
 import { Panel, Button } from 'react-bootstrap';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Form, FormGroup, FormControl, Checkbox } from 'react-bootstrap';
-//import { ControlLabel, HelpBlock } from 'react-bootstrap';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Glyphicon } from 'react-bootstrap';
+
+import { TimePicker } from './TimePicker';
+
 import logo from './logo.svg';
 import './App.css';
-import * as Datetime from 'react-datetime';
-
 
 class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
             events: [],
-            schedules: [],
+            options: [],
+            instances: [],
             constraints: [],
             preferences: [],
-            newEvent: ''
+            newEvent: '',
+            newOptionId: '',
+            newOptionEvent: '',
+            newInstanceDay: '',
+            newInstanceStart: '',
+            newInstanceEnd: '',
         }
     }
 
-    handleEventChange(e) {
-        this.setState({ newEvent: e.target.value })
-    }
 
     handleEventAdd() {
         const newEvent = this.state.newEvent
         if(newEvent && !this.state.events.includes(newEvent)) {
             this.setState(prevState => ({
-                events: [...prevState.events, newEvent]
+                events: [...prevState.events, newEvent],
+                newEvent: ''
             }))
         }
     }
 
+    handleInstanceAdd() {
+        console.log('ADDING OPTION')
+    }
+
     handleEventDelete(index) {
-        console.log('DELETING', index)
         this.setState({
             events: [...this.state.events.slice(0, index), ...this.state.events.slice(index+1)]
         })
@@ -44,8 +51,28 @@ class App extends Component {
         // TODO: delete other stuff
     }
 
-    handleOptionAdd() {
-        console.log('ADDING OPTION')
+    handleEventChange(e) {
+        this.setState({ newEvent: e.target.value })
+    }
+
+    handleOptionIdChange(e) {
+        this.setState({ newOptionId: e.target.value })
+    }
+
+    handleOptionEventChange(e) {
+        this.setState({ newOptionEvent: e.target.value })
+    }
+
+    handleInstanceDayChange(e) {
+        this.setState({ newInstanceDay: e.target.value })
+    }
+
+    handleInstanceStartChange(e) {
+        this.setState({ newInstanceStart: e })
+    }
+
+    handleInstanceEndChange(e) {
+        this.setState({ newInstanceEnd: e })
     }
 
     render() {
@@ -64,7 +91,6 @@ class App extends Component {
                                         placeholder="Enter text"
                                         onChange={(e) => this.handleEventChange(e)}
                                     />
-                                    &nbsp;
                                     <Button bsStyle="success" onClick={() => this.handleEventAdd()}>
                                         <Glyphicon glyph="plus" /> Add
                                     </Button>
@@ -88,7 +114,7 @@ class App extends Component {
                         <Panel expanded collapsible header="Options">
                             <Form inline>
                                 <FormGroup controlId="formControlsSelect">
-                                    <FormControl componentClass="select" placeholder="select">
+                                    <FormControl componentClass="select" onChange={(e) => this.handleOptionEventChange(e)}>
                                         {this.state.events.map((event, index) => (
                                             <option key={index} value={event}>{event}</option>
                                         ))}
@@ -98,12 +124,23 @@ class App extends Component {
                                 <FormControl
                                     type="text"
                                     placeholder="ID"
+                                    onChange={(e) => this.handleOptionIdChange(e)}
                                 />
 
-                                <Datetime dateFormat={false} />
-                                <Datetime dateFormat={false} />
+                                <FormControl componentClass="select" onChange={(e) => this.handleInstanceDayChange(e)}>
+                                    <option value="monday">Monday</option>
+                                    <option value="tuesday">Tuesday</option>
+                                    <option value="wednesday">Wednesday</option>
+                                    <option value="thursday">Thursday</option>
+                                    <option value="friday">Friday</option>
+                                </FormControl>
 
-                                <Button bsStyle="success" onClick={() => this.handleOptionAdd()}>
+                                from
+                                <TimePicker onChange={(e) => this.handleInstanceStartChange(e)} />
+                                to
+                                <TimePicker onChange={(e) => this.handleInstanceEndChange(e)} />
+
+                                <Button bsStyle="success" onClick={() => this.handleInstanceAdd()}>
                                     <Glyphicon glyph="plus" /> Add
                                 </Button>
                             </Form>
@@ -115,33 +152,21 @@ class App extends Component {
                     <Col xs={6}>
                         <Panel expanded collapsible header="Constraints">
                             <Form inline>
-                                <FormGroup controlId="formControlsSelect">
-                                    On&nbsp;
-                                    <FormControl componentClass="select" placeholder="select">
+                                <FormGroup>
+                                    On
+                                    <FormControl componentClass="select">
                                         <option value="monday">Monday</option>
                                         <option value="tuesday">Tuesday</option>
                                         <option value="wednesday">Wednesday</option>
                                         <option value="thursday">Thursday</option>
                                         <option value="friday">Friday</option>
                                     </FormControl>
-                                    &nbsp;from&nbsp;
-                                    <FormControl componentClass="select" placeholder="select">
-                                        <option value="monday">Monday</option>
-                                        <option value="tuesday">Tuesday</option>
-                                        <option value="wednesday">Wednesday</option>
-                                        <option value="thursday">Thursday</option>
-                                        <option value="friday">Friday</option>
-                                    </FormControl>
-                                    &nbsp;to&nbsp;
-                                    <FormControl componentClass="select" placeholder="select">
-                                        <option value="monday">Monday</option>
-                                        <option value="tuesday">Tuesday</option>
-                                        <option value="wednesday">Wednesday</option>
-                                        <option value="thursday">Thursday</option>
-                                        <option value="friday">Friday</option>
-                                    </FormControl>
+                                    from
+                                    <TimePicker />
+                                    to
+                                    <TimePicker />
                                 </FormGroup>
-                                &nbsp;
+
                                 <Button bsStyle="success">
                                     <Glyphicon glyph="plus" /> Add
                                 </Button>
@@ -152,6 +177,7 @@ class App extends Component {
                     <Col xs={6}>
                         <Panel expanded collapsible header="Preferences">
                             <FormGroup>
+                                <Checkbox>Contiguous, unfragmented events</Checkbox>
                                 <Checkbox>Free afternoons</Checkbox>
                                 <Checkbox>Free mornings</Checkbox>
                                 <Checkbox>Free days</Checkbox>
