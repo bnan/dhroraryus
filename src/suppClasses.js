@@ -65,7 +65,7 @@ export class Event{
 }
 
 export class EventOption{
-    constructor(event, option, instances) {
+    constructor(event, option, instances = []) {
         this.event = event;
         this.option = option;
         this.instances = instances;
