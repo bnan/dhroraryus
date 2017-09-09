@@ -40,14 +40,14 @@ export class WeekDate{
 }
 
 export class Event{
-    constructor(name) {
+    constructor(name, options) {
         this.name = name;
+        this.options = options;
     }
 }
 
 export class EventOption{
-    constructor(event, option, instances) {
-        this.event = event;
+    constructor(option, instances) {
         this.option = option;
         this.instances = instances;
     }
