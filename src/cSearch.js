@@ -33,7 +33,7 @@ function overlapConstraint(c1, c2)
 }
 
 // Returns domain of eventOptions
-function makeDomain(eventOptions, domain)
+export function makeDomain(eventOptions, domain)
 {
   if ( typeof domain == 'undefined' )
     domain = new Map();
