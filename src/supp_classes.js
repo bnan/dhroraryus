@@ -1,5 +1,5 @@
 
-export class Date{
+export class WeekDate{
     constructor(day, hour, min){
         this.day = day;
         this.hour = hour;
