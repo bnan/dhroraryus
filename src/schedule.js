@@ -62,7 +62,6 @@ export class Workday{
       let bA = new Time(24,0)
       let eA = new Time(12,0)
       for ( var event of this.events){
-        console.log(event)
         this.free_day = false
         this.workload += Time.interval(event.start.time, event.end.time);
         if ( Time.compare(event.start.time,noon) < 0){
@@ -97,7 +96,26 @@ export class Workday{
 
 
 
+function prefContinuous(workday){
+    let diff = 0;
+    if (workday.begin_morning == NaN){
+      diff = Time.interval(workday.begin_afternoon, workday.end_afternoon)
+      return (workday.workload/diff)
+    }
 
+    if (workday.end_afternoon == NaN){
+      diff = Time.interval(workday.begin_morning, workday.end_morning)
+      return (workday.workload/diff)
+    }
 
+    diff = Time.interval(workday.begin_morning, workday.end_afternoon)
+    return (workday.workload/diff)
+}
 
+function prefLongLunchtimes(workday){
+    r = 0.5
+    if (workday.lunch_time && Time.interval(workday.end_morning, workday.begin_afternoon) > 60)
+      r = 1
+    return r
+}
 
