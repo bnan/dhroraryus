@@ -59,7 +59,7 @@ export class Schedule{
     		event.set('title', 	solution.get(eventOption)[0].event.name);
     		event.set('start', 	solution.get(eventOption)[0].instances[0].start);
     		event.set('end', 	solution.get(eventOption)[0].instances[0].end);
-    		events.push()
+    		events.push(event);
     	}
     	return events;
 
