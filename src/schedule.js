@@ -43,7 +43,7 @@ export class Schedule{
 export class Workday{
 	constructor(events){
 		this.events 			= events;
-		this.daily_workload 	= 0;
+		this.workload 	= 0;
 		this.begin_morning		= NaN;  
 		this.end_morning		= NaN;
 		this.begin_afternoon 	= NaN;
@@ -62,35 +62,42 @@ export class Workday{
       let bA = new Time(24,0)
       let eA = new Time(12,0)
       for ( var event of this.events){
+        console.log(event)
         this.free_day = false
-        this.workload += Time.interval(event.start, event.end);
+        this.workload += Time.interval(event.start.time, event.end.time);
         if ( Time.compare(event.start.time,noon) < 0){
           // Morning
           if ( Time.compare(event.start.time, bM) < 0)
             bM = event.start.time
+            console.log(bM)
           if ( Time.compare(event.end.time, eM) > 0)
             eM = event.end.time
         }else{
           // Afternoon
           if ( Time.compare(event.start.time, bA) < 0)
-            bM = event.start.time
+            bA = event.start.time
           if ( Time.compare(event.end.time, eA) > 0)
-            eM = event.end.time
-
+            eA = event.end.time
         }
       }
 
       if ( Time.interval(eM,bA) > 0)
         this.lunch_time = true
 
-      if ( Time.compare( bM, new Time(12,0)) == 0 )
+      if ( Time.compare( bM, new Time(12,0)) != 0 )
         this.begin_morning = bM;
-      if ( Time.compare( eM ,new Time(0,0)) == 0)
+      if ( Time.compare( eM ,new Time(0,0)) != 0)
         this.end_morning = eM;
-      if ( Time.compare( bA ,new Time(24,0)) == 0)
+      if ( Time.compare( bA ,new Time(24,0)) != 0)
         this.begin_afternoon = bA;
-      if ( Time.compare( eA ,new Time(12,0)) == 0)
+      if ( Time.compare( eA ,new Time(12,0)) != 0)
         this.end_afternoon = eA;
     }
-
 }
+
+
+
+
+
+
+
