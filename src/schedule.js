@@ -43,6 +43,12 @@ export class Schedule{
     	}
     	return events;
     }
+
+    scheduleEvaluation(weightContinuous, weightFreeAfternoons, weightFreeMornings, weightLongLunch, weightFreeDays, weightFridayMorning){
+    	return weightContinuous * this.prefContinuous + weightFreeAfternoons * this.prefFreeAfternoons + weightFreeMornings * this.prefFreeMornings 
+    	       + weightLongLunch * this.prefLongLunch + weightFreeAfternoons * this.prefFreeDays + weightFridayMorning * this.prefFridayMorning;
+
+    }
 }
 
 // todo: how to handle with events that starts in one day but ends in another
@@ -122,12 +128,12 @@ export function prefFreeMorning(workday){
 
 function prefContinuous(workday){
     let diff = 0;
-    if (workday.begin_morning == NaN){
+    if (isNaN(workday.begin_morning)){
       diff = Time.interval(workday.begin_afternoon, workday.end_afternoon)
       return (workday.workload/diff)
     }
 
-    if (workday.end_afternoon == NaN){
+    if (isNaN(workday.end_afternoon)){
       diff = Time.interval(workday.begin_morning, workday.end_morning)
       return (workday.workload/diff)
     }
