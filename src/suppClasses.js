@@ -11,18 +11,29 @@
 */
 export class WeekDate{
     constructor(day, hour, min){
-        this.day = day;
-        this.hour = hour;
-        this.min = min;
+        this.day    = day;
+        this.hour   = hour;
+        this.min    = min;
     }
 
     toString(){
         return ("date: " + this.day + "-- " + this.hour + ":" + this.min);
     }
+
+    static interval(start,end){
+        const start_mins  = start.hour * 60 + start.min;
+        const end_mins    = end.hour * 60 + end.min;
+        let duration      = end_mins - start_mins;
+        if (duration < 0)
+            duration = duration + 1440;
+        return duration;
+    }
     /*
         if a < b    : return -1
         if a == b   : return 0
         if a > b    : return 1
+
+        TODO: fix this for different days
     */
     static compare(a, b){
         if (a.day === 6 && b.day === 0)

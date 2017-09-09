@@ -13,6 +13,7 @@ export class Schedule{
 					}
 	*/
     constructor(solution) {
+    	this.solution = solution;
     	this.schedule = this.processWorkdays(solution);
     	this.events  = this.getEvents(solution);
     }
@@ -24,21 +25,22 @@ export class Schedule{
 	}
 	/*
 		returns  { 
-					'Monday' : [EventOption1, EventOption2],
+					'Monday' : Workday([EventOption1, EventOption2]),
 					...
 				}
 
 	*/
     processWorkdays(solution){
-    	let temp_workdays = new Map();
+
+    	const temp_workdays = new Map();
     	const week_days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
     	for (var week_day of week_days)
     		temp_workdays.set(week_day, []);
     	for (var event of solution.keys())
     		for (var instance of solution.get(event)[0].instances)
-    			temp_workdays.get(week_days[instance.start.day]).push(solution.get(event)[0]);
+    			temp_workdays.get(week_days[instance.start.day]).push(instance);
 
-    	let workdays = new Map();
+    	const workdays = new Map();
     	for (var day of temp_workdays.keys())
     		workdays.set(day, new Workday(temp_workdays.get(day)));
     	return workdays;
@@ -52,17 +54,19 @@ export class Schedule{
 			   }
     */
     getEvents(solution){
-    	let events = []
-    	var event;
-    	for (var eventOption of solution.keys()){
-    		event = new Map();
-    		event.set('title', 	solution.get(eventOption)[0].event.name);
-    		event.set('start', 	solution.get(eventOption)[0].instances[0].start);
-    		event.set('end', 	solution.get(eventOption)[0].instances[0].end);
-    		events.push(event);
+    	const eventOptions = Array.from(solution.values()).map(eventOption => eventOption[0])
+    	const events = []
+
+    	for (const event of eventOptions){
+    		for (const instance of event.instances){
+				events.push({
+		    		title: event.event.name,
+		    		start: instance.start,
+		    		end: instance.end
+		    	})
+			}
     	}
     	return events;
-
     }
 }
 
@@ -70,7 +74,7 @@ export class Schedule{
 export class Workday{
 	constructor(events){
 		this.events 			= events;
-		//this.daily_workload 	= this.daily_workload();
+		this.daily_workload 	= this.daily_workload();
 		//this.begin_morning		= ;  
 		//this.end_morning		= ;
 		//this.begin_afternoon 	= ;
