@@ -157,5 +157,81 @@ export function test(){
       mySol.push(new Schedule(solution));
 
   console.log(mySol)
+
+  /*
+  const ART = new Event('ARA-T');
+  const ARP = new Event('ARA-P');
+  const ACT = new Event('ACA-T');
+  const ACP = new Event('ACA-P');
+  const EDT = new Event('EDC-T');
+  const EDP = new Event('EDC-P');
+  const SET = new Event('SEG-T');
+  const SEP = new Event('SEG-P');
+  const CT = new Event('CV-T');
+  const CP = new Event('CV-P');
+
+  const ART1 = new EventOption(ART, 1,[ new EventOptionInstance( new WeekDate(3, new Time(14,0)) , new WeekDate(3,new Time(15,0))), ]);
+  const ARP1 = new EventOption(ARP, 1,[ new EventOptionInstance( new WeekDate(2,new Time(11,0)) , new WeekDate(2,new Time(13,0))), ]);
+  const ARP2 = new EventOption(ARP, 2,[ new EventOptionInstance( new WeekDate(5,new Time(14,0)) , new WeekDate(5,new Time(19,0))), ]);
+  const ARP3 = new EventOption(ARP, 3,[ new EventOptionInstance( new WeekDate(2,new Time(11,0)) , new WeekDate(2,new Time(13,0))), ]);
+  const ARP4 = new EventOption(ARP, 4,[ new EventOptionInstance( new WeekDate(5, new Time(10,0)) , new WeekDate(5,new Time(11,0))), ]);
+
+  const ACP1 = new EventOption(ACP, 1,[ new EventOptionInstance( new WeekDate(2,new Time(12,0)) , new WeekDate(2,new Time(13,0))), ]);
+  const ACP2 = new EventOption(ACP, 2,[ new EventOptionInstance( new WeekDate(6,new Time(15,0)) , new WeekDate(6,new Time(17,0))), ]);
+  const ACP3 = new EventOption(ACP, 3,[ new EventOptionInstance( new WeekDate(2, new Time(10,0)) , new WeekDate(2,new Time(13,0))), ]);
+  const ACP4 = new EventOption(ACP, 4,[ new EventOptionInstance( new WeekDate(2,new Time(15,0)) , new WeekDate(2,new Time(17,0))), ]);
+  const ACT1 = new EventOption(ACT, 1,[ new EventOptionInstance( new WeekDate(4,new Time(8,0)) , new WeekDate(4,new Time(10,0))), ]);
+
+  const CP1 = new EventOption(CP, 1,[ new EventOptionInstance( new WeekDate(2,new Time(13,0)), new WeekDate(2,new Time(16,0))), ]);
+  const CP2 = new EventOption(CP, 2,[ new EventOptionInstance( new WeekDate(2,new Time(13,0)), new WeekDate(2,new Time(14,0))), ]);
+  const CP3 = new EventOption(CP, 3,[ new EventOptionInstance( new WeekDate(5,new Time(15,0)), new WeekDate(5,new Time(18,0))), ]);
+  const CT1 = new EventOption(CT, 1,[ new EventOptionInstance( new WeekDate(3,new Time(18,0)), new WeekDate(3,new Time(20,0))), ]);
+
+  const EDP1 = new EventOption(EDP , 1,[ new EventOptionInstance( new WeekDate(6, new Time(10, 0)), new WeekDate(6,new Time(12, 0))), ]);
+  const EDP2 = new EventOption(EDP , 2,[ new EventOptionInstance( new WeekDate(5,new Time(16,30)), new WeekDate(5,new Time(20,30))), ]);
+  const EDP3 = new EventOption(EDP , 3,[ new EventOptionInstance( new WeekDate(6,new Time(14, 0)), new WeekDate(6,new Time(16, 0))), ]);
+  const EDT1 = new EventOption(EDT , 1,[ new EventOptionInstance( new WeekDate(5,new Time(13,30)), new WeekDate(5,new Time(15,30))), ]);
+
+  const SEP1 = new EventOption(SEP , 1,[ new EventOptionInstance( new WeekDate(5, new Time(10,0)), new WeekDate(5,new Time(12,0))), ]);
+  const SEP2 = new EventOption(SEP , 2,[ new EventOptionInstance( new WeekDate(6, new Time(13,0)), new WeekDate(6,new Time(15,0))), ]);
+  const SEP3 = new EventOption(SEP , 3,[ new EventOptionInstance( new WeekDate(6, new Time(15,0)), new WeekDate(6,new Time(17,0))), ]);
+  const SEP4 = new EventOption(SEP , 4,[ new EventOptionInstance( new WeekDate(6,new Time(18,0)), new WeekDate(6,new Time(20,0))), ]);
+  let SET1 = new EventOption(SET , 1,[ new EventOptionInstance( new WeekDate(4,new Time(17,0)), new WeekDate(4,new Time(19,0))), ]);
+
+  let cl2 = [
+    ART1, ARP1, ARP2, ARP3, ARP4,
+    ACT1, ACP1, ACP2, ACP3, ACP4,
+    CT1, CP1, CP2, CP3,
+    EDT1, EDP1, EDP2, EDP3,
+    SET1, SEP1, SEP2, SEP3, SEP4
+  ]
+  let domain2 = makeDomain(cl2)
+  let sol2 = search(domain)
+
+  let mySol2 = []
+  for( var solution of sol2)
+    mySol2.push(new Schedule(solution))
+
+  console.log(mySol2)
+  
+
+  let schedule1;
+  let schedule2;
+  let freeTimeIntersection = 0;
+  for (const sched1 of mySol){
+    for (const sched2 of mySol2){
+      if (Schedule.freeTimeIntersection(sched1, sched2) > freeTimeIntersection){
+        freeTimeIntersection = Schedule.freeTimeIntersection(sched1, sched2);
+        schedule1 = sched1;
+        schedule2 = sched2;
+      }
+    }
+  }
+*/
+
+
+
+
+
 }
 
