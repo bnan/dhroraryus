@@ -18,6 +18,8 @@ export class Schedule{
         let prefCont = 0
         let prefFreeAfternoons = 0
         let prefFreeMornings = 0
+        let prefLongLunch = 0
+        let prefFreeDays = 0
 
         for ( var w of this.schedule.keys()){
         	if (w === 'Saturday' || w === 'Sunday')
@@ -27,11 +29,18 @@ export class Schedule{
             prefCont += prefContinuous(workday)
             prefFreeAfternoons += prefFreeAfternoon(workday)
             prefFreeMornings += prefFreeMorning(workday)
+            prefLongLunch += prefLongLunchtimes(workday)
+            prefFreeDays += prefFreeDay()
 
         }
         this.prefContinuous = prefCont/5
         this.prefFreeAfternoons = prefFreeAfternoons/5
         this.prefFreeMornings = prefFreeMornings/5
+        this.prefLongLunch = prefLongLunch/5
+        this.prefFreeDays = prefFreeDays/5
+        this.prefFridayMorning = prefFreeMorning(this.schedule.get('Friday'))
+
+
 
 
     }
@@ -138,7 +147,7 @@ function prefFreeAfternoon(workday){
 function prefFreeDay(workday){
 	if(workday.free_day)
 		return 1;
-	return 1 - (workday.workload / 24);	
+	return 1 - (workday.workload / (24*60));	
 }
 
 function prefFreeMorning(workday){
