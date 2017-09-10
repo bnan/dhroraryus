@@ -249,6 +249,13 @@ class App extends Component {
                                 <Button bsStyle="success" onClick={() => this.handleInstanceAdd()}>
                                     <Glyphicon glyph="plus" /> Add
                                 </Button>
+
+                                <ul>
+                                {this.state.options.map((option, i) =>
+                                    option.instances.map((instance, i) =>
+                                        <li key={i}>{option.event.name + option.option} from {instance.start.day} {instance.start.time.hour}:{instance.start.time.min} to {instance.end.day} {instance.end.time.hour}:{instance.end.time.min}</li>
+                                ))}
+                                </ul>
                             </Form>
                         </Panel>
                     </Col>
