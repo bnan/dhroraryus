@@ -36,7 +36,6 @@ class App extends Component {
             newInstanceStart: moment(),
             newInstanceEnd: moment(),
         }
-        firebaseInit()
     }
 
     prefill() {
@@ -167,7 +166,6 @@ class App extends Component {
         this.setState({ results })
 
         console.log('RESULTS!!!!!!!!!!!', results)
-        console.log('BOAS!!!!!!!!!!!', this.state.results)
     }
 
     render() {
@@ -294,15 +292,19 @@ class App extends Component {
                 <Row>
                     <Col xs={12}>
                         <Panel expanded collapsible header="Results">
-                            {this.state.results.map((result, index) => (
-                                <div key={index}>
-                                    <BigCalendar
-                                        events={result}
-                                        startAccessor='startDate'
-                                        endAccessor='endDate'
-                                    />
-                                </div>
-                            ))}
+                            {this.state.results.map((result, index) => {
+                                console.log('WHAT?????', result, index)
+                                return (
+                                    <div key={index}>
+                                        <BigCalendar
+                                            events={result}
+                                            defaultView='week'
+                                            scrollToTime={new Date(1970, 1, 1, 6)}
+                                            defaultDate={new Date(2018, 9, 1)}
+                                        />
+                                    </div>
+                                )
+                            })}
                         </Panel>
                     </Col>
                 </Row>
