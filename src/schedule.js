@@ -18,6 +18,8 @@ export class Schedule{
         let prefCont = 0
         let prefFreeAfternoons = 0
         let prefFreeMornings = 0
+        let prefLongLunch = 0
+        let prefFreeDays = 0
 
         for ( var w of this.schedule.keys()){
         	if (w === 'Saturday' || w === 'Sunday')
@@ -27,11 +29,19 @@ export class Schedule{
             prefCont += prefContinuous(workday)
             prefFreeAfternoons += prefFreeAfternoon(workday)
             prefFreeMornings += prefFreeMorning(workday)
+            prefLongLunch += prefLongLunchtimes(workday)
+            if (this.schedule.get(w).free_day)
+            	prefFreeDays += 1
 
         }
         this.prefContinuous = prefCont/5
         this.prefFreeAfternoons = prefFreeAfternoons/5
         this.prefFreeMornings = prefFreeMornings/5
+        this.prefLongLunch = prefLongLunch/5
+        this.prefFreeDays = prefFreeDays/5
+        this.prefFridayMorning = prefFreeMorning(this.schedule.get('Friday'))
+
+
 
 
     }
@@ -135,12 +145,6 @@ function prefFreeAfternoon(workday){
   	return 1;
 }
 
-function prefFreeDay(workday){
-	if(workday.free_day)
-		return 1;
-	return 1 - (workday.workload / 24);	
-}
-
 function prefFreeMorning(workday){
 	if(workday.begin_morning instanceof Time)
 		return Time.interval(new Time(7, 0), workday.begin_morning) / (5*60); // five hours for the morning := 12-7 ")
@@ -168,9 +172,14 @@ function prefContinuous(workday){
 }
 
 function prefLongLunchtimes(workday){
-    let r = 0.5
-    if (workday.lunch_time && Time.interval(workday.end_morning, workday.begin_afternoon) > 60)
-      r = 1
+	let r = 0.5
+    if (workday.lunch_time)
+    	if  (Time.interval(workday.end_morning, workday.begin_afternoon) > 60)
+ 			r = 1
+ 		else 
+ 			r = 0
+  	if (!(workday.begin_morning instanceof Time) || !(workday.begin_afternoon))
+  		r = 1
     return r
 }
 
