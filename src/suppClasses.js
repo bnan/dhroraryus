@@ -63,6 +63,12 @@ export class Time{
             return 1;
         return 0;
     }
+    // TODO EventOptionInstance to interval to use it here
+    static intersectionTime(intervalA, intervalB){
+        if ((intervalA[0] < intervalB[1]) && (intervalB[0] < intervalA[1]){
+            return interval(intervalB[1], intervalA[1])
+        }
+    }
 
 }
 

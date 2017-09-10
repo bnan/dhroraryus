@@ -76,6 +76,15 @@ export class Schedule{
     	}
     	return events;
     }
+    static freeTimeIntersection(scheduleA, scheduleB){
+    	intersection_time = 0
+    	const free_timesA = scheduleA.schedule.free_times;
+    	const free_timesB = scheduleB.schedule.free_times;
+    	for (free_timeA of free_timesA)
+    		for (free_timeB of free_timesB)
+    			intersection_time += Time.intersectionTime(free_timeA, free_timeB)
+    	return intersection_time
+    }
 }
 
 
@@ -148,7 +157,6 @@ export class Workday{
     		let prev_end = events_sorted[0].end.time;
     		let i = 1;
     		while (i<events_sorted.length){
-    			console.log("ENTERED HERE!")
     			if (Time.compare(prev_end, events_sorted[i].start.time) != 0)
     				free_times.push([prev_end, events_sorted[i].start.time]);
     			prev_end = events_sorted[i].end.time;
