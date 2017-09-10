@@ -4,6 +4,7 @@ import { Time, WeekDate, Event, EventOption, EventOptionInstance } from './suppC
 import { makeDomain, search } from './cSearch'
 import { Schedule } from './schedule'
 
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { Panel, Button } from 'react-bootstrap';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Form, FormGroup, FormControl, Checkbox } from 'react-bootstrap';
@@ -29,12 +30,18 @@ class App extends Component {
             constraints: [],
             preferences: [],
             results: [],
+
             newEvent: '',
             newOptionId: '',
             newOptionEvent: '',
+
             newInstanceDay: '2',
             newInstanceStart: moment(),
             newInstanceEnd: moment(),
+
+            newConstraintDay: '2',
+            newConstraintStart: moment(),
+            newConstraintEnd: moment(),
         }
     }
 
@@ -82,10 +89,6 @@ class App extends Component {
             events: [ARAT, ARAP, ACAT, ACAP, EDCT, EDCP, SEGT, SEGP, CVT, CVP],
             options: [ARAT1, ARAP1, ARAP2, ARAP3, ARAP4, ACAP1, ACAP2, ACAP3, ACAP4, ACAT1, CVP1, CVP2, CVP3, CVT1, EDCP1, EDCP2, EDCP3, EDCT1, SEGP1, SEGP2, SEGP3, SEGP4, SEGT1]
         }))
-    }
-
-    componentDidMount() {
-        this.prefill()
     }
 
     handleEventAdd() {
@@ -137,6 +140,22 @@ class App extends Component {
 
     }
 
+    handleConstraintAdd() {
+        const start = new Time(this.state.newConstraintStart.hours(), this.state.newConstraintStart.minutes())
+        const end = new Time(this.state.newConstraintEnd.hours(), this.state.newConstraintEnd.minutes())
+
+        const instance = new EventOptionInstance(
+            new WeekDate(this.state.newConstraintDay, start),
+            new WeekDate(this.state.newConstraintDay, end)
+        )
+
+        const option = new EventOption(new Event('C'), Math.random().toString(36).substring(7), [instance])
+
+        this.setState(prevState => ({
+            options: [...prevState.options, option]
+        }))
+    }
+
     handleEventDelete(index) {
         this.setState({
             events: [...this.state.events.slice(0, index), ...this.state.events.slice(index+1)]
@@ -169,6 +188,18 @@ class App extends Component {
         this.setState({ newInstanceEnd: e })
     }
 
+    handleConstraintDayChange(e) {
+        this.setState({ newConstraintDay: e.target.value })
+    }
+
+    handleConstraintStartChange(e) {
+        this.setState({ newConstraintStart: e })
+    }
+
+    handleConstraintEndChange(e) {
+        this.setState({ newConstraintEnd: e })
+    }
+
     handleGenerate() {
         let domain = makeDomain(this.state.options)
         console.log('DOMAIN!!!!!!!!!!!!!!?', domain)
@@ -183,6 +214,12 @@ class App extends Component {
         return (
             <Grid>
                 <img src={logo} className="App-logo" alt="Dhroraryus" />
+
+                <DropdownButton bsSize="large" title="Fetch" id="dropdown-size-large">
+                    <MenuItem eventKey="1" onClick={() => this.prefill()}>Engenharia de Computadores e Telemática</MenuItem>
+                    <MenuItem eventKey="2">Engenharia Informática</MenuItem>
+                    <MenuItem eventKey="3">Engenharia Eletrónica e Telecomunicações</MenuItem>
+                </DropdownButton>
 
                 <Row>
                     <Col xs={12}>
@@ -267,7 +304,7 @@ class App extends Component {
                             <Form inline>
                                 <FormGroup>
                                     On
-                                    <FormControl componentClass="select" defaultValue={this.state.newInstanceDay} onChange={(e) => this.handleInstanceDayChange(e)}>
+                                    <FormControl componentClass="select" defaultValue={this.state.newConstraintDay} onChange={(e) => this.handleConstraintDayChange(e)}>
                                         <option value="0">Saturday</option>
                                         <option value="1">Sunday</option>
                                         <option value="2">Monday</option>
@@ -278,12 +315,12 @@ class App extends Component {
                                     </FormControl>
 
                                     from
-                                    <TimePicker />
+                                    <TimePicker onChange={(e) => this.handleConstraintStartChange(e)} />
                                     to
-                                    <TimePicker />
+                                    <TimePicker onChange={(e) => this.handleConstraintEndChange(e)} />
                                 </FormGroup>
 
-                                <Button bsStyle="success">
+                                <Button bsStyle="success" onClick={() => this.handleConstraintAdd()}>
                                     <Glyphicon glyph="plus" /> Add
                                 </Button>
                             </Form>
