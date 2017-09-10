@@ -76,14 +76,14 @@ export class Schedule{
     	}
     	return events;
     }
-
-    scheduleEvaluation(weightContinuous, weightFreeAfternoons, weightFreeMornings, weightLongLunch, weightFreeDays, weightFridayMorning){
-    	return weightContinuous * this.prefContinuous + weightFreeAfternoons * this.prefFreeAfternoons + weightFreeMornings * this.prefFreeMornings 
-    	       + weightLongLunch * this.prefLongLunch + weightFreeAfternoons * this.prefFreeDays + weightFridayMorning * this.prefFridayMorning;
-
-    }
 }
 
+
+export function scheduleEvaluation(s,weightContinuous = 0, weightFreeAfternoons = 0, weightFreeMornings = 0, weightLongLunch = 0, weightFreeDays = 1, weightFridayMorning = 0){
+    	return weightContinuous * s.prefContinuous + weightFreeAfternoons * s.prefFreeAfternoons + weightFreeMornings * s.prefFreeMornings 
+    	       + weightLongLunch * s.prefLongLunch + weightFreeAfternoons * s.prefFreeDays + weightFridayMorning * s.prefFridayMorning;
+
+    }
 // todo: how to handle with events that starts in one day but ends in another
 export class Workday{
 	constructor(events){
