@@ -110,12 +110,25 @@ class App extends Component {
             new WeekDate(this.state.newInstanceDay, end)
         )
 
-        const foundOption = this.state.options.find(option => option.event.name === this.state.newOptionEvent && option.option === this.state.newOptionId)
+        const f = (option) => (option.event.name === this.state.newOptionEvent && option.option === this.state.newOptionId)
+        const foundOption = this.state.options.find(option => f(option))
 
         // Append if it already exists, otherwise write directly
         if (foundOption) {
-            foundOption.instances.concat(instance)
+            console.log('FOUND!!!!!!!!! CONCAT')
+
+            let opts = []
+            for (let opt of this.state.options) {
+                if (f(opt)) {
+                    opt.instances = opt.instances.concat(instance)
+                }
+                opts = opts.concat(opt)
+            }
+
+            //this.setState({ options: [...this.state.options.filter(option => !f(option)), foundOption] })
+            this.setState({ options: opts })
         } else {
+            console.log('NOT FOUND!!!!!!!!!!!!!!!!!!!!!!')
             const option = new EventOption(new Event(this.state.newOptionEvent), this.state.newOptionId, [instance])
             this.setState(prevState => ({
                 options: [...prevState.options, option]
@@ -297,6 +310,10 @@ class App extends Component {
                                             events={result}
                                             defaultView='week'
                                             defaultDate={new Date(2018, 8, 2)}
+                                            views={['week']}
+                                            toolbar={false}
+                                            formats={{dayFormat:'dddd'}}
+                                            //min={new Date(2018,8,2,10,30,0,0)}
                                         />
                                     </div>
                                 )
