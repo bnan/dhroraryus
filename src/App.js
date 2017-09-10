@@ -299,8 +299,7 @@ class App extends Component {
                                         <BigCalendar
                                             events={result}
                                             defaultView='week'
-                                            scrollToTime={new Date(1970, 1, 1, 6)}
-                                            defaultDate={new Date(2018, 9, 1)}
+                                            defaultDate={new Date(2018, 8, 2)}
                                         />
                                     </div>
                                 )

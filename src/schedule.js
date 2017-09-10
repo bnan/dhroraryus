@@ -58,9 +58,9 @@ export class Schedule{
     	for (const event of eventOptions){
     		for (const instance of event.instances){
 				events.push({
-		    		title: event.event.name,
-		    		start: new Date(2018, 9, 1 + instance.start.day, instance.start.time.hour, instance.start.time.min, 0, 0),
-		    		end: new Date(2018, 9, 1 + instance.end.day, instance.end.time.hour, instance.end.time.min, 0, 0)
+		    		title: event.event.name + event.option,
+		    		start: new Date(2018, 8, 1 + instance.start.day, instance.start.time.hour, instance.start.time.min, 0, 0),
+		    		end: new Date(2018, 8, 1 + instance.end.day, instance.end.time.hour, instance.end.time.min, 0, 0)
 		    	})
 			}
     	}
