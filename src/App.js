@@ -51,7 +51,7 @@ class App extends Component {
             preferenceContiguous: 0,
             preferenceFreeAfternoons: 0,
             preferenceFreeMornings: 0,
-            preferenceLunchBreak: 0,
+            preferenceLongLunch: 0,
             preferenceFreeDays: 0,
             preferenceFridayMorning: 0,
         }
@@ -222,7 +222,7 @@ class App extends Component {
         results = results.slice(0,7)
 
         let heuristics = new Map()
-        //heuristics.set('long_lunch', this.state.preferenceLongLunch)
+        heuristics.set('long_lunch', this.state.preferenceLongLunch)
         heuristics.set('free_mornings', this.state.preferenceFreeMornings)
         heuristics.set('free_days', this.state.preferenceFreeDays)
         heuristics.set('free_afternoon', this.state.preferenceFreeAfternoons)
