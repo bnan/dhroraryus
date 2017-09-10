@@ -66,13 +66,15 @@ export class Schedule{
     	const events = []
 
     	for (const event of eventOptions){
-    		for (const instance of event.instances){
-				events.push({
-		    		title: event.event.name + event.option,
-		    		start: new Date(2018, 8, 1 + parseInt(instance.start.day), instance.start.time.hour, instance.start.time.min, 0, 0),
-		    		end: new Date(2018, 8, 1 + parseInt(instance.end.day), instance.end.time.hour, instance.end.time.min, 0, 0)
-		    	})
-			}
+            if (!event.event.isConstraint) {
+                for (const instance of event.instances){
+                    events.push({
+                        title: event.event.name + event.option,
+                        start: new Date(2018, 8, 1 + parseInt(instance.start.day), instance.start.time.hour, instance.start.time.min, 0, 0),
+                        end: new Date(2018, 8, 1 + parseInt(instance.end.day), instance.end.time.hour, instance.end.time.min, 0, 0)
+                    })
+                }
+            }
     	}
     	return events;
     }

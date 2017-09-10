@@ -9,6 +9,7 @@ import { Panel, Button } from 'react-bootstrap';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Form, FormGroup, FormControl, Checkbox } from 'react-bootstrap';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { Glyphicon } from 'react-bootstrap';
 
 import { TimePicker } from './TimePicker';
@@ -20,6 +21,8 @@ import BigCalendar from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment'
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
+
+const WEEKDAYS = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Thursday', 'Friday']
 
 class App extends Component {
     constructor(props) {
@@ -128,7 +131,6 @@ class App extends Component {
                 opts = opts.concat(opt)
             }
 
-            //this.setState({ options: [...this.state.options.filter(option => !f(option)), foundOption] })
             this.setState({ options: opts })
         } else {
             console.log('NOT FOUND!!!!!!!!!!!!!!!!!!!!!!')
@@ -149,19 +151,17 @@ class App extends Component {
             new WeekDate(this.state.newConstraintDay, end)
         )
 
-        const option = new EventOption(new Event('C'), Math.random().toString(36).substring(7), [instance])
+        const option = new EventOption(new Event('C', true), Math.random().toString(36).substring(7), [instance])
 
         this.setState(prevState => ({
             options: [...prevState.options, option]
         }))
     }
 
-    handleEventDelete(index) {
+    handleOptionDelete(index) {
         this.setState({
-            events: [...this.state.events.slice(0, index), ...this.state.events.slice(index+1)]
+            options: [...this.state.options.slice(0, index), ...this.state.options.slice(index+1)]
         })
-
-        // TODO: delete other stuff
     }
 
     handleEventChange(e) {
@@ -213,60 +213,38 @@ class App extends Component {
     render() {
         return (
             <Grid>
-                <img src={logo} className="App-logo" alt="Dhroraryus" />
-
-                <DropdownButton bsSize="large" title="Fetch" id="dropdown-size-large">
-                    <MenuItem eventKey="1" onClick={() => this.prefill()}>Engenharia de Computadores e Telemática</MenuItem>
-                    <MenuItem eventKey="2">Engenharia Informática</MenuItem>
-                    <MenuItem eventKey="3">Engenharia Eletrónica e Telecomunicações</MenuItem>
-                </DropdownButton>
+                <div style={{ textAlign: 'center', padding: '50px' }}>
+                    <img src={logo} className="App-logo" alt="Dhroraryus" />
+                </div>
 
                 <Row>
                     <Col xs={12}>
                         <Panel expanded collapsible header="Events">
                             <Form inline>
-                                <FormGroup>
-                                    <FormControl
-                                        type="text"
-                                        value={this.state.newEvent}
-                                        placeholder="Enter text"
-                                        onChange={(e) => this.handleEventChange(e)}
-                                    />
-                                    <Button bsStyle="success" onClick={() => this.handleEventAdd()}>
-                                        <Glyphicon glyph="plus" /> Add
-                                    </Button>
-                                </FormGroup>
-                            </Form>
-
-                            <ListGroup>
-                                {this.state.events.map((event, index) => (
-                                    <ListGroupItem key={index}>
-                                        {event.name}
-                                        <Button onClick={() => this.handleEventDelete(index)} bsStyle="danger">
-                                            <Glyphicon glyph="remove" />
-                                        </Button>
-                                    </ListGroupItem>
-                                ))}
-                            </ListGroup>
-                        </Panel>
-                    </Col>
-
-                    <Col xs={12}>
-                        <Panel expanded collapsible header="Options">
-                            <Form inline>
-                                <FormGroup controlId="formControlsSelect">
-                                    <FormControl componentClass="select" onChange={(e) => this.handleOptionEventChange(e)}>
-                                        {this.state.events.map((event, index) => (
-                                            <option key={index} value={event.name}>{event.name}</option>
-                                        ))}
-                                    </FormControl>
-                                </FormGroup>
+                                <DropdownButton bsStyle="primary" bsSize="medium" title="Import" id="dropdown-size-large">
+                                    <MenuItem eventKey="1" onClick={() => this.prefill()}>4º ano Engenharia de Computadores e Telemática @ DETI UA</MenuItem>
+                                    <MenuItem eventKey="2">1º ano Engenharia Informática @ DETI UA</MenuItem>
+                                    <MenuItem eventKey="3">2º ano Engenharia Eletrónica e Telecomunicações @ DETI UA</MenuItem>
+                                </DropdownButton>
+                                {' or manually specify '}
 
                                 <FormControl
                                     type="text"
+                                    value={this.state.newOptionEvent}
+                                    placeholder="Event"
+                                    onChange={(e) => this.handleOptionEventChange(e)}
+                                    style={{ width: '150px' }}
+                                />
+                                {' '}
+                                <FormControl
+                                    type="text"
+                                    value={this.state.newOptionId}
                                     placeholder="ID"
                                     onChange={(e) => this.handleOptionIdChange(e)}
+                                    style={{ width: '50px' }}
                                 />
+
+                                {' on '}
 
                                 <FormControl componentClass="select" defaultValue={this.state.newInstanceDay} onChange={(e) => this.handleInstanceDayChange(e)}>
                                     <option value="0">Saturday</option>
@@ -278,32 +256,56 @@ class App extends Component {
                                     <option value="6">Friday</option>
                                 </FormControl>
 
-                                from
+                                {' from '}
                                 <TimePicker onChange={(e) => this.handleInstanceStartChange(e)} />
-                                to
+                                {' to '}
                                 <TimePicker onChange={(e) => this.handleInstanceEndChange(e)} />
+                                {' '}
 
                                 <Button bsStyle="success" onClick={() => this.handleInstanceAdd()}>
                                     <Glyphicon glyph="plus" /> Add
                                 </Button>
+                                { this.state.options.length > 0 &&
+                                    <Table responsive striped bordered condensed hover style={{ marginTop: '20px' }}>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Event</th>
+                                                <th>From</th>
+                                                <th>To</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                        </thead>
 
-                                <ul>
-                                {this.state.options.map((option, i) =>
-                                    option.instances.map((instance, i) =>
-                                        <li key={i}>{option.event.name + option.option} from {instance.start.day} {instance.start.time.hour}:{instance.start.time.min} to {instance.end.day} {instance.end.time.hour}:{instance.end.time.min}</li>
-                                ))}
-                                </ul>
+                                        <tbody>
+                                            {this.state.options.map((option, i) =>
+                                                option.instances.map((instance, j) =>
+                                                    <tr key={i}>
+                                                        <td>{i}</td>
+                                                        <td>{option.event.name + option.option}</td>
+                                                        <td>{WEEKDAYS[instance.start.day]} at {instance.start.time.hour}:{instance.start.time.min}</td>
+                                                        <td>{WEEKDAYS[instance.end.day]} at {instance.end.time.hour}:{instance.end.time.min}</td>
+                                                        <td>
+                                                            <Button bsSize="small" onClick={() => this.handleOptionDelete(i)} bsStyle="danger">
+                                                                <Glyphicon glyph="remove" />
+                                                            </Button>
+                                                        </td>
+                                                    </tr>
+                                            ))}
+                                        </tbody>
+                                    </Table>
+                                }
                             </Form>
                         </Panel>
                     </Col>
                 </Row>
 
                 <Row>
-                    <Col xs={6}>
+                    <Col xs={12} md={6}>
                         <Panel expanded collapsible header="Constraints">
                             <Form inline>
                                 <FormGroup>
-                                    On
+                                    {'On '}
                                     <FormControl componentClass="select" defaultValue={this.state.newConstraintDay} onChange={(e) => this.handleConstraintDayChange(e)}>
                                         <option value="0">Saturday</option>
                                         <option value="1">Sunday</option>
@@ -313,12 +315,12 @@ class App extends Component {
                                         <option value="5">Thursday</option>
                                         <option value="6">Friday</option>
                                     </FormControl>
-
-                                    from
+                                    {' from '}
                                     <TimePicker onChange={(e) => this.handleConstraintStartChange(e)} />
-                                    to
+                                    {' to '}
                                     <TimePicker onChange={(e) => this.handleConstraintEndChange(e)} />
                                 </FormGroup>
+                                {' '}
 
                                 <Button bsStyle="success" onClick={() => this.handleConstraintAdd()}>
                                     <Glyphicon glyph="plus" /> Add
@@ -327,7 +329,7 @@ class App extends Component {
                         </Panel>
                     </Col>
 
-                    <Col xs={6}>
+                    <Col xs={12} md={6}>
                         <Panel expanded collapsible header="Preferences">
                             <FormGroup>
                                 <Checkbox>Contiguous, unfragmented events</Checkbox>
@@ -340,31 +342,35 @@ class App extends Component {
                     </Col>
                 </Row>
 
-                <Button bsStyle="primary" bsSize="large" onClick={() => this.handleGenerate()}>
-                    <Glyphicon glyph="cog" /> Generate
-                </Button>
+                <div style={{ marginBottom: '20px' }}>
+                    <Button block bsStyle="primary" bsSize="large" onClick={() => this.handleGenerate()}>
+                        <Glyphicon glyph="cog" /> Generate
+                    </Button>
+                </div>
 
-                <Row>
-                    <Col xs={12}>
-                        <Panel expanded collapsible header="Results">
-                            {this.state.results.map((result, index) => {
-                                return (
-                                    <div key={index}>
-                                        <BigCalendar
-                                            events={result}
-                                            defaultView='week'
-                                            defaultDate={new Date(2018, 8, 2)}
-                                            views={['week']}
-                                            toolbar={false}
-                                            formats={{dayFormat:'dddd'}}
-                                            //min={new Date(2018,8,2,10,30,0,0)}
-                                        />
-                                    </div>
-                                )
-                            })}
-                        </Panel>
-                    </Col>
-                </Row>
+                {this.state.results.length > 0 &&
+                    <Row>
+                        <Col xs={12}>
+                            <Panel expanded collapsible header="Results">
+                                {this.state.results.map((result, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <BigCalendar
+                                                events={result}
+                                                defaultView='week'
+                                                defaultDate={new Date(2018, 8, 2)}
+                                                views={['week']}
+                                                toolbar={false}
+                                                formats={{dayFormat:'dddd'}}
+                                                //min={new Date(2018,8,2,10,30,0,0)}
+                                            />
+                                        </div>
+                                    )
+                                })}
+                            </Panel>
+                        </Col>
+                    </Row>
+                }
             </Grid>
         );
     }
