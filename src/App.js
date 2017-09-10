@@ -102,8 +102,6 @@ class App extends Component {
     }
 
     handleInstanceAdd() {
-        console.log('ADDING OPTION', this.state.newInstanceStart)
-
         const start = new Time(this.state.newInstanceStart.hours(), this.state.newInstanceStart.minutes())
         const end = new Time(this.state.newInstanceEnd.hours(), this.state.newInstanceEnd.minutes())
 
@@ -113,7 +111,6 @@ class App extends Component {
         )
 
         const foundOption = this.state.options.find(option => option.event.name === this.state.newOptionEvent && option.option === this.state.newOptionId)
-        console.log('FOUND OPTION????', foundOption)
 
         // Append if it already exists, otherwise write directly
         if (foundOption) {
@@ -161,7 +158,8 @@ class App extends Component {
 
     handleGenerate() {
         let domain = makeDomain(this.state.options)
-        let solutions = search(domain).slice(0, 7)
+        console.log('DOMAIN!!!!!!!!!!!!!!?', domain)
+        let solutions = search(domain).slice(0,7)
         let results = solutions.map(solution => (new Schedule(solution)).events)
         this.setState({ results })
 
@@ -293,14 +291,12 @@ class App extends Component {
                     <Col xs={12}>
                         <Panel expanded collapsible header="Results">
                             {this.state.results.map((result, index) => {
-                                console.log('WHAT?????', result, index)
                                 return (
                                     <div key={index}>
                                         <BigCalendar
                                             events={result}
                                             defaultView='week'
-                                            scrollToTime={new Date(1970, 1, 1, 6)}
-                                            defaultDate={new Date(2018, 9, 1)}
+                                            defaultDate={new Date(2018, 8, 2)}
                                         />
                                     </div>
                                 )
