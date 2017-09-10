@@ -6,7 +6,6 @@ import { Panel, Button } from 'react-bootstrap';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Form, FormGroup, FormControl, Checkbox } from 'react-bootstrap';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
-import {core as Core} from 'zingchart-react';
 
 
 
@@ -24,7 +23,9 @@ export class Stats extends Component {
 	    	free_mornings_data:[],
 	    	contiguous_events_data:[],
   			free_days_data:[],
+  			free_friday_mornings_data:[],
   			heuristc_meta_data:[]
+
 	    }
 
 	    this.AsyncSet("free_afternoon")
@@ -32,6 +33,7 @@ export class Stats extends Component {
 	    this.AsyncSet("free_mornings")
 	    this.AsyncSet("contiguous_events")
 	    this.AsyncSet("free_days")
+	    this.AsyncSet("free_friday_mornings")
 
 	    
 	    getHeuristicRef().on("value",(data) => {
@@ -107,6 +109,11 @@ export class Stats extends Component {
 	  			this.setState({
 	  				free_days_data: data
 	  			})
+	  		else if(heuristic == "free_friday_mornings")
+	  			this.setState({
+	  				free_friday_mornings_data: data
+	  			})
+
 	  		
   		})
 
@@ -198,12 +205,28 @@ export class Stats extends Component {
 					      	</BarChart>
 				      	</div>
 			      	</Col>
+			      	<Col xs={6}>
+				      	<div>
+					    	<h3>Free Friday Morning Values</h3>
+					      	<BarChart width={600} height={300} data={this.state.free_friday_mornings_data}
+					            margin={{top: 30, right: 30, left: 20, bottom: 5}}>
+						       <XAxis dataKey="value"/>
+						       <YAxis/>
+						       <CartesianGrid strokeDasharray="3 3"/>
+						       <Tooltip/>
+						       <Legend />
+						       <Bar dataKey="total" fill="#82ca9d"/>
+					      	</BarChart>
+				      	</div>
+			      	</Col>
 
-		      		<Col xs={6}>
+			    </Row>
+
+		      		<Col xs={12}>
 				      	<div>
 					    	<h3>Popular Heuristics</h3>
-					      	<RadarChart cx={300} cy={200} outerRadius={150} width={600} height={400} data={this.state.heuristc_meta_data}>
-					          <Radar name="average heuristic score" dataKey="average" stroke="#8884d8" fill="#8884d8" fillOpacity={1}/>
+					      	<RadarChart cx={300} cy={250} outerRadius={150} width={600} height={500} data={this.state.heuristc_meta_data}>
+					          <Radar name="average heuristic score" dataKey="average" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6}/>
 					          <PolarGrid />
 					          <Legend/>
 					          <PolarAngleAxis dataKey="heuristic" />
@@ -211,7 +234,7 @@ export class Stats extends Component {
         					</RadarChart>
 				      	</div>
 			      	</Col>
-		      	</Row>
+		      	
 		      	
 	      	</Grid>
 	    )
