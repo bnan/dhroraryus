@@ -4,6 +4,7 @@ import { Time, WeekDate, Event, EventOption, EventOptionInstance } from './suppC
 import { makeDomain, search } from './cSearch'
 import { Schedule , scheduleEvaluation } from './schedule'
 
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { Panel, Button } from 'react-bootstrap';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Form, FormGroup, FormControl, Checkbox } from 'react-bootstrap';
@@ -29,12 +30,18 @@ class App extends Component {
             constraints: [],
             preferences: [],
             results: [],
+
             newEvent: '',
             newOptionId: '',
             newOptionEvent: '',
+
             newInstanceDay: '2',
             newInstanceStart: moment(),
             newInstanceEnd: moment(),
+
+            newConstraintDay: '2',
+            newConstraintStart: moment(),
+            newConstraintEnd: moment(),
         }
     }
 
@@ -84,10 +91,6 @@ class App extends Component {
         }))
     }
 
-    componentDidMount() {
-        this.prefill()
-    }
-
     handleEventAdd() {
         if (!this.state.newEvent) return
 
@@ -110,18 +113,47 @@ class App extends Component {
             new WeekDate(this.state.newInstanceDay, end)
         )
 
-        const foundOption = this.state.options.find(option => option.event.name === this.state.newOptionEvent && option.option === this.state.newOptionId)
+        const f = (option) => (option.event.name === this.state.newOptionEvent && option.option === this.state.newOptionId)
+        const foundOption = this.state.options.find(option => f(option))
 
         // Append if it already exists, otherwise write directly
         if (foundOption) {
-            foundOption.instances.concat(instance)
+            console.log('FOUND!!!!!!!!! CONCAT')
+
+            let opts = []
+            for (let opt of this.state.options) {
+                if (f(opt)) {
+                    opt.instances = opt.instances.concat(instance)
+                }
+                opts = opts.concat(opt)
+            }
+
+            //this.setState({ options: [...this.state.options.filter(option => !f(option)), foundOption] })
+            this.setState({ options: opts })
         } else {
+            console.log('NOT FOUND!!!!!!!!!!!!!!!!!!!!!!')
             const option = new EventOption(new Event(this.state.newOptionEvent), this.state.newOptionId, [instance])
             this.setState(prevState => ({
                 options: [...prevState.options, option]
             }))
         }
 
+    }
+
+    handleConstraintAdd() {
+        const start = new Time(this.state.newConstraintStart.hours(), this.state.newConstraintStart.minutes())
+        const end = new Time(this.state.newConstraintEnd.hours(), this.state.newConstraintEnd.minutes())
+
+        const instance = new EventOptionInstance(
+            new WeekDate(this.state.newConstraintDay, start),
+            new WeekDate(this.state.newConstraintDay, end)
+        )
+
+        const option = new EventOption(new Event('C'), Math.random().toString(36).substring(7), [instance])
+
+        this.setState(prevState => ({
+            options: [...prevState.options, option]
+        }))
     }
 
     handleEventDelete(index) {
@@ -156,6 +188,18 @@ class App extends Component {
         this.setState({ newInstanceEnd: e })
     }
 
+    handleConstraintDayChange(e) {
+        this.setState({ newConstraintDay: e.target.value })
+    }
+
+    handleConstraintStartChange(e) {
+        this.setState({ newConstraintStart: e })
+    }
+
+    handleConstraintEndChange(e) {
+        this.setState({ newConstraintEnd: e })
+    }
+
     handleGenerate() {
         let domain = makeDomain(this.state.options)
         let solutions = search(domain)
@@ -177,6 +221,12 @@ class App extends Component {
         return (
             <Grid>
                 <img src={logo} className="App-logo" alt="Dhroraryus" />
+
+                <DropdownButton bsSize="large" title="Fetch" id="dropdown-size-large">
+                    <MenuItem eventKey="1" onClick={() => this.prefill()}>Engenharia de Computadores e Telemática</MenuItem>
+                    <MenuItem eventKey="2">Engenharia Informática</MenuItem>
+                    <MenuItem eventKey="3">Engenharia Eletrónica e Telecomunicações</MenuItem>
+                </DropdownButton>
 
                 <Row>
                     <Col xs={12}>
@@ -243,6 +293,13 @@ class App extends Component {
                                 <Button bsStyle="success" onClick={() => this.handleInstanceAdd()}>
                                     <Glyphicon glyph="plus" /> Add
                                 </Button>
+
+                                <ul>
+                                {this.state.options.map((option, i) =>
+                                    option.instances.map((instance, i) =>
+                                        <li key={i}>{option.event.name + option.option} from {instance.start.day} {instance.start.time.hour}:{instance.start.time.min} to {instance.end.day} {instance.end.time.hour}:{instance.end.time.min}</li>
+                                ))}
+                                </ul>
                             </Form>
                         </Panel>
                     </Col>
@@ -254,7 +311,7 @@ class App extends Component {
                             <Form inline>
                                 <FormGroup>
                                     On
-                                    <FormControl componentClass="select" defaultValue={this.state.newInstanceDay} onChange={(e) => this.handleInstanceDayChange(e)}>
+                                    <FormControl componentClass="select" defaultValue={this.state.newConstraintDay} onChange={(e) => this.handleConstraintDayChange(e)}>
                                         <option value="0">Saturday</option>
                                         <option value="1">Sunday</option>
                                         <option value="2">Monday</option>
@@ -265,12 +322,12 @@ class App extends Component {
                                     </FormControl>
 
                                     from
-                                    <TimePicker />
+                                    <TimePicker onChange={(e) => this.handleConstraintStartChange(e)} />
                                     to
-                                    <TimePicker />
+                                    <TimePicker onChange={(e) => this.handleConstraintEndChange(e)} />
                                 </FormGroup>
 
-                                <Button bsStyle="success">
+                                <Button bsStyle="success" onClick={() => this.handleConstraintAdd()}>
                                     <Glyphicon glyph="plus" /> Add
                                 </Button>
                             </Form>
@@ -304,6 +361,10 @@ class App extends Component {
                                             events={result}
                                             defaultView='week'
                                             defaultDate={new Date(2018, 8, 2)}
+                                            views={['week']}
+                                            toolbar={false}
+                                            formats={{dayFormat:'dddd'}}
+                                            //min={new Date(2018,8,2,10,30,0,0)}
                                         />
                                     </div>
                                 )

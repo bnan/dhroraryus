@@ -9,6 +9,7 @@ export class Schedule{
     	this.prefFreeMornings = NaN;
     	this.prefLongLunch = NaN;
     	this.prefFreeDays = NaN;
+    	this.prefLongWeekend = NaN;
     	this.prefFridayMorning = false;
 
         this.parseSchedule()
@@ -40,8 +41,7 @@ export class Schedule{
         this.prefLongLunch = prefLongLunch/5
         this.prefFreeDays = prefFreeDays/5
         this.prefFridayMorning = prefFreeMorning(this.schedule.get('Friday'))
-
-
+        this.prefLongWeekend = prefLongWeekend(this.schedule)
 
 
     }
@@ -183,3 +183,34 @@ function prefLongLunchtimes(workday){
     return r
 }
 
+function prefLongWeekend(schedule){
+	const week_days = Array.from(schedule.keys())
+
+	let forward_time = 0
+	let i = 2
+	while(schedule.get(week_days[i]).free_day){
+		forward_time += 24*60;
+		i += 1;
+	}
+	const next_filled_day = schedule.get(week_days[i])
+	if ( next_filled_day.begin_morning instanceof Time)
+		forward_time += Time.interval(new Time(0,0), next_filled_day.begin_morning)
+	else
+		forward_time += Time.interval(new Time(0,0), next_filled_day.begin_afternoon)
+
+	let backward_time = 0
+	i = 6
+	while(schedule.get(week_days[i]).free_day){
+		backward_time += 24*60;
+		i -= 1;
+	}
+
+	const previous_filled_day = schedule.get(week_days[i])
+	if ( previous_filled_day.end_afternoon instanceof Time){
+		backward_time += Time.interval(previous_filled_day.end_afternoon, new Time(24, 0))
+	}else
+		backward_time += Time.interval(previous_filled_day.end_morning, new Time(24, 0))
+
+	return (forward_time + backward_time)/(24*60*5)
+	
+}
