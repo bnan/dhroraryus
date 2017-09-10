@@ -23,7 +23,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment'
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
-const WEEKDAYS = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Thursday', 'Friday']
+const WEEKDAYS = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 
 class App extends Component {
     constructor(props) {
