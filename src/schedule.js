@@ -77,11 +77,11 @@ export class Schedule{
     	return events;
     }
     static freeTimeIntersection(scheduleA, scheduleB){
-    	intersection_time = 0
+    	let intersection_time = 0
     	const free_timesA = scheduleA.schedule.free_times;
     	const free_timesB = scheduleB.schedule.free_times;
-    	for (free_timeA of free_timesA)
-    		for (free_timeB of free_timesB)
+    	for (const free_timeA of free_timesA)
+    		for (const free_timeB of free_timesB)
     			intersection_time += Time.intersectionTime(free_timeA, free_timeB)
     	return intersection_time
     }
