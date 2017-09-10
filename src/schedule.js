@@ -78,14 +78,23 @@ export class Schedule{
     	}
     	return events;
     }
-
-    scheduleEvaluation(weightContinuous, weightFreeAfternoons, weightFreeMornings, weightLongLunch, weightFreeDays, weightFridayMorning){
-    	return weightContinuous * this.prefContinuous + weightFreeAfternoons * this.prefFreeAfternoons + weightFreeMornings * this.prefFreeMornings 
-    	       + weightLongLunch * this.prefLongLunch + weightFreeAfternoons * this.prefFreeDays + weightFridayMorning * this.prefFridayMorning;
-
+    static freeTimeIntersection(scheduleA, scheduleB){
+    	let intersection_time = 0
+    	const free_timesA = scheduleA.schedule.free_times;
+    	const free_timesB = scheduleB.schedule.free_times;
+    	for (const free_timeA of free_timesA)
+    		for (const free_timeB of free_timesB)
+    			intersection_time += Time.intersectionTime(free_timeA, free_timeB)
+    	return intersection_time
     }
 }
 
+
+export function scheduleEvaluation(s,weightContinuous = 0, weightFreeAfternoons = 0, weightFreeMornings = 0, weightLongLunch = 0, weightFreeDays = 1, weightFridayMorning = 0){
+    	return weightContinuous * s.prefContinuous + weightFreeAfternoons * s.prefFreeAfternoons + weightFreeMornings * s.prefFreeMornings 
+    	       + weightLongLunch * s.prefLongLunch + weightFreeDays * s.prefFreeDays + weightFridayMorning * s.prefFridayMorning;
+
+    }
 // todo: how to handle with events that starts in one day but ends in another
 export class Workday{
 	constructor(events){
@@ -98,6 +107,7 @@ export class Workday{
         this.free_day = true;
         this.lunch_time = false;
         this.parseWorkDay();
+        this.free_intervals = this.getFreeIntervals();
 	}
 
 
@@ -137,6 +147,29 @@ export class Workday{
         this.begin_afternoon = bA;
       if ( Time.compare( eA ,new Time(12,0)) != 0)
         this.end_afternoon = eA;
+    }
+
+    getFreeIntervals(){
+    	const free_times = [];
+    	const events_sorted = this.events.sort(function(a,b){
+    		return a.start.time.hour - b.start.time.hour;
+    	})
+    	if (events_sorted.length > 0){
+    		free_times.push([new Time(0,0), events_sorted[0].start.time]);
+    		let prev_end = events_sorted[0].end.time;
+    		let i = 1;
+    		while (i<events_sorted.length){
+    			if (Time.compare(prev_end, events_sorted[i].start.time) != 0)
+    				free_times.push([prev_end, events_sorted[i].start.time]);
+    			prev_end = events_sorted[i].end.time;
+    			i += 1;
+    		}
+    		free_times.push([prev_end, new Time(24,0)]);
+    		return free_times;
+    	} else {
+    		free_times.push([new Time(0,0),new Time(24,0)]);
+    		return free_times;
+    	}
     }
 
 }

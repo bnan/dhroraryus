@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Time, WeekDate, Event, EventOption, EventOptionInstance } from './suppClasses'
 import { makeDomain, search } from './cSearch'
-import { Schedule } from './schedule'
+import { Schedule , scheduleEvaluation } from './schedule'
 
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { Panel, Button } from 'react-bootstrap';
@@ -202,12 +202,18 @@ class App extends Component {
 
     handleGenerate() {
         let domain = makeDomain(this.state.options)
-        console.log('DOMAIN!!!!!!!!!!!!!!?', domain)
-        let solutions = search(domain).slice(0,7)
-        let results = solutions.map(solution => (new Schedule(solution)).events)
-        this.setState({ results })
+        let solutions = search(domain)
 
-        console.log('RESULTS!!!!!!!!!!!', results)
+        let results = solutions.map(solution => (new Schedule(solution)))
+
+        results = results.sort(function(s1, s2){
+          return scheduleEvaluation(s2) - scheduleEvaluation(s1)
+        })
+
+        results = results.slice(0,7)
+
+        results = results.map(r => r.events)
+        this.setState({ results })
     }
 
     render() {
