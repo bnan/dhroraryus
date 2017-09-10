@@ -80,19 +80,26 @@ export class Schedule{
     }
     static freeTimeIntersection(scheduleA, scheduleB){
     	let intersection_time = 0
-    	const free_timesA = scheduleA.schedule.free_times;
-    	const free_timesB = scheduleB.schedule.free_times;
-    	for (const free_timeA of free_timesA)
-    		for (const free_timeB of free_timesB)
-    			intersection_time += Time.intersectionTime(free_timeA, free_timeB)
+    	const week_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+    	let free_timesA
+    	let free_timesB
+    	for (const week_day of week_days){
+    		free_timesA = scheduleA.schedule.get(week_day).free_intervals;
+    		//console.log("FREE TIMESA: ", free_timesA)
+    		free_timesB = scheduleB.schedule.get(week_day).free_intervals;
+    		for (let free_timeA of free_timesA)
+	    		for (let free_timeB of free_timesB){
+	    			intersection_time += Time.intersectionTime(free_timeA, free_timeB)
+	    		}
+    	}
+    	//console.log("INTERSECTION TIME: ", intersection_time)
     	return intersection_time
     }
 }
 
 
-export function scheduleEvaluation(s,weightContinuous = 0, weightFreeAfternoons = 0, weightFreeMornings = 0, weightLongLunch = 0, weightFreeDays = 0, weightFridayMorning = 0){
-    	return weightContinuous * s.prefContinuous + weightFreeAfternoons * s.prefFreeAfternoons + weightFreeMornings * s.prefFreeMornings 
-    	       + weightLongLunch * s.prefLongLunch + weightFreeDays * s.prefFreeDays + weightFridayMorning * s.prefFridayMorning;
+export function scheduleEvaluation(s,weightContinuous = 0, weightFreeAfternoons = 0, weightFreeMornings = 0, weightLongLunch = 0, weightFreeDays = 0, weightFridayMorning = 0, weightLongWeekend = 0){
+    	return weightContinuous * s.prefContinuous + weightFreeAfternoons * s.prefFreeAfternoons + weightFreeMornings * s.prefFreeMornings + weightLongLunch * s.prefLongLunch + weightFreeDays * s.prefFreeDays*4 + weightFridayMorning * s.prefFridayMorning + weightLongWeekend * s.prefLongWeekend*4;
 
     }
 // todo: how to handle with events that starts in one day but ends in another
@@ -100,7 +107,7 @@ export class Workday{
 	constructor(events){
 		this.events 			= events;
 		this.workload 	= 0;
-		this.begin_morning		= NaN;  
+		this.begin_morning		= NaN;
 		this.end_morning		= NaN;
 		this.begin_afternoon 	= NaN;
 		this.end_afternoon		= NaN;

@@ -65,8 +65,13 @@ export class Time{
     }
     // TODO EventOptionInstance to interval to use it here
     static intersectionTime(intervalA, intervalB){
-        if ((intervalA[0] < intervalB[1]) && (intervalB[0] < intervalA[1]))
-            return Time.interval(intervalB[1], intervalA[1])
+       // console.log("Interval A: ", intervalA)
+       // console.log("Interval B: ", intervalB)
+        if ((Time.compare(intervalA[0],intervalB[1]) < 0) && (Time.compare(intervalB[0], intervalA[1]) <0))
+            return Time.interval(intervalB[0], intervalA[1])
+        if ((Time.compare(intervalB[0], intervalA[1])<0) && (Time.compare(intervalA[0], intervalB[1]) < 0))
+            return Time.interval(intervalA[0], intervalB[1])
+        return 0
     }
 
 }
