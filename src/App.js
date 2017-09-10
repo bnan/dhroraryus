@@ -52,6 +52,7 @@ class App extends Component {
             preferenceFreeAfternoons: 0,
             preferenceFreeMornings: 0,
             preferenceLongLunch: 0,
+            preferenceLongWeekend: 0,
             preferenceFreeDays: 0,
             preferenceFridayMorning: 0,
         }
@@ -214,7 +215,7 @@ class App extends Component {
         let solutions = search(domain)
 
         let results = solutions.map(solution => (new Schedule(solution)))
-        let weights = [this.state.preferenceContiguous, this.state.preferenceFreeAfternoons, this.state.preferenceFreeMornings, this.state.preferenceLongLunch, this.state.preferenceFreeDays, this.state.preferenceFridayMorning]
+        let weights = [this.state.preferenceContiguous, this.state.preferenceFreeAfternoons, this.state.preferenceFreeMornings, this.state.preferenceLongLunch, this.state.preferenceFreeDays, this.state.preferenceFridayMorning, this.state.preferenceFridayMorning]
         results = results.sort(function(s1, s2) {
           return scheduleEvaluation(s2, ...weights) - scheduleEvaluation(s1, ...weights)
         })
@@ -223,6 +224,7 @@ class App extends Component {
 
         let heuristics = new Map()
         heuristics.set('long_lunch', this.state.preferenceLongLunch)
+        heuristics.set('long_weekend', this.state.preferenceLongWeekend)
         heuristics.set('free_mornings', this.state.preferenceFreeMornings)
         heuristics.set('free_days', this.state.preferenceFreeDays)
         heuristics.set('free_afternoon', this.state.preferenceFreeAfternoons)
@@ -369,6 +371,11 @@ class App extends Component {
                                         <option value="3">3</option>
                                         <option value="4">4</option>
                                         <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
                                     </FormControl>
                                     {' '}
                                     Contiguous, unfragmented events
@@ -383,6 +390,11 @@ class App extends Component {
                                         <option value="3">3</option>
                                         <option value="4">4</option>
                                         <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
                                     </FormControl>
                                     {' '}
                                     Free afternoons
@@ -397,6 +409,11 @@ class App extends Component {
                                         <option value="3">3</option>
                                         <option value="4">4</option>
                                         <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
                                     </FormControl>
                                     {' '}
                                     Free mornings
@@ -411,6 +428,11 @@ class App extends Component {
                                         <option value="3">3</option>
                                         <option value="4">4</option>
                                         <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
                                     </FormControl>
                                     {' '}
                                     Long lunch breaks
@@ -425,6 +447,11 @@ class App extends Component {
                                         <option value="3">3</option>
                                         <option value="4">4</option>
                                         <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
                                     </FormControl>
                                     {' '}
                                     Free days
@@ -439,17 +466,41 @@ class App extends Component {
                                         <option value="3">3</option>
                                         <option value="4">4</option>
                                         <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
                                     </FormControl>
                                     {' '}
-                                    Free friday morning (for hungovers)
+                                    Free friday morning for hangovers
+                                </FormGroup>
+                            </Form>
+                            <Form inline>
+                                <FormGroup>
+                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceLongWeekend} onChange={(e) => this.setState({ preferenceLongWeekend: parseInt(e.target.value) })}>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </FormControl>
+                                    {' '}
+                                    Longer weekends
                                 </FormGroup>
                             </Form>
                         </Panel>
                     </Col>
                 </Row>
 
-                <div style={{ marginBottom: '20px' }}>
-                    <Button block bsStyle="primary" bsSize="large" onClick={() => this.handleGenerate()}>
+                <div style={{ marginBottom: '40px' }}>
+                    <Button disabled={this.state.options.length == 0} block bsStyle="primary" bsSize="large" onClick={() => this.handleGenerate()}>
                         <Glyphicon glyph="cog" /> Generate
                     </Button>
                 </div>
