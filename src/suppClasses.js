@@ -77,8 +77,9 @@ export class Time{
 }
 
 export class Event{
-    constructor(name) {
+    constructor(name, isConstraint = false) {
         this.name = name;
+        this.isConstraint = isConstraint
     }
 }
 

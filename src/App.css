@@ -1,5 +1,6 @@
 .App-logo {
-  width: 50%;
+    width: 40%;
+    fill: #2c3e50;
 }
 
 .form-inline .rdt {
@@ -7,5 +8,5 @@
 }
 
 .rdt .form-control {
-    width: 70px; 
+    width: 75px; 
 }
