@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Time, WeekDate, Event, EventOption, EventOptionInstance } from './suppClasses'
 import { makeDomain, search } from './cSearch'
 import { Schedule , scheduleEvaluation } from './schedule'
+import { incHeuristicValue, init} from './firebase'
 
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { Panel, Button } from 'react-bootstrap';
@@ -26,6 +27,7 @@ const WEEKDAYS = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Thursday', 'Friday
 
 class App extends Component {
     constructor(props) {
+        init()
         super(props)
         this.state = {
             events: [],
@@ -45,6 +47,13 @@ class App extends Component {
             newConstraintDay: '2',
             newConstraintStart: moment(),
             newConstraintEnd: moment(),
+
+            preferenceContiguous: 0,
+            preferenceFreeAfternoons: 0,
+            preferenceFreeMornings: 0,
+            preferenceLunchBreak: 0,
+            preferenceFreeDays: 0,
+            preferenceFridayMorning: 0,
         }
     }
 
@@ -205,12 +214,26 @@ class App extends Component {
         let solutions = search(domain)
 
         let results = solutions.map(solution => (new Schedule(solution)))
-
-        results = results.sort(function(s1, s2){
-          return scheduleEvaluation(s2) - scheduleEvaluation(s1)
+        let weights = [this.state.preferenceContiguous, this.state.preferenceFreeAfternoons, this.state.preferenceFreeMornings, this.state.preferenceLongLunch, this.state.preferenceFreeDays, this.state.preferenceFridayMorning]
+        results = results.sort(function(s1, s2) {
+          return scheduleEvaluation(s2, ...weights) - scheduleEvaluation(s1, ...weights)
         })
 
         results = results.slice(0,7)
+
+        let heuristics = new Map()
+        //heuristics.set('long_lunch', this.state.preferenceLongLunch)
+        heuristics.set('free_mornings', this.state.preferenceFreeMornings)
+        heuristics.set('free_days', this.state.preferenceFreeDays)
+        heuristics.set('free_afternoon', this.state.preferenceFreeAfternoons)
+        heuristics.set('contiguous_events', this.state.preferenceContiguous)
+        heuristics.set('free_friday_mornings', this.state.preferenceFridayMorning)
+
+        console.log('HEURISTICS', heuristics)
+        for (const [k, v] of heuristics) {
+            console.log('HEY!!!!!!!!!!', k, v)
+            incHeuristicValue(k, v)
+        }
 
         results = results.map(r => r.events)
         this.setState({ results })
@@ -227,7 +250,7 @@ class App extends Component {
                     <Col xs={12}>
                         <Panel expanded collapsible header="Events">
                             <Form inline>
-                                <DropdownButton bsStyle="primary" bsSize="medium" title="Import" id="dropdown-size-large">
+                                <DropdownButton bsStyle="primary" bsSize="sm" title="Import" id="dropdown-size-large">
                                     <MenuItem eventKey="1" onClick={() => this.prefill()}>4º ano Engenharia de Computadores e Telemática @ DETI UA</MenuItem>
                                     <MenuItem eventKey="2">1º ano Engenharia Informática @ DETI UA</MenuItem>
                                     <MenuItem eventKey="3">2º ano Engenharia Eletrónica e Telecomunicações @ DETI UA</MenuItem>
@@ -337,13 +360,90 @@ class App extends Component {
 
                     <Col xs={12} md={6}>
                         <Panel expanded collapsible header="Preferences">
-                            <FormGroup>
-                                <Checkbox>Contiguous, unfragmented events</Checkbox>
-                                <Checkbox>Free afternoons</Checkbox>
-                                <Checkbox>Free mornings</Checkbox>
-                                <Checkbox>Free days</Checkbox>
-                                <Checkbox>Long lunch breaks</Checkbox>
-                            </FormGroup>
+                            <Form inline>
+                                <FormGroup>
+                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceContiguous} onChange={(e) => this.setState({ preferenceContiguous: parseInt(e.target.value) })}>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </FormControl>
+                                    {' '}
+                                    Contiguous, unfragmented events
+                                </FormGroup>
+                            </Form>
+                            <Form inline>
+                                <FormGroup>
+                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFreeAfternoons} onChange={(e) => this.setState({ preferenceFreeAfternoons: parseInt(e.target.value) })}>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </FormControl>
+                                    {' '}
+                                    Free afternoons
+                                </FormGroup>
+                            </Form>
+                            <Form inline>
+                                <FormGroup>
+                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFreeMornings} onChange={(e) => this.setState({ preferenceFreeMornings: parseInt(e.target.value) })}>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </FormControl>
+                                    {' '}
+                                    Free mornings
+                                </FormGroup>
+                            </Form>
+                            <Form inline>
+                                <FormGroup>
+                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceLongLunch} onChange={(e) => this.setState({ preferenceLongLunch: parseInt(e.target.value) })}>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </FormControl>
+                                    {' '}
+                                    Long lunch breaks
+                                </FormGroup>
+                            </Form>
+                            <Form inline>
+                                <FormGroup>
+                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFreeDays} onChange={(e) => this.setState({ preferenceFreeDays: parseInt(e.target.value) })}>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </FormControl>
+                                    {' '}
+                                    Free days
+                                </FormGroup>
+                            </Form>
+                            <Form inline>
+                                <FormGroup>
+                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFridayMorning} onChange={(e) => this.setState({ preferenceFridayMorning: parseInt(e.target.value) })}>
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </FormControl>
+                                    {' '}
+                                    Free friday morning (for hungovers)
+                                </FormGroup>
+                            </Form>
                         </Panel>
                     </Col>
                 </Row>

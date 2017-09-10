@@ -90,7 +90,7 @@ export class Schedule{
 }
 
 
-export function scheduleEvaluation(s,weightContinuous = 0, weightFreeAfternoons = 0, weightFreeMornings = 0, weightLongLunch = 0, weightFreeDays = 1, weightFridayMorning = 0){
+export function scheduleEvaluation(s,weightContinuous = 0, weightFreeAfternoons = 0, weightFreeMornings = 0, weightLongLunch = 0, weightFreeDays = 0, weightFridayMorning = 0){
     	return weightContinuous * s.prefContinuous + weightFreeAfternoons * s.prefFreeAfternoons + weightFreeMornings * s.prefFreeMornings 
     	       + weightLongLunch * s.prefLongLunch + weightFreeDays * s.prefFreeDays + weightFridayMorning * s.prefFridayMorning;
 

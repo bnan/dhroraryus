@@ -6,7 +6,6 @@ import { Panel, Button } from 'react-bootstrap';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Form, FormGroup, FormControl, Checkbox } from 'react-bootstrap';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
-import {core as Core} from 'zingchart-react';
 
 
 
