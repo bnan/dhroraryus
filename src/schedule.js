@@ -16,12 +16,24 @@ export class Schedule{
 
     parseSchedule(){
         let prefCont = 0
+        let prefFreeAfternoons = 0
+        let prefFreeMornings = 0
+
         for ( var w of this.schedule.keys()){
+        	if (w === 'Saturday' || w === 'Sunday')
+        		continue;
+
             let workday = this.schedule.get(w)
-            let pc = prefContinuous(workday)
-            prefCont += pc
+            prefCont += prefContinuous(workday)
+            prefFreeAfternoons += prefFreeAfternoon(workday)
+            prefFreeMornings += prefFreeMorning(workday)
+
         }
         this.prefContinuous = prefCont/5
+        this.prefFreeAfternoons = prefFreeAfternoons/5
+        this.prefFreeMornings = prefFreeMornings/5
+
+
     }
     processWorkdays(solution){
 
@@ -118,8 +130,8 @@ export class Workday{
 }
 
 function prefFreeAfternoon(workday){
-	if (workday.end_afternoon)
-      return Time.interval(workday.end_afternoon, new Time(20,0)) / 8; // eight hours for the afternoon := 20-12 
+	if (workday.end_afternoon instanceof Time)
+      return Time.interval(workday.end_afternoon, new Time(20,0)) / (8*60); // eight hours for the afternoon := 20-12 
   	return 1;
 }
 
@@ -130,8 +142,8 @@ function prefFreeDay(workday){
 }
 
 function prefFreeMorning(workday){
-	if(workday.begin_morning)
-		return Time.interval(new Time(7, 0), workday.start_begin) / 5; // five hours for the morning := 12-7 
+	if(workday.begin_morning instanceof Time)
+		return Time.interval(new Time(7, 0), workday.begin_morning) / (5*60); // five hours for the morning := 12-7 ")
 	return 1;
 }
 
@@ -152,7 +164,6 @@ function prefContinuous(workday){
     }
 
     diff = Time.interval(workday.begin_morning, workday.end_afternoon)
-    console.log(workday.workload/diff)
     return (workday.workload/diff)
 }
 
