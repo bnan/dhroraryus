@@ -211,7 +211,6 @@ class App extends Component {
         })
 
         results = results.slice(0,7)
-        console.log(results)
 
         results = results.map(r => r.events)
         this.setState({ results })
