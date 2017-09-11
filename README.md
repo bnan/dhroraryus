@@ -1,4 +1,11 @@
-![Dhroraryus](./src/logo.svg)
+<p align="center">
+  <img src="./src/logo.svg" width="200" style="text-align: center">
+</p>
+  
+<p align="center">
+  <a href="https://travis-ci.org/bnan/dhroraryus"><img src="https://img.shields.io/travis/bnan/dhroraryus.svg" alt="Build Status"></a>
+  <img src="https://img.shields.io/librariesio/github/bnan/dhroraryus.svg">
+</p>
 
 # dhroraryus
 
