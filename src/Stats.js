@@ -1,11 +1,7 @@
 import React, {Component} from 'react'
-import { Link } from 'react-router'
-import {init as firebaseInit,  getHeuristicRef, getConstraintRef} from './firebase'
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, BarChart, Tooltip, Legend, Bar, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
-import { Panel, Button } from 'react-bootstrap';
+import {init as firebaseInit,  getHeuristicRef } from './firebase'
+import { CartesianGrid, XAxis, YAxis, BarChart, Tooltip, Legend, Bar, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import { Grid, Row, Col } from 'react-bootstrap';
-import { Form, FormGroup, FormControl, Checkbox } from 'react-bootstrap';
-import { ListGroup, ListGroupItem } from 'react-bootstrap';
 
 
 
@@ -14,9 +10,6 @@ export class Stats extends Component {
 	constructor(props) {
 	    super(props)
 	    firebaseInit()
-	    
-		
-	    
 	    this.state = {
 	    	free_afternoon_data: [],
 	    	long_lunch_data:[],
@@ -37,18 +30,13 @@ export class Stats extends Component {
 	    this.AsyncSet("free_friday_mornings")
 	    this.AsyncSet("long_weekend")
 
-	    
 	    getHeuristicRef().on("value",(data) => {
 	    	var heuristics = data.val();
-   
 	    	//Grab the keys to iterate over the object
-	    
 	    	var keys = Object.keys(heuristics);
-	    	var data = []
-	    
+	    	data = []
 		    for (var i = 0; i < keys.length; i++) {
 		      var key = keys[i];
-		      
 		      var scores = heuristics[key]
 
 		      var sum = 0
@@ -58,16 +46,13 @@ export class Stats extends Component {
 		      	total += scores[j]
 		      }
 
-		      var avg = total == 0 ? 0: sum/total
-			  
+		      var avg = total === 0 ? 0 : sum/total
 			  var sanitized_key = ""
 			  for (var word of key.split("_")){
 			  	console.log(word)
 			  	sanitized_key += word.charAt(0).toUpperCase() + word.slice(1)+ " ";
 			  }
-		      
 		      data.push({"heuristic":sanitized_key.trim(),"average":avg})
-		      
 		    }
 
 		    this.setState({
@@ -78,48 +63,43 @@ export class Stats extends Component {
 
 
   	AsyncSet(heuristic){
-
   		getHeuristicRef().child(heuristic).on("value", (data) => {
   			var rawData = data.val();
-  			var keys = Object.keys(rawData);
-  			var data = []
-    		
+  			//var keys = Object.keys(rawData);
+  			data = []
     		for (var i = 0; i <= 10; i++) {
 		      // Look at each fruit object!
 		      var value = rawData[i];
 		      data.push({value:i,total:value===undefined ? 0:value})
 		 	}
-		 	
-		 	if(heuristic == "free_afternoon")
+		 	if(heuristic === "free_afternoon")
 	  			this.setState({
 	  				free_afternoon_data: data
 	  			})
-	  		else if(heuristic == "long_lunch")
+	  		else if(heuristic === "long_lunch")
 	  			this.setState({
 	  				long_lunch_data: data
 	  			})
-	  		else if(heuristic == "free_mornings")
+	  		else if(heuristic === "free_mornings")
 	  			this.setState({
 	  				free_mornings_data: data
 	  			})
-	  		else if(heuristic == "contiguous_events")
+	  		else if(heuristic === "contiguous_events")
 	  			this.setState({
 	  				contiguous_events_data: data
 	  			})
-	  		else if(heuristic == "free_days")
+	  		else if(heuristic === "free_days")
 	  			this.setState({
 	  				free_days_data: data
 	  			})
-	  		else if(heuristic == "free_friday_mornings")
+	  		else if(heuristic === "free_friday_mornings")
 	  			this.setState({
 	  				free_friday_mornings_data: data
 	  			})
-	  		else if(heuristic == "long_weekend")
+	  		else if(heuristic === "long_weekend")
 	  			this.setState({
 	  				long_weekend_data: data
 	  			})
-
-	  		
   		})
 
   		console.log(this.state.free_afternoon_data)
@@ -130,11 +110,8 @@ export class Stats extends Component {
   	render() {
 	    return (
 	    	 <Grid>
-               
-
                 <Row>
                     <Col xs={6}>
-                        	
 					    	<h3>Free Afternoon Values</h3>
 					      	<BarChart width={600} height={300} data={this.state.free_afternoon_data}
 					            margin={{top: 30, right: 30, left: 20, bottom: 5}}>
@@ -145,7 +122,6 @@ export class Stats extends Component {
 						       <Legend />
 						       <Bar dataKey="total" fill="#82ca9d"/>
 					      	</BarChart>
-		      			
                     </Col>
                 
 			    	<Col xs={6}>
@@ -256,12 +232,7 @@ export class Stats extends Component {
         					</RadarChart>
 				      	</div>
 			      	</Col>
-
-			      	
 				</Row>
-
-		      	
-		      	
 	      	</Grid>
 	    )
   }

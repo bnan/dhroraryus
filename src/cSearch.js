@@ -35,7 +35,7 @@ function overlapConstraint(c1, c2)
 // Returns domain of eventOptions
 export function makeDomain(eventOptions, domain)
 {
-  if ( typeof domain == 'undefined' )
+  if ( typeof domain === 'undefined' )
     domain = new Map();
 
   let value = NaN;
@@ -56,12 +56,12 @@ export function makeDomain(eventOptions, domain)
 export function search(domain)
 {
   // Return null if there is no solution
-  if (Array.from(domain.values()).some(v => v.length == 0)) {
+  if (Array.from(domain.values()).some(v => v.length === 0)) {
     return null
   }
 
   // Return solution if one was found
-  if (Array.from(domain.values()).every(v => v.length == 1)) {
+  if (Array.from(domain.values()).every(v => v.length === 1)) {
     return [domain]
   }
 
@@ -79,7 +79,7 @@ export function search(domain)
     // Pick a value
     newDomain.set(key, [value])
     // Other variables values are the ones that are not constrained by picked value
-    for (const key2 of keys.filter(k => k != key)) {
+    for (const key2 of keys.filter(k => k !== key)) {
       const tmp = []
       for (const c of newDomain.get(key2)) {
         if (!overlapConstraint(value, c))
@@ -149,8 +149,6 @@ export function test(){
 
   let domain = makeDomain(cl)
   let sol = search(domain)
-
-  let schedule = new Schedule(sol[0]);
 
   let mySol = []
   for (var solution of sol)

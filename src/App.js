@@ -8,8 +8,7 @@ import { incHeuristicValue, init} from './firebase'
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { Panel, Button } from 'react-bootstrap';
 import { Grid, Row, Col } from 'react-bootstrap';
-import { Form, FormGroup, FormControl, Checkbox } from 'react-bootstrap';
-import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Form, FormGroup, FormControl } from 'react-bootstrap';
 import { Table } from 'react-bootstrap';
 import { Glyphicon } from 'react-bootstrap';
 
@@ -364,7 +363,7 @@ class App extends Component {
                         <Panel expanded collapsible header="Preferences">
                             <Form inline>
                                 <FormGroup>
-                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceContiguous} onChange={(e) => this.setState({ preferenceContiguous: parseInt(e.target.value) })}>
+                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceContiguous} onChange={(e) => this.setState({ preferenceContiguous: parseInt(e.target.value, 10) })}>
                                         <option value="0">0</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -383,7 +382,7 @@ class App extends Component {
                             </Form>
                             <Form inline>
                                 <FormGroup>
-                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFreeAfternoons} onChange={(e) => this.setState({ preferenceFreeAfternoons: parseInt(e.target.value) })}>
+                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFreeAfternoons} onChange={(e) => this.setState({ preferenceFreeAfternoons: parseInt(e.target.value, 10) })}>
                                         <option value="0">0</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -402,7 +401,7 @@ class App extends Component {
                             </Form>
                             <Form inline>
                                 <FormGroup>
-                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFreeMornings} onChange={(e) => this.setState({ preferenceFreeMornings: parseInt(e.target.value) })}>
+                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFreeMornings} onChange={(e) => this.setState({ preferenceFreeMornings: parseInt(e.target.value, 10) })}>
                                         <option value="0">0</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -421,7 +420,7 @@ class App extends Component {
                             </Form>
                             <Form inline>
                                 <FormGroup>
-                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceLongLunch} onChange={(e) => this.setState({ preferenceLongLunch: parseInt(e.target.value) })}>
+                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceLongLunch} onChange={(e) => this.setState({ preferenceLongLunch: parseInt(e.target.value, 10) })}>
                                         <option value="0">0</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -440,7 +439,7 @@ class App extends Component {
                             </Form>
                             <Form inline>
                                 <FormGroup>
-                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFreeDays} onChange={(e) => this.setState({ preferenceFreeDays: parseInt(e.target.value) })}>
+                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFreeDays} onChange={(e) => this.setState({ preferenceFreeDays: parseInt(e.target.value, 10) })}>
                                         <option value="0">0</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -459,7 +458,7 @@ class App extends Component {
                             </Form>
                             <Form inline>
                                 <FormGroup>
-                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFridayMorning} onChange={(e) => this.setState({ preferenceFridayMorning: parseInt(e.target.value) })}>
+                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFridayMorning} onChange={(e) => this.setState({ preferenceFridayMorning: parseInt(e.target.value, 10) })}>
                                         <option value="0">0</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -478,7 +477,7 @@ class App extends Component {
                             </Form>
                             <Form inline>
                                 <FormGroup>
-                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceLongWeekend} onChange={(e) => this.setState({ preferenceLongWeekend: parseInt(e.target.value) })}>
+                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceLongWeekend} onChange={(e) => this.setState({ preferenceLongWeekend: parseInt(e.target.value, 10) })}>
                                         <option value="0">0</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -500,7 +499,7 @@ class App extends Component {
                 </Row>
 
                 <div style={{ marginBottom: '40px' }}>
-                    <Button disabled={this.state.options.length == 0} block bsStyle="primary" bsSize="large" onClick={() => this.handleGenerate()}>
+                    <Button disabled={this.state.options.length === 0} block bsStyle="primary" bsSize="large" onClick={() => this.handleGenerate()}>
                         <Glyphicon glyph="cog" /> Generate
                     </Button>
                 </div>

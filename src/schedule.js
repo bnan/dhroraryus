@@ -70,8 +70,8 @@ export class Schedule{
                 for (const instance of event.instances){
                     events.push({
                         title: event.event.name + event.option,
-                        start: new Date(2018, 8, 1 + parseInt(instance.start.day), instance.start.time.hour, instance.start.time.min, 0, 0),
-                        end: new Date(2018, 8, 1 + parseInt(instance.end.day), instance.end.time.hour, instance.end.time.min, 0, 0)
+                        start: new Date(2018, 8, 1 + parseInt(instance.start.day, 10), instance.start.time.hour, instance.start.time.min, 0, 0),
+                        end: new Date(2018, 8, 1 + parseInt(instance.end.day, 10), instance.end.time.hour, instance.end.time.min, 0, 0)
                     })
                 }
             }
@@ -146,13 +146,13 @@ export class Workday{
       if ( Time.interval(eM,bA) > 0)
         this.lunch_time = true
 
-      if ( Time.compare( bM, new Time(12,0)) != 0 )
+      if ( Time.compare( bM, new Time(12,0)) !== 0 )
         this.begin_morning = bM;
-      if ( Time.compare( eM ,new Time(0,0)) != 0)
+      if ( Time.compare( eM ,new Time(0,0)) !== 0)
         this.end_morning = eM;
-      if ( Time.compare( bA ,new Time(24,0)) != 0)
+      if ( Time.compare( bA ,new Time(24,0)) !== 0)
         this.begin_afternoon = bA;
-      if ( Time.compare( eA ,new Time(12,0)) != 0)
+      if ( Time.compare( eA ,new Time(12,0)) !== 0)
         this.end_afternoon = eA;
     }
 
@@ -166,7 +166,7 @@ export class Workday{
     		let prev_end = events_sorted[0].end.time;
     		let i = 1;
     		while (i<events_sorted.length){
-    			if (Time.compare(prev_end, events_sorted[i].start.time) != 0)
+    			if (Time.compare(prev_end, events_sorted[i].start.time) !== 0)
     				free_times.push([prev_end, events_sorted[i].start.time]);
     			prev_end = events_sorted[i].end.time;
     			i += 1;

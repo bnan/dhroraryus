@@ -12,11 +12,11 @@ export const init = () => {
     messagingSenderId: "649543163122"
   }
   firebase.initializeApp(config)
-  
-  var heuristicRef = firebase.database().ref('heuristics')
 
-  var constraintRef = firebase.database().ref('constraints')
-  
+  //var heuristicRef = firebase.database().ref('heuristics')
+
+  //var constraintRef = firebase.database().ref('constraints')
+
   //incHeuristicValue("free_days",0)
 
   //constraintRef.child("Friday").push({start:"22:00",duration:140})
@@ -24,14 +24,14 @@ export const init = () => {
   /*
   Get Monday Values
   constraintRef.child("Monday").on("value", gotData);
-  
+
   function gotData(data) {
     var monData = data.val();
     console.log("monData: ",monData)
-   
+
 
     //Grab the keys to iterate over the object
-    
+
     var keys = Object.keys(monData);
     for (var i = 0; i < keys.length; i++) {
       var key = keys[i];
@@ -39,9 +39,9 @@ export const init = () => {
       var constraint = monData[key];
       console.log(constraint)
     }*/
-    
 
-  
+
+
   //heuristicRef.child("free_afternoon").set([6,0,,0,2,6,4,8,5,7,2])
   //heuristicRef.child("long_lunch").set([0,0,0,0,0,0,0,0,0,0,0])
   //heuristicRef.child("free_mornings").set([0,0,0,0,0,0,0,0,0,0,0])
@@ -58,9 +58,9 @@ export const init = () => {
   });
  */
 
-    
+
   }
-  
+
 
 //updates value
 export function incHeuristicValue(heuristic,score){
