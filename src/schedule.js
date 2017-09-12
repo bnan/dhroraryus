@@ -196,7 +196,7 @@ function prefFreeMorning(workday){
 function prefContinuous(workday){
     let diff = 0;
     if ( !(workday.begin_morning instanceof Time) && !(workday.begin_afternoon instanceof Time)){
-      return 0
+      return 1
     }
 
     if (!(workday.begin_morning instanceof Time)){
@@ -220,7 +220,7 @@ function prefLongLunchtimes(workday){
  			r = 1
  		else 
  			r = 0
-  	if (!(workday.begin_morning instanceof Time) || !(workday.begin_afternoon))
+  	if (!(workday.begin_morning instanceof Time) || !(workday.begin_afternoon instanceof Time))
   		r = 1
     return r
 }
