@@ -1,4 +1,4 @@
-import {WeekDate, Time, Event, EventOption, EventOptionInstance} from './suppClasses'
+import {WeekDate, Time, Event, EventOption, TimeInterval} from './suppClasses'
 import {Schedule} from './schedule'
 
 // Return event
@@ -15,7 +15,7 @@ export function createEventOption(event, optionId)
 
 export function addOptionInstance(eventOption, sDay, sHour, sMin, eDay, eHour, eMin)
 {
-  let instance = new EventOptionInstance(new WeekDate(sDay, new Time(sHour, sMin)), new WeekDate(eDay, new Time(eHour, eMin)))
+  let instance = new TimeInterval(new WeekDate(sDay, new Time(sHour, sMin)), new WeekDate(eDay, new Time(eHour, eMin)))
   eventOption.instances.push(instance)
   return eventOption;
 }
@@ -109,33 +109,33 @@ export function test(){
   const CVT = new Event('CV-T');
   const CVP = new Event('CV-P');
 
-  const ARAT1 = new EventOption(ARAT, 1,[ new EventOptionInstance( new WeekDate(3, new Time(13,0)) , new WeekDate(3,new Time(15,0))), ]);
-  const ARAP1 = new EventOption(ARAP, 1,[ new EventOptionInstance( new WeekDate(2,new Time(15,0)) , new WeekDate(2,new Time(17,0))), ]);
-  const ARAP2 = new EventOption(ARAP, 2,[ new EventOptionInstance( new WeekDate(5,new Time(11,0)) , new WeekDate(5,new Time(13,0))), ]);
-  const ARAP3 = new EventOption(ARAP, 3,[ new EventOptionInstance( new WeekDate(2,new Time(17,0)) , new WeekDate(2,new Time(19,0))), ]);
-  const ARAP4 = new EventOption(ARAP, 4,[ new EventOptionInstance( new WeekDate(5, new Time(9,0)) , new WeekDate(5,new Time(11,0))), ]);
+  const ARAT1 = new EventOption(ARAT, 1,[ new TimeInterval( new WeekDate(3, new Time(13,0)) , new WeekDate(3,new Time(15,0))), ]);
+  const ARAP1 = new EventOption(ARAP, 1,[ new TimeInterval( new WeekDate(2,new Time(15,0)) , new WeekDate(2,new Time(17,0))), ]);
+  const ARAP2 = new EventOption(ARAP, 2,[ new TimeInterval( new WeekDate(5,new Time(11,0)) , new WeekDate(5,new Time(13,0))), ]);
+  const ARAP3 = new EventOption(ARAP, 3,[ new TimeInterval( new WeekDate(2,new Time(17,0)) , new WeekDate(2,new Time(19,0))), ]);
+  const ARAP4 = new EventOption(ARAP, 4,[ new TimeInterval( new WeekDate(5, new Time(9,0)) , new WeekDate(5,new Time(11,0))), ]);
 
-  const ACAP1 = new EventOption(ACAP, 1,[ new EventOptionInstance( new WeekDate(2,new Time(11,0)) , new WeekDate(2,new Time(13,0))), ]);
-  const ACAP2 = new EventOption(ACAP, 2,[ new EventOptionInstance( new WeekDate(6,new Time(14,0)) , new WeekDate(6,new Time(16,0))), ]);
-  const ACAP3 = new EventOption(ACAP, 3,[ new EventOptionInstance( new WeekDate(2, new Time(9,0)) , new WeekDate(2,new Time(11,0))), ]);
-  const ACAP4 = new EventOption(ACAP, 4,[ new EventOptionInstance( new WeekDate(2,new Time(14,0)) , new WeekDate(2,new Time(16,0))), ]);
-  const ACAT1 = new EventOption(ACAT, 1,[ new EventOptionInstance( new WeekDate(4,new Time(10,0)) , new WeekDate(4,new Time(12,0))), ]);
+  const ACAP1 = new EventOption(ACAP, 1,[ new TimeInterval( new WeekDate(2,new Time(11,0)) , new WeekDate(2,new Time(13,0))), ]);
+  const ACAP2 = new EventOption(ACAP, 2,[ new TimeInterval( new WeekDate(6,new Time(14,0)) , new WeekDate(6,new Time(16,0))), ]);
+  const ACAP3 = new EventOption(ACAP, 3,[ new TimeInterval( new WeekDate(2, new Time(9,0)) , new WeekDate(2,new Time(11,0))), ]);
+  const ACAP4 = new EventOption(ACAP, 4,[ new TimeInterval( new WeekDate(2,new Time(14,0)) , new WeekDate(2,new Time(16,0))), ]);
+  const ACAT1 = new EventOption(ACAT, 1,[ new TimeInterval( new WeekDate(4,new Time(10,0)) , new WeekDate(4,new Time(12,0))), ]);
 
-  const CVP1 = new EventOption(CVP, 1,[ new EventOptionInstance( new WeekDate(2,new Time(15,0)), new WeekDate(2,new Time(17,0))), ]);
-  const CVP2 = new EventOption(CVP, 2,[ new EventOptionInstance( new WeekDate(2,new Time(13,0)), new WeekDate(2,new Time(15,0))), ]);
-  const CVP3 = new EventOption(CVP, 3,[ new EventOptionInstance( new WeekDate(5,new Time(11,0)), new WeekDate(5,new Time(13,0))), ]);
-  const CVT1 = new EventOption(CVT, 1,[ new EventOptionInstance( new WeekDate(3,new Time(15,0)), new WeekDate(3,new Time(17,0))), ]);
+  const CVP1 = new EventOption(CVP, 1,[ new TimeInterval( new WeekDate(2,new Time(15,0)), new WeekDate(2,new Time(17,0))), ]);
+  const CVP2 = new EventOption(CVP, 2,[ new TimeInterval( new WeekDate(2,new Time(13,0)), new WeekDate(2,new Time(15,0))), ]);
+  const CVP3 = new EventOption(CVP, 3,[ new TimeInterval( new WeekDate(5,new Time(11,0)), new WeekDate(5,new Time(13,0))), ]);
+  const CVT1 = new EventOption(CVT, 1,[ new TimeInterval( new WeekDate(3,new Time(15,0)), new WeekDate(3,new Time(17,0))), ]);
 
-  const EDCP1 = new EventOption(EDCP , 1,[ new EventOptionInstance( new WeekDate(6, new Time(9, 0)), new WeekDate(6,new Time(11, 0))), ]);
-  const EDCP2 = new EventOption(EDCP , 2,[ new EventOptionInstance( new WeekDate(5,new Time(16,30)), new WeekDate(5,new Time(18,30))), ]);
-  const EDCP3 = new EventOption(EDCP , 3,[ new EventOptionInstance( new WeekDate(6,new Time(11, 0)), new WeekDate(6,new Time(13, 0))), ]);
-  const EDCT1 = new EventOption(EDCT , 1,[ new EventOptionInstance( new WeekDate(5,new Time(14,30)), new WeekDate(5,new Time(16,30))), ]);
+  const EDCP1 = new EventOption(EDCP , 1,[ new TimeInterval( new WeekDate(6, new Time(9, 0)), new WeekDate(6,new Time(11, 0))), ]);
+  const EDCP2 = new EventOption(EDCP , 2,[ new TimeInterval( new WeekDate(5,new Time(16,30)), new WeekDate(5,new Time(18,30))), ]);
+  const EDCP3 = new EventOption(EDCP , 3,[ new TimeInterval( new WeekDate(6,new Time(11, 0)), new WeekDate(6,new Time(13, 0))), ]);
+  const EDCT1 = new EventOption(EDCT , 1,[ new TimeInterval( new WeekDate(5,new Time(14,30)), new WeekDate(5,new Time(16,30))), ]);
 
-  const SEGP1 = new EventOption(SEGP , 1,[ new EventOptionInstance( new WeekDate(5, new Time(9,0)), new WeekDate(5,new Time(11,0))), ]);
-  const SEGP2 = new EventOption(SEGP , 2,[ new EventOptionInstance( new WeekDate(6, new Time(11,0)), new WeekDate(6,new Time(13,0))), ]);
-  const SEGP3 = new EventOption(SEGP , 3,[ new EventOptionInstance( new WeekDate(6, new Time(9,0)), new WeekDate(6,new Time(11,0))), ]);
-  const SEGP4 = new EventOption(SEGP , 4,[ new EventOptionInstance( new WeekDate(6,new Time(14,0)), new WeekDate(6,new Time(16,0))), ]);
-  let SEGT1 = new EventOption(SEGT , 1,[ new EventOptionInstance( new WeekDate(4,new Time(13,0)), new WeekDate(4,new Time(15,0))), ]);
+  const SEGP1 = new EventOption(SEGP , 1,[ new TimeInterval( new WeekDate(5, new Time(9,0)), new WeekDate(5,new Time(11,0))), ]);
+  const SEGP2 = new EventOption(SEGP , 2,[ new TimeInterval( new WeekDate(6, new Time(11,0)), new WeekDate(6,new Time(13,0))), ]);
+  const SEGP3 = new EventOption(SEGP , 3,[ new TimeInterval( new WeekDate(6, new Time(9,0)), new WeekDate(6,new Time(11,0))), ]);
+  const SEGP4 = new EventOption(SEGP , 4,[ new TimeInterval( new WeekDate(6,new Time(14,0)), new WeekDate(6,new Time(16,0))), ]);
+  let SEGT1 = new EventOption(SEGT , 1,[ new TimeInterval( new WeekDate(4,new Time(13,0)), new WeekDate(4,new Time(15,0))), ]);
 
   SEGT1 = addOptionInstance(SEGT1,6,18,0,6,19,0);
 
@@ -168,33 +168,33 @@ export function test(){
   const CT = new Event('CV-T');
   const CP = new Event('CV-P');
 
-  const ART1 = new EventOption(ART, 1,[ new EventOptionInstance( new WeekDate(3, new Time(14,0)) , new WeekDate(3,new Time(15,0))), ]);
-  const ARP1 = new EventOption(ARP, 1,[ new EventOptionInstance( new WeekDate(2,new Time(11,0)) , new WeekDate(2,new Time(13,0))), ]);
-  const ARP2 = new EventOption(ARP, 2,[ new EventOptionInstance( new WeekDate(5,new Time(14,0)) , new WeekDate(5,new Time(19,0))), ]);
-  const ARP3 = new EventOption(ARP, 3,[ new EventOptionInstance( new WeekDate(2,new Time(11,0)) , new WeekDate(2,new Time(13,0))), ]);
-  const ARP4 = new EventOption(ARP, 4,[ new EventOptionInstance( new WeekDate(5, new Time(10,0)) , new WeekDate(5,new Time(11,0))), ]);
+  const ART1 = new EventOption(ART, 1,[ new TimeInterval( new WeekDate(3, new Time(14,0)) , new WeekDate(3,new Time(15,0))), ]);
+  const ARP1 = new EventOption(ARP, 1,[ new TimeInterval( new WeekDate(2,new Time(11,0)) , new WeekDate(2,new Time(13,0))), ]);
+  const ARP2 = new EventOption(ARP, 2,[ new TimeInterval( new WeekDate(5,new Time(14,0)) , new WeekDate(5,new Time(19,0))), ]);
+  const ARP3 = new EventOption(ARP, 3,[ new TimeInterval( new WeekDate(2,new Time(11,0)) , new WeekDate(2,new Time(13,0))), ]);
+  const ARP4 = new EventOption(ARP, 4,[ new TimeInterval( new WeekDate(5, new Time(10,0)) , new WeekDate(5,new Time(11,0))), ]);
 
-  const ACP1 = new EventOption(ACP, 1,[ new EventOptionInstance( new WeekDate(2,new Time(12,0)) , new WeekDate(2,new Time(13,0))), ]);
-  const ACP2 = new EventOption(ACP, 2,[ new EventOptionInstance( new WeekDate(6,new Time(15,0)) , new WeekDate(6,new Time(17,0))), ]);
-  const ACP3 = new EventOption(ACP, 3,[ new EventOptionInstance( new WeekDate(2, new Time(10,0)) , new WeekDate(2,new Time(13,0))), ]);
-  const ACP4 = new EventOption(ACP, 4,[ new EventOptionInstance( new WeekDate(2,new Time(15,0)) , new WeekDate(2,new Time(17,0))), ]);
-  const ACT1 = new EventOption(ACT, 1,[ new EventOptionInstance( new WeekDate(4,new Time(8,0)) , new WeekDate(4,new Time(10,0))), ]);
+  const ACP1 = new EventOption(ACP, 1,[ new TimeInterval( new WeekDate(2,new Time(12,0)) , new WeekDate(2,new Time(13,0))), ]);
+  const ACP2 = new EventOption(ACP, 2,[ new TimeInterval( new WeekDate(6,new Time(15,0)) , new WeekDate(6,new Time(17,0))), ]);
+  const ACP3 = new EventOption(ACP, 3,[ new TimeInterval( new WeekDate(2, new Time(10,0)) , new WeekDate(2,new Time(13,0))), ]);
+  const ACP4 = new EventOption(ACP, 4,[ new TimeInterval( new WeekDate(2,new Time(15,0)) , new WeekDate(2,new Time(17,0))), ]);
+  const ACT1 = new EventOption(ACT, 1,[ new TimeInterval( new WeekDate(4,new Time(8,0)) , new WeekDate(4,new Time(10,0))), ]);
 
-  const CP1 = new EventOption(CP, 1,[ new EventOptionInstance( new WeekDate(2,new Time(13,0)), new WeekDate(2,new Time(16,0))), ]);
-  const CP2 = new EventOption(CP, 2,[ new EventOptionInstance( new WeekDate(2,new Time(13,0)), new WeekDate(2,new Time(14,0))), ]);
-  const CP3 = new EventOption(CP, 3,[ new EventOptionInstance( new WeekDate(5,new Time(15,0)), new WeekDate(5,new Time(18,0))), ]);
-  const CT1 = new EventOption(CT, 1,[ new EventOptionInstance( new WeekDate(3,new Time(18,0)), new WeekDate(3,new Time(20,0))), ]);
+  const CP1 = new EventOption(CP, 1,[ new TimeInterval( new WeekDate(2,new Time(13,0)), new WeekDate(2,new Time(16,0))), ]);
+  const CP2 = new EventOption(CP, 2,[ new TimeInterval( new WeekDate(2,new Time(13,0)), new WeekDate(2,new Time(14,0))), ]);
+  const CP3 = new EventOption(CP, 3,[ new TimeInterval( new WeekDate(5,new Time(15,0)), new WeekDate(5,new Time(18,0))), ]);
+  const CT1 = new EventOption(CT, 1,[ new TimeInterval( new WeekDate(3,new Time(18,0)), new WeekDate(3,new Time(20,0))), ]);
 
-  const EDP1 = new EventOption(EDP , 1,[ new EventOptionInstance( new WeekDate(6, new Time(10, 0)), new WeekDate(6,new Time(12, 0))), ]);
-  const EDP2 = new EventOption(EDP , 2,[ new EventOptionInstance( new WeekDate(5,new Time(16,30)), new WeekDate(5,new Time(20,30))), ]);
-  const EDP3 = new EventOption(EDP , 3,[ new EventOptionInstance( new WeekDate(6,new Time(14, 0)), new WeekDate(6,new Time(16, 0))), ]);
-  const EDT1 = new EventOption(EDT , 1,[ new EventOptionInstance( new WeekDate(5,new Time(13,30)), new WeekDate(5,new Time(15,30))), ]);
+  const EDP1 = new EventOption(EDP , 1,[ new TimeInterval( new WeekDate(6, new Time(10, 0)), new WeekDate(6,new Time(12, 0))), ]);
+  const EDP2 = new EventOption(EDP , 2,[ new TimeInterval( new WeekDate(5,new Time(16,30)), new WeekDate(5,new Time(20,30))), ]);
+  const EDP3 = new EventOption(EDP , 3,[ new TimeInterval( new WeekDate(6,new Time(14, 0)), new WeekDate(6,new Time(16, 0))), ]);
+  const EDT1 = new EventOption(EDT , 1,[ new TimeInterval( new WeekDate(5,new Time(13,30)), new WeekDate(5,new Time(15,30))), ]);
 
-  const SEP1 = new EventOption(SEP , 1,[ new EventOptionInstance( new WeekDate(5, new Time(10,0)), new WeekDate(5,new Time(12,0))), ]);
-  const SEP2 = new EventOption(SEP , 2,[ new EventOptionInstance( new WeekDate(6, new Time(13,0)), new WeekDate(6,new Time(15,0))), ]);
-  const SEP3 = new EventOption(SEP , 3,[ new EventOptionInstance( new WeekDate(6, new Time(15,0)), new WeekDate(6,new Time(17,0))), ]);
-  const SEP4 = new EventOption(SEP , 4,[ new EventOptionInstance( new WeekDate(6,new Time(18,0)), new WeekDate(6,new Time(20,0))), ]);
-  let SET1 = new EventOption(SET , 1,[ new EventOptionInstance( new WeekDate(4,new Time(17,0)), new WeekDate(4,new Time(19,0))), ]);
+  const SEP1 = new EventOption(SEP , 1,[ new TimeInterval( new WeekDate(5, new Time(10,0)), new WeekDate(5,new Time(12,0))), ]);
+  const SEP2 = new EventOption(SEP , 2,[ new TimeInterval( new WeekDate(6, new Time(13,0)), new WeekDate(6,new Time(15,0))), ]);
+  const SEP3 = new EventOption(SEP , 3,[ new TimeInterval( new WeekDate(6, new Time(15,0)), new WeekDate(6,new Time(17,0))), ]);
+  const SEP4 = new EventOption(SEP , 4,[ new TimeInterval( new WeekDate(6,new Time(18,0)), new WeekDate(6,new Time(20,0))), ]);
+  let SET1 = new EventOption(SET , 1,[ new TimeInterval( new WeekDate(4,new Time(17,0)), new WeekDate(4,new Time(19,0))), ]);
 
   let cl2 = [
     ART1, ARP1, ARP2, ARP3, ARP4,
