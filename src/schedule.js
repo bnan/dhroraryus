@@ -1,4 +1,4 @@
-import {Time} from './suppClasses'
+import {Time, TimeInterval} from './suppClasses'
 
 export class Schedule{
     constructor(solution) {
@@ -162,19 +162,19 @@ export class Workday{
     		return a.start.time.hour - b.start.time.hour;
     	})
     	if (events_sorted.length > 0){
-    		free_times.push([new Time(0,0), events_sorted[0].start.time]);
+    		free_times.push(new TimeInterval(new Time(0,0), events_sorted[0].start.time));
     		let prev_end = events_sorted[0].end.time;
     		let i = 1;
     		while (i<events_sorted.length){
     			if (Time.compare(prev_end, events_sorted[i].start.time) !== 0)
-    				free_times.push([prev_end, events_sorted[i].start.time]);
+    				free_times.push(new TimeInterval(prev_end, events_sorted[i].start.time));
     			prev_end = events_sorted[i].end.time;
     			i += 1;
     		}
-    		free_times.push([prev_end, new Time(24,0)]);
+    		free_times.push(new TimeInterval(prev_end, new Time(24,0)));
     		return free_times;
     	} else {
-    		free_times.push([new Time(0,0),new Time(24,0)]);
+    		free_times.push(new TimeInterval(new Time(0,0),new Time(24,0)));
     		return free_times;
     	}
     }
