@@ -29,11 +29,11 @@ $ yarn start
 
 ## Testing
 
-1. Test
-```shell
-$ yarn mochatest
-```
+1. Test.
 
+```shell
+$ yarn test
+```
 
 ## Deployment
 
