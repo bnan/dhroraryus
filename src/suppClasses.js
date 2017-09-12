@@ -44,6 +44,9 @@ export class Time{
         this.hour = hour;
         this.min  = min;
     }
+    toString(){
+        return (this.hour + ":" + this.min)
+    }
     static interval(start,end){
         const start_mins  = start.hour * 60 + start.min;
         const end_mins    = end.hour * 60 + end.min;
@@ -73,6 +76,7 @@ export class Time{
             return Time.interval(intervalA[0], intervalB[1])
         return 0
     }
+
 
 }
 
