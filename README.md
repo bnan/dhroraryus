@@ -27,6 +27,14 @@ $ yarn install
 $ yarn start
 ```
 
+## Testing
+
+1. Test
+```shell
+$ yarn mochatest
+```
+
+
 ## Deployment
 
 1. Build.
