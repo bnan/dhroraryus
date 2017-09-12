@@ -16,7 +16,8 @@ export class WeekDate{
     }
 
     toString(){
-        return ("date: " + this.day + "-- " + this.time.hour + ":" + this.min);
+        const weekdays = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursady', 'Friday']
+        return ("[" + weekdays[this.day] + "] " + this.time.hour + ":" + this.time.min);
     }
     /*
         if a < b    : return -1

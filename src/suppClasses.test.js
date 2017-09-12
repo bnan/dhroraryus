@@ -45,3 +45,32 @@ describe('Time', function(){
 
 });
 
+describe('WeekDate', function(){
+
+	const weekDateA = new WeekDate(3, new Time(13,0))
+	const weekDateB = new WeekDate(4, new Time(13,0))
+	const weekDateC = new WeekDate(4, new Time(13,1))
+	const weekDateD = new WeekDate(6, new Time(13,0))
+	const weekDateE = new WeekDate(0, new Time(13,0))
+
+	describe('#compare()', function(){
+		it('Comparing ' + weekDateA + ' to ' + weekDateB + ' must return -1', function(){
+			assert.equal(WeekDate.compare(weekDateA, weekDateB), -1);
+		});
+		it('Comparing ' + weekDateB + ' to ' + weekDateC + ' must return -1', function(){
+			assert.equal(WeekDate.compare(weekDateB, weekDateC), -1);
+		});
+		it('Comparing ' + weekDateC + ' to ' + weekDateB + ' must return 1', function(){
+			assert.equal(WeekDate.compare(weekDateC, weekDateB), 1);
+		});
+		it('Comparing ' + weekDateB + ' to ' + weekDateD + ' must return -1', function(){
+			assert.equal(WeekDate.compare(weekDateB, weekDateD), -1);
+		});
+		it('Comparing ' + weekDateD + ' to ' + weekDateE + ' must return -1', function(){
+			assert.equal(WeekDate.compare(weekDateD, weekDateE), -1);
+		});
+		it('Comparing ' + weekDateE + ' to ' + weekDateD + ' must return 1', function(){
+			assert.equal(WeekDate.compare(weekDateE, weekDateD), 1);
+		});
+	});
+});
