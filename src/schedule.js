@@ -80,19 +80,13 @@ export class Schedule{
     }
     static freeTimeIntersection(scheduleA, scheduleB){
     	let intersection_time = 0
-    	const week_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-    	let free_timesA
-    	let free_timesB
-    	for (const week_day of week_days){
-    		free_timesA = scheduleA.schedule.get(week_day).free_intervals;
-    		//console.log("FREE TIMESA: ", free_timesA)
-    		free_timesB = scheduleB.schedule.get(week_day).free_intervals;
-    		for (let free_timeA of free_timesA)
-	    		for (let free_timeB of free_timesB){
-	    			intersection_time += Time.intersectionTime(free_timeA, free_timeB)
-	    		}
-    	}
-    	//console.log("INTERSECTION TIME: ", intersection_time)
+        ['Monday','Tuesday','Wednesday','Thursday','Friday'].forEach(function(week_day){
+            scheduleA.schedule.get(week_day).free_intervals.forEach(function(free_timeA){
+                scheduleB.schedule.get(week_day).free_intervals.forEach(function(free_timeB){
+                    intersection_time += Time.intersectionTime(free_timeA, free_timeB)
+                })
+            })
+        })
     	return intersection_time
     }
 }
