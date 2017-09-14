@@ -67,7 +67,7 @@ export class Time{
             return 1;
         return 0;
     }
-    // TODO EventOptionInstance to interval to use it here
+
     static intersectionTime(intervalA, intervalB){
        // console.log("Interval A: ", intervalA)
        // console.log("Interval B: ", intervalB)
@@ -80,6 +80,14 @@ export class Time{
 
 
 }
+
+export class TimeInterval{
+    constructor(start, end){
+        this.start = start;
+        this.end = end;
+    }
+}
+
 
 export class Event{
     constructor(name, isConstraint = false) {
@@ -96,9 +104,3 @@ export class EventOption{
     }
 }
 
-export class EventOptionInstance{
-    constructor(start, end){
-        this.start = start;
-        this.end = end;
-    }
-}
