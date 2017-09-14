@@ -184,6 +184,8 @@ export class Workday{
 function prefFreeAfternoon(workday){
 	if (workday.end_afternoon instanceof Time)
       return Time.interval(workday.end_afternoon, new Time(20,0)) / (8*60); // eight hours for the afternoon := 20-12 
+    if (Time.compare(workday.end_morning, new Time(12,0)) > 0)
+      return Time.interval(workday.end_morning, new Time(20,0)) / (8*60);
   	return 1;
 }
 
