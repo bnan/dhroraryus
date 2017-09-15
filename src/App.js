@@ -12,15 +12,14 @@ import { Form, FormGroup, FormControl } from 'react-bootstrap';
 import { Table } from 'react-bootstrap';
 import { Glyphicon } from 'react-bootstrap';
 
-import { TimePicker } from './TimePicker';
-
+import { TimePicker } from './ui/TimePicker';
+import { FormDaysOfTheWeek } from './ui/FormDaysOfTheWeek';
+import { FormScore } from './ui/FormScore';
+import { Calendar } from './ui/Calendar';
 import logo from './logo.svg';
 import './App.css';
 
-import BigCalendar from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment'
-BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
 const WEEKDAYS = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 
@@ -29,10 +28,17 @@ class App extends Component {
         init()
         super(props)
         this.state = {
-            events: [],
             options: [],
             constraints: [],
-            preferences: [],
+            preferences: {
+                'Contiguous, unfragmented events': 0,
+                'Free afternoons': 0,
+                'Free mornings': 0,
+                'Long lunch breaks': 0,
+                'Longer weekends': 0,
+                'Free days': 0,
+                'Free friday morning for hangovers': 0,
+            },
             results: [],
 
             newEvent: '',
@@ -46,14 +52,6 @@ class App extends Component {
             newConstraintDay: '2',
             newConstraintStart: moment(),
             newConstraintEnd: moment(),
-
-            preferenceContiguous: 0,
-            preferenceFreeAfternoons: 0,
-            preferenceFreeMornings: 0,
-            preferenceLongLunch: 0,
-            preferenceLongWeekend: 0,
-            preferenceFreeDays: 0,
-            preferenceFridayMorning: 0,
         }
     }
 
@@ -101,19 +99,6 @@ class App extends Component {
             events: [ARAT, ARAP, ACAT, ACAP, EDCT, EDCP, SEGT, SEGP, CVT, CVP],
             options: [ARAT1, ARAP1, ARAP2, ARAP3, ARAP4, ACAP1, ACAP2, ACAP3, ACAP4, ACAT1, CVP1, CVP2, CVP3, CVT1, EDCP1, EDCP2, EDCP3, EDCT1, SEGP1, SEGP2, SEGP3, SEGP4, SEGT1]
         }))
-    }
-
-    handleEventAdd() {
-        if (!this.state.newEvent) return
-
-        const event = new Event(this.state.newEvent)
-
-        if(!this.state.events.includes(event)) {
-            this.setState(prevState => ({
-                events: [...prevState.events, event],
-                newEvent: ''
-            }))
-        }
     }
 
     handleInstanceAdd() {
@@ -209,31 +194,24 @@ class App extends Component {
         this.setState({ newConstraintEnd: e })
     }
 
+    handlePreferenceChange(e, p) {
+        const preferences = this.state.preferences
+        preferences[p] = e.target.value
+        this.setState({ preferences })
+    }
+
     handleGenerate() {
         let domain = makeDomain(this.state.options)
         let solutions = search(domain)
-
         let results = solutions.map(solution => (new Schedule(solution)))
-        let weights = [this.state.preferenceContiguous, this.state.preferenceFreeAfternoons, this.state.preferenceFreeMornings, this.state.preferenceLongLunch, this.state.preferenceFreeDays, this.state.preferenceFridayMorning, this.state.preferenceFridayMorning]
-        results = results.sort(function(s1, s2) {
-          return scheduleEvaluation(s2, ...weights) - scheduleEvaluation(s1, ...weights)
-        })
 
+        // Sort by preferences
+        let weights = Object.values(this.state.preferences)
+        results = results.sort((s1, s2) => scheduleEvaluation(s2, ...weights) - scheduleEvaluation(s1, ...weights))
         results = results.slice(0,7)
 
-        let heuristics = new Map()
-        heuristics.set('long_lunch', this.state.preferenceLongLunch)
-        heuristics.set('long_weekend', this.state.preferenceLongWeekend)
-        heuristics.set('free_mornings', this.state.preferenceFreeMornings)
-        heuristics.set('free_days', this.state.preferenceFreeDays)
-        heuristics.set('free_afternoon', this.state.preferenceFreeAfternoons)
-        heuristics.set('contiguous_events', this.state.preferenceContiguous)
-        heuristics.set('free_friday_mornings', this.state.preferenceFridayMorning)
-
-        console.log('HEURISTICS', heuristics)
-        for (const [k, v] of heuristics) {
-            console.log('HEY!!!!!!!!!!', k, v)
-            incHeuristicValue(k, v)
+        for (const p of Object.keys(this.state.preferences)) {
+            incHeuristicValue(p, this.state.preferences[p])
         }
 
         results = results.map(r => r.events)
@@ -249,7 +227,7 @@ class App extends Component {
 
                 <Row>
                     <Col xs={12}>
-                        <Panel expanded collapsible header="Events">
+                        <Panel header="Events">
                             <Form inline>
                                 <DropdownButton bsStyle="primary" bsSize="sm" title="Import" id="dropdown-size-large">
                                     <MenuItem eventKey="1" onClick={() => this.prefill()}>4º ano Engenharia de Computadores e Telemática @ DETI UA</MenuItem>
@@ -257,7 +235,6 @@ class App extends Component {
                                     <MenuItem eventKey="3">2º ano Engenharia Eletrónica e Telecomunicações @ DETI UA</MenuItem>
                                 </DropdownButton>
                                 {' or manually specify '}
-
                                 <FormControl
                                     type="text"
                                     value={this.state.newOptionEvent}
@@ -273,28 +250,17 @@ class App extends Component {
                                     onChange={(e) => this.handleOptionIdChange(e)}
                                     style={{ width: '50px' }}
                                 />
-
                                 {' on '}
-
-                                <FormControl componentClass="select" defaultValue={this.state.newInstanceDay} onChange={(e) => this.handleInstanceDayChange(e)}>
-                                    <option value="0">Saturday</option>
-                                    <option value="1">Sunday</option>
-                                    <option value="2">Monday</option>
-                                    <option value="3">Tuesday</option>
-                                    <option value="4">Wednesday</option>
-                                    <option value="5">Thursday</option>
-                                    <option value="6">Friday</option>
-                                </FormControl>
-
+                                <FormDaysOfTheWeek defaultValue={this.state.newInstanceDay} onChange={(e) => this.handleInstanceDayChange(e)} />
                                 {' from '}
                                 <TimePicker onChange={(e) => this.handleInstanceStartChange(e)} />
                                 {' to '}
                                 <TimePicker onChange={(e) => this.handleInstanceEndChange(e)} />
                                 {' '}
-
                                 <Button bsStyle="success" onClick={() => this.handleInstanceAdd()}>
                                     <Glyphicon glyph="plus" /> Add
                                 </Button>
+
                                 { this.state.options.length > 0 &&
                                     <Table responsive striped bordered condensed hover style={{ marginTop: '20px' }}>
                                         <thead>
@@ -332,26 +298,17 @@ class App extends Component {
 
                 <Row>
                     <Col xs={12} md={6}>
-                        <Panel expanded collapsible header="Constraints">
+                        <Panel header="Constraints">
                             <Form inline>
                                 <FormGroup>
                                     {'On '}
-                                    <FormControl componentClass="select" defaultValue={this.state.newConstraintDay} onChange={(e) => this.handleConstraintDayChange(e)}>
-                                        <option value="0">Saturday</option>
-                                        <option value="1">Sunday</option>
-                                        <option value="2">Monday</option>
-                                        <option value="3">Tuesday</option>
-                                        <option value="4">Wednesday</option>
-                                        <option value="5">Thursday</option>
-                                        <option value="6">Friday</option>
-                                    </FormControl>
+                                    <FormDaysOfTheWeek defaultValue={this.state.newConstraintDay} onChange={(e) => this.handleConstraintDayChange(e)} />
                                     {' from '}
                                     <TimePicker onChange={(e) => this.handleConstraintStartChange(e)} />
                                     {' to '}
                                     <TimePicker onChange={(e) => this.handleConstraintEndChange(e)} />
                                 </FormGroup>
                                 {' '}
-
                                 <Button bsStyle="success" onClick={() => this.handleConstraintAdd()}>
                                     <Glyphicon glyph="plus" /> Add
                                 </Button>
@@ -360,140 +317,15 @@ class App extends Component {
                     </Col>
 
                     <Col xs={12} md={6}>
-                        <Panel expanded collapsible header="Preferences">
-                            <Form inline>
-                                <FormGroup>
-                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceContiguous} onChange={(e) => this.setState({ preferenceContiguous: parseInt(e.target.value, 10) })}>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </FormControl>
-                                    {' '}
-                                    Contiguous, unfragmented events
-                                </FormGroup>
-                            </Form>
-                            <Form inline>
-                                <FormGroup>
-                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFreeAfternoons} onChange={(e) => this.setState({ preferenceFreeAfternoons: parseInt(e.target.value, 10) })}>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </FormControl>
-                                    {' '}
-                                    Free afternoons
-                                </FormGroup>
-                            </Form>
-                            <Form inline>
-                                <FormGroup>
-                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFreeMornings} onChange={(e) => this.setState({ preferenceFreeMornings: parseInt(e.target.value, 10) })}>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </FormControl>
-                                    {' '}
-                                    Free mornings
-                                </FormGroup>
-                            </Form>
-                            <Form inline>
-                                <FormGroup>
-                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceLongLunch} onChange={(e) => this.setState({ preferenceLongLunch: parseInt(e.target.value, 10) })}>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </FormControl>
-                                    {' '}
-                                    Long lunch breaks
-                                </FormGroup>
-                            </Form>
-                            <Form inline>
-                                <FormGroup>
-                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFreeDays} onChange={(e) => this.setState({ preferenceFreeDays: parseInt(e.target.value, 10) })}>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </FormControl>
-                                    {' '}
-                                    Free days
-                                </FormGroup>
-                            </Form>
-                            <Form inline>
-                                <FormGroup>
-                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceFridayMorning} onChange={(e) => this.setState({ preferenceFridayMorning: parseInt(e.target.value, 10) })}>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </FormControl>
-                                    {' '}
-                                    Free friday morning for hangovers
-                                </FormGroup>
-                            </Form>
-                            <Form inline>
-                                <FormGroup>
-                                    <FormControl style={{ width: '40px' }} componentClass="select" defaultValue={this.state.preferenceLongWeekend} onChange={(e) => this.setState({ preferenceLongWeekend: parseInt(e.target.value, 10) })}>
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </FormControl>
-                                    {' '}
-                                    Longer weekends
-                                </FormGroup>
-                            </Form>
+                        <Panel header="Preferences">
+                            {Object.keys(this.state.preferences).map((p, index) => (
+                                <Form key={index} inline>
+                                    <FormGroup>
+                                        <FormScore defaultValue={this.state.preferences[p]} onChange={(e) => this.handlePreferenceChange(e, p)} />
+                                        {' ' + p}
+                                    </FormGroup>
+                                </Form>
+                            ))}
                         </Panel>
                     </Col>
                 </Row>
@@ -507,22 +339,13 @@ class App extends Component {
                 {this.state.results.length > 0 &&
                     <Row>
                         <Col xs={12}>
-                            <Panel expanded collapsible header="Results">
-                                {this.state.results.map((result, index) => {
-                                    return (
-                                        <div key={index}>
-                                            <BigCalendar
-                                                events={result}
-                                                defaultView='week'
-                                                defaultDate={new Date(2018, 8, 2)}
-                                                views={['week']}
-                                                toolbar={false}
-                                                formats={{dayFormat:'dddd'}}
-                                                //min={new Date(2018,8,2,10,30,0,0)}
-                                            />
-                                        </div>
-                                    )
-                                })}
+                            <Panel header="Results">
+                                {this.state.results.map((result, index) => (
+                                    <Calendar
+                                        key={index}
+                                        events={result}
+                                    />
+                                ))}
                             </Panel>
                         </Col>
                     </Row>
