@@ -1,45 +1,48 @@
 import React from 'react'
 
-import { FormScore } from './ui/FormScore';
-import { TimePicker } from './ui/TimePicker';
-import { FormDaysOfTheWeek } from './ui/FormDaysOfTheWeek';
+import { TimePicker } from './TimePicker';
+import { FormDaysOfTheWeek } from './FormDaysOfTheWeek';
+import { Panel, Button } from 'react-bootstrap';
+import { Form, FormGroup, FormControl } from 'react-bootstrap';
+import { Glyphicon } from 'react-bootstrap';
+import moment from 'moment'
 
-class Preferences extends React.Component {
+export class Constraints extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            newConstraintDay: '2',
-            newConstraintStart: moment(),
-            newConstraintEnd: moment(),
+            day: '2',
+            start: moment(),
+            end: moment(),
         }
     }
 
-    handleConstraintDayChange(e) {
-        this.setState({ newConstraintDay: e.target.value })
+    handleDayChange(e) {
+        this.setState({ day: e.target.value })
     }
 
-    handleConstraintStartChange(e) {
-        this.setState({ newConstraintStart: e })
+    handleStartChange(e) {
+        this.setState({ start: e })
     }
 
-    handleConstraintEndChange(e) {
-        this.setState({ newConstraintEnd: e })
+    handleEndChange(e) {
+        this.setState({ end: e })
     }
 
-    return() {
+    render() {
         return (
             <Panel header="Constraints">
                 <Form inline>
                     <FormGroup>
                         {'On '}
-                        <FormDaysOfTheWeek defaultValue={this.state.newConstraintDay} onChange={(e) => this.handleConstraintDayChange(e)} />
+                        <FormDaysOfTheWeek defaultValue={this.state.day} onChange={(e) => this.handleDayChange(e)} />
                         {' from '}
-                        <TimePicker onChange={(e) => this.handleConstraintStartChange(e)} />
+                        <TimePicker onChange={(e) => this.handleStartChange(e)} />
                         {' to '}
-                        <TimePicker onChange={(e) => this.handleConstraintEndChange(e)} />
+                        <TimePicker onChange={(e) => this.handleEndChange(e)} />
                     </FormGroup>
                     {' '}
-                    <Button bsStyle="success" onClick={() => this.handleConstraintAdd()}>
+                    <Button bsStyle="success" onClick={() => this.props.handleAdd(this.state.day, this.state.start, this.state.end)}>
                         <Glyphicon glyph="plus" /> Add
                     </Button>
                 </Form>

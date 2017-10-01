@@ -12,6 +12,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import { Events } from './ui/Events'
+import { Constraints } from './ui/Constraints'
 
 class App extends React.Component {
     constructor(props) {
@@ -66,13 +67,10 @@ class App extends React.Component {
         })
     }
 
-    handleConstraintAdd() {
-        const start = new Time(this.state.newConstraintStart.hours(), this.state.newConstraintStart.minutes())
-        const end = new Time(this.state.newConstraintEnd.hours(), this.state.newConstraintEnd.minutes())
-
+    handleConstraintAdd(day, start, end) {
         const instance = new TimeInterval(
-            new WeekDate(this.state.newConstraintDay, start),
-            new WeekDate(this.state.newConstraintDay, end)
+            new WeekDate(day, new Time(start.hours(), start.minutes())),
+            new WeekDate(day, new Time(end.hours(), end.minutes()))
         )
 
         const event = new EventOption(new Event('C', true), Math.random().toString(36).substring(7), [instance])
@@ -122,18 +120,20 @@ class App extends React.Component {
                     </Col>
                 </Row>
 
-                {/*
 
                 <Row>
                     <Col xs={12} md={6}>
-                        <Constraints constraints={this.state.options} add={this.handleConstraintAdd} />
+                        <Constraints constraints={this.state.constraints} handleAdd={(day, start, end) => this.handleConstraintAdd(day, start, end)} />
                     </Col>
 
+                    {/*
                     <Col xs={12} md={6}>
                         <Preferences preferences={this.state.preferences} onChange={this.handlePreferenceChange} />
                     </Col>
+                    */}
                 </Row>
 
+                {/*
                 <div style={{ marginBottom: '40px' }}>
                     <Button disabled={this.state.options.length === 0} block bsStyle="primary" bsSize="large" onClick={() => this.handleGenerate()}>
                         <Glyphicon glyph="cog" /> Generate
