@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "firebase": "^4.3.1",
+    "gh-pages": "^1.0.0",
     "moment": "^2.18.1",
     "react": "^15.6.1",
     "react-big-calendar": "^0.15.0",
@@ -19,6 +20,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom --verbose",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "react-scripts build",
+    "deploy": "gh-pages -d build"
   }
 }
