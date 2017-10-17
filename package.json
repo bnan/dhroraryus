@@ -2,6 +2,7 @@
   "name": "dhroraryus",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://bnan.github.io/dhroraryus",
   "dependencies": {
     "firebase": "^4.3.1",
     "gh-pages": "^1.0.0",
