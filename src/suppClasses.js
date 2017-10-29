@@ -16,7 +16,8 @@ export class WeekDate{
     }
 
     toString(){
-        return ("date: " + this.day + "-- " + this.time.hour + ":" + this.min);
+        const weekdays = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursady', 'Friday']
+        return ("[" + weekdays[this.day] + "] " + this.time.hour + ":" + this.time.min);
     }
     /*
         if a < b    : return -1
@@ -44,6 +45,9 @@ export class Time{
         this.hour = hour;
         this.min  = min;
     }
+    toString(){
+        return (this.hour + ":" + this.min)
+    }
     static interval(start,end){
         const start_mins  = start.hour * 60 + start.min;
         const end_mins    = end.hour * 60 + end.min;
@@ -63,7 +67,7 @@ export class Time{
             return 1;
         return 0;
     }
-    // TODO EventOptionInstance to interval to use it here
+
     static intersectionTime(intervalA, intervalB){
        // console.log("Interval A: ", intervalA)
        // console.log("Interval B: ", intervalB)
@@ -74,7 +78,16 @@ export class Time{
         return 0
     }
 
+
 }
+
+export class TimeInterval{
+    constructor(start, end){
+        this.start = start;
+        this.end = end;
+    }
+}
+
 
 export class Event{
     constructor(name, isConstraint = false) {
@@ -91,9 +104,3 @@ export class EventOption{
     }
 }
 
-export class EventOptionInstance{
-    constructor(start, end){
-        this.start = start;
-        this.end = end;
-    }
-}

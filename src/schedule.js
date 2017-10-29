@@ -1,4 +1,4 @@
-import {Time} from './suppClasses'
+import {Time, TimeInterval} from './suppClasses'
 
 export class Schedule{
     constructor(solution) {
@@ -80,19 +80,14 @@ export class Schedule{
     }
     static freeTimeIntersection(scheduleA, scheduleB){
     	let intersection_time = 0
-    	const week_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-    	let free_timesA
-    	let free_timesB
-    	for (const week_day of week_days){
-    		free_timesA = scheduleA.schedule.get(week_day).free_intervals;
-    		//console.log("FREE TIMESA: ", free_timesA)
-    		free_timesB = scheduleB.schedule.get(week_day).free_intervals;
-    		for (let free_timeA of free_timesA)
-	    		for (let free_timeB of free_timesB){
-	    			intersection_time += Time.intersectionTime(free_timeA, free_timeB)
-	    		}
-    	}
-    	//console.log("INTERSECTION TIME: ", intersection_time)
+        const week_days = ['Monday','Tuesday','Wednesday','Thursday','Friday']
+        week_days.forEach(function(week_day){
+            scheduleA.schedule.get(week_day).free_intervals.forEach(function(free_timeA){
+                scheduleB.schedule.get(week_day).free_intervals.forEach(function(free_timeB){
+                    intersection_time += Time.intersectionTime(free_timeA, free_timeB)
+                })
+            })
+        })
     	return intersection_time
     }
 }
@@ -162,19 +157,19 @@ export class Workday{
     		return a.start.time.hour - b.start.time.hour;
     	})
     	if (events_sorted.length > 0){
-    		free_times.push([new Time(0,0), events_sorted[0].start.time]);
+    		free_times.push(new TimeInterval(new Time(0,0), events_sorted[0].start.time));
     		let prev_end = events_sorted[0].end.time;
     		let i = 1;
     		while (i<events_sorted.length){
     			if (Time.compare(prev_end, events_sorted[i].start.time) !== 0)
-    				free_times.push([prev_end, events_sorted[i].start.time]);
+    				free_times.push(new TimeInterval(prev_end, events_sorted[i].start.time));
     			prev_end = events_sorted[i].end.time;
     			i += 1;
     		}
-    		free_times.push([prev_end, new Time(24,0)]);
+    		free_times.push(new TimeInterval(prev_end, new Time(24,0)));
     		return free_times;
     	} else {
-    		free_times.push([new Time(0,0),new Time(24,0)]);
+    		free_times.push(new TimeInterval(new Time(0,0),new Time(24,0)));
     		return free_times;
     	}
     }
@@ -184,6 +179,8 @@ export class Workday{
 function prefFreeAfternoon(workday){
 	if (workday.end_afternoon instanceof Time)
       return Time.interval(workday.end_afternoon, new Time(20,0)) / (8*60); // eight hours for the afternoon := 20-12 
+    if (Time.compare(workday.end_morning, new Time(12,0)) > 0)
+      return Time.interval(workday.end_morning, new Time(20,0)) / (8*60);
   	return 1;
 }
 
@@ -196,7 +193,7 @@ function prefFreeMorning(workday){
 function prefContinuous(workday){
     let diff = 0;
     if ( !(workday.begin_morning instanceof Time) && !(workday.begin_afternoon instanceof Time)){
-      return 0
+      return 1
     }
 
     if (!(workday.begin_morning instanceof Time)){
@@ -220,7 +217,7 @@ function prefLongLunchtimes(workday){
  			r = 1
  		else 
  			r = 0
-  	if (!(workday.begin_morning instanceof Time) || !(workday.begin_afternoon))
+  	if (!(workday.begin_morning instanceof Time) || !(workday.begin_afternoon instanceof Time))
   		r = 1
     return r
 }
