@@ -3,7 +3,7 @@ import React from 'react'
 import { TimePicker } from './TimePicker';
 import { FormDaysOfTheWeek } from './FormDaysOfTheWeek';
 import { Panel, Button } from 'react-bootstrap';
-import { Form, FormGroup, FormControl } from 'react-bootstrap';
+import { Form, FormGroup } from 'react-bootstrap';
 import { Glyphicon } from 'react-bootstrap';
 import moment from 'moment'
 
