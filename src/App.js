@@ -3,7 +3,6 @@ import React from 'react';
 import { Time, WeekDate, Event, EventOption, TimeInterval } from './suppClasses'
 import { makeDomain, search } from './cSearch'
 import { Schedule , scheduleEvaluation } from './schedule'
-import { incHeuristicValue, init} from './firebase'
 import { ect } from './data';
 
 import { Grid, Row, Col } from 'react-bootstrap';
@@ -16,7 +15,6 @@ import { Constraints } from './ui/Constraints'
 
 class App extends React.Component {
     constructor(props) {
-        init()
         super(props)
         this.state = {
             events: [],
@@ -95,11 +93,6 @@ class App extends React.Component {
         // Sort by preferences
         let weights = Object.values(this.state.preferences)
         schedules = schedules.sort((s1, s2) => scheduleEvaluation(s2, ...weights) - scheduleEvaluation(s1, ...weights))
-
-        // Update preferences statistics
-        for (const p of Object.keys(this.state.preferences)) {
-            incHeuristicValue(p, this.state.preferences[p])
-        }
 
         // Set the events of the first 10 schedules
         this.setState({
