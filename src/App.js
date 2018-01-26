@@ -13,6 +13,9 @@ import './App.css';
 import { Events } from './ui/Events'
 import { Constraints } from './ui/Constraints'
 import { Preferences } from './ui/Preferences'
+import { Calendar } from './ui/Calendar'
+
+import { Panel, Button, Glyphicon } from 'react-bootstrap';
 
 class App extends React.Component {
     constructor(props) {
@@ -29,7 +32,7 @@ class App extends React.Component {
                 'Free days': 0,
                 'Free friday morning for hangovers': 0,
             },
-            results: [],
+            schedules: [],
         }
     }
 
@@ -114,7 +117,6 @@ class App extends React.Component {
                     </Col>
                 </Row>
 
-
                 <Row>
                     <Col xs={12} md={6}>
                         <Constraints constraints={this.state.constraints} handleAdd={(day, start, end) => this.handleConstraintAdd(day, start, end)} />
@@ -125,29 +127,26 @@ class App extends React.Component {
                     </Col>
                 </Row>
 
-                {/*
                 <div style={{ marginBottom: '40px' }}>
-                    <Button disabled={this.state.options.length === 0} block bsStyle="primary" bsSize="large" onClick={() => this.handleGenerate()}>
+                    <Button disabled={this.state.events.length === 0} block bsStyle="primary" bsSize="large" onClick={() => this.handleGenerate()}>
                         <Glyphicon glyph="cog" /> Generate
                     </Button>
                 </div>
 
-                {this.state.results.length > 0 &&
+                {this.state.schedules.length > 0 &&
                     <Row>
                         <Col xs={12}>
                             <Panel header="Results">
-                                {this.state.results.map((result, index) => (
+                                {this.state.schedules.map((schedule, index) => (
                                     <Calendar
                                         key={index}
-                                        events={result}
+                                        events={schedule}
                                     />
                                 ))}
                             </Panel>
                         </Col>
                     </Row>
                 }
-
-                */}
             </Grid>
         );
     }
