@@ -12,6 +12,7 @@ import './App.css';
 
 import { Events } from './ui/Events'
 import { Constraints } from './ui/Constraints'
+import { Preferences } from './ui/Preferences'
 
 class App extends React.Component {
     constructor(props) {
@@ -119,11 +120,9 @@ class App extends React.Component {
                         <Constraints constraints={this.state.constraints} handleAdd={(day, start, end) => this.handleConstraintAdd(day, start, end)} />
                     </Col>
 
-                    {/*
                     <Col xs={12} md={6}>
-                        <Preferences preferences={this.state.preferences} onChange={this.handlePreferenceChange} />
+                        <Preferences preferences={this.state.preferences} handleChange={(e, p) => this.handlePreferenceChange(e, p)} />
                     </Col>
-                    */}
                 </Row>
 
                 {/*

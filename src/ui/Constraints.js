@@ -11,7 +11,7 @@ export class Constraints extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            day: '2',
+            day: '2', // default to monday
             start: moment(),
             end: moment(),
         }

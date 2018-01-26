@@ -43,7 +43,6 @@ export class Events extends React.Component {
     }
 
     render() {
-        console.log(this.props.events)
         return (
             <Panel header="Events">
                 <Form inline>
