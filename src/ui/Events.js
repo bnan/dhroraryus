@@ -1,7 +1,6 @@
 import React from 'react'
 import { TimePicker } from '../ui/TimePicker';
 import { FormDaysOfTheWeek } from '../ui/FormDaysOfTheWeek';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { Panel, Button } from 'react-bootstrap';
 import { Form, FormControl } from 'react-bootstrap';
 import { Table } from 'react-bootstrap';
