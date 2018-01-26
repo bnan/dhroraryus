@@ -46,10 +46,6 @@ export class Events extends React.Component {
         return (
             <Panel header="Events">
                 <Form inline>
-                    <DropdownButton bsStyle="primary" bsSize="sm" title="Import" id="dropdown-size-large">
-                        <MenuItem eventKey="1" onClick={() => this.handleImport()}>4º ano Engenharia de Computadores e Telemática @ DETI UA</MenuItem>
-                    </DropdownButton>
-                    {' or manually specify '}
                     <FormControl
                         type="text"
                         value={this.state.name}

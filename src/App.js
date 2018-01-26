@@ -36,12 +36,6 @@ class App extends React.Component {
         }
     }
 
-    handleImport() {
-        this.setState(prevState => ({
-            events: ect
-        }))
-    }
-
     handleEventAdd(name, option, day, start, end) {
         const instance = new TimeInterval(
             new WeekDate(day, new Time(start.hours(), start.minutes())),
