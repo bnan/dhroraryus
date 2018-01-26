@@ -1,10 +1,6 @@
 import React from 'react'
-
 import { TimePicker } from './TimePicker';
 import { FormDaysOfTheWeek } from './FormDaysOfTheWeek';
-import { Panel, Button } from 'react-bootstrap';
-import { Form, FormGroup } from 'react-bootstrap';
-import { Glyphicon } from 'react-bootstrap';
 import moment from 'moment'
 
 export class Constraints extends React.Component {
@@ -31,22 +27,24 @@ export class Constraints extends React.Component {
 
     render() {
         return (
-            <Panel header="Constraints">
-                <Form inline>
-                    <FormGroup>
+            <div className="card">
+                <h5 className="card-header">Constraints</h5>
+                <div className="card-body">
+                    <form className="form-inline">
                         {'On '}
                         <FormDaysOfTheWeek defaultValue={this.state.day} onChange={(e) => this.handleDayChange(e)} />
                         {' from '}
                         <TimePicker onChange={(e) => this.handleStartChange(e)} />
                         {' to '}
                         <TimePicker onChange={(e) => this.handleEndChange(e)} />
-                    </FormGroup>
-                    {' '}
-                    <Button bsStyle="success" onClick={() => this.props.handleAdd(this.state.day, this.state.start, this.state.end)}>
-                        <Glyphicon glyph="plus" /> Add
-                    </Button>
-                </Form>
-            </Panel>
+                        {' '}
+
+                        <button type="button" className="btn btn-success" onClick={() => this.props.handleAdd(this.state.day, this.state.start, this.state.end)}>
+                            Add
+                        </button>
+                    </form>
+                </div>
+            </div>
         )
     }
 }

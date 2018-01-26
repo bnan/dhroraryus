@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { FormScore } from './FormScore';
-import { Panel, Form, FormGroup } from 'react-bootstrap';
 
 export class Preferences extends React.Component {
     constructor(props) {
@@ -11,16 +9,19 @@ export class Preferences extends React.Component {
 
     render() {
         return (
-            <Panel header="Preferences">
-                {Object.keys(this.props.preferences).map((p, index) => (
-                    <Form key={index} inline>
-                        <FormGroup>
-                            <FormScore defaultValue={this.props.preferences[p]} onChange={(e) => this.props.handleChange(e, p)} />
-                            {' ' + p}
-                        </FormGroup>
-                    </Form>
-                ))}
-            </Panel>
+            <div className="card">
+                <h5 className="card-header">Preferences</h5>
+                <div className="card-body">
+                    {Object.keys(this.props.preferences).map((p, index) => (
+                        <form key={index} className="form-inline">
+                            <div className="form-group">
+                                <FormScore defaultValue={this.props.preferences[p]} onChange={(e) => this.props.handleChange(e, p)} />
+                                {' ' + p}
+                            </div>
+                        </form>
+                    ))}
+                </div>
+            </div>
         )
     }
 }

@@ -4,8 +4,6 @@ import { Time, WeekDate, Event, EventOption, TimeInterval } from './suppClasses'
 import { makeDomain, search } from './cSearch'
 import { Schedule , scheduleEvaluation } from './schedule'
 
-import { Grid, Row, Col } from 'react-bootstrap';
-
 import logo from './logo.svg';
 import './App.css';
 
@@ -13,8 +11,6 @@ import { Events } from './ui/Events'
 import { Constraints } from './ui/Constraints'
 import { Preferences } from './ui/Preferences'
 import { Calendar } from './ui/Calendar'
-
-import { Panel, Button, Glyphicon } from 'react-bootstrap';
 
 class App extends React.Component {
     constructor(props) {
@@ -99,48 +95,53 @@ class App extends React.Component {
 
     render() {
         return (
-            <Grid>
-                <div style={{ textAlign: 'center', padding: '50px' }}>
+            <div className="container">
+                <div style={{ textAlign: 'center', padding: '2vw' }}>
                     <img src={logo} className="App-logo" alt="Dhroraryus" />
                 </div>
 
-                <Row>
-                    <Col xs={12}>
-                        <Events events={this.state.events} handleAdd={(name, option, day, start, end) => this.handleEventAdd(name, option, day, start, end)} />
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col xs={12} md={6}>
-                        <Constraints constraints={this.state.constraints} handleAdd={(day, start, end) => this.handleConstraintAdd(day, start, end)} />
-                    </Col>
-
-                    <Col xs={12} md={6}>
-                        <Preferences preferences={this.state.preferences} handleChange={(e, p) => this.handlePreferenceChange(e, p)} />
-                    </Col>
-                </Row>
-
-                <div style={{ marginBottom: '40px' }}>
-                    <Button disabled={this.state.events.length === 0} block bsStyle="primary" bsSize="large" onClick={() => this.handleGenerate()}>
-                        <Glyphicon glyph="cog" /> Generate
-                    </Button>
+                <div className="row">
+                    <div className="col-sm">
+                        <Events
+                            events={this.state.events}
+                            handleAdd={(name, option, day, start, end) => this.handleEventAdd(name, option, day, start, end)}
+                            handleDelete={(index) => this.handleOptionDelete(index)}
+                        />
+                    </div>
                 </div>
 
+                <div className="row">
+                    <div className="col-sm">
+                        <Constraints constraints={this.state.constraints} handleAdd={(day, start, end) => this.handleConstraintAdd(day, start, end)} />
+                    </div>
+
+                    <div className="col-sm">
+                        <Preferences preferences={this.state.preferences} handleChange={(e, p) => this.handlePreferenceChange(e, p)} />
+                    </div>
+                </div>
+
+                <button type="button" className="btn btn-primary btn-lg btn-block" disabled={this.state.events.length === 0} onClick={() => this.handleGenerate()}>
+                    Generate
+                </button>
+
                 {this.state.schedules.length > 0 &&
-                    <Row>
-                        <Col xs={12}>
-                            <Panel header="Results">
-                                {this.state.schedules.map((schedule, index) => (
-                                    <Calendar
-                                        key={index}
-                                        events={schedule}
-                                    />
-                                ))}
-                            </Panel>
-                        </Col>
-                    </Row>
+                    <div className="row">
+                        <div className="col-sm">
+                            <div className="card">
+                                <h5 className="card-header">Schedules</h5>
+                                <div className="card-body">
+                                    {this.state.schedules.map((schedule, index) => (
+                                        <Calendar
+                                            key={index}
+                                            events={schedule}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
-            </Grid>
+            </div>
         );
     }
 }
