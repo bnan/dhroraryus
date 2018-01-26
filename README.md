@@ -33,15 +33,11 @@ $ yarn start
 
 ## Testing
 
-1. Test.
-
 ```shell
 $ yarn test
 ```
 
 ## Deployment
-
-1. Build.
 
 ```bash
 $ yarn build
