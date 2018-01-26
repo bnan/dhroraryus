@@ -33,8 +33,7 @@ class App extends React.Component {
 
     handleEventAdd(name, option, day, start, end) {
         const instance = new TimeInterval(
-            new WeekDate(day, new Time(start.hours(), start.minutes())),
-            new WeekDate(day, new Time(end.hours(), end.minutes()))
+            new WeekDate(day, new Time(start.hours(), start.minutes())), new WeekDate(day, new Time(end.hours(), end.minutes()))
         )
 
         const events = this.state.events.slice()
@@ -64,10 +63,11 @@ class App extends React.Component {
             new WeekDate(day, new Time(end.hours(), end.minutes()))
         )
 
-        const event = new EventOption(new Event('C', true), Math.random().toString(36).substring(7), [instance])
+        const event = new EventOption(new Event('Constraint', true), this.state.constraints.length+1, [instance])
 
         this.setState(prevState => ({
-            events: [...prevState.events, event]
+            events: [...prevState.events, event],
+            constraints: [...prevState.constraints, event]
         }))
     }
 
@@ -96,7 +96,7 @@ class App extends React.Component {
     render() {
         return (
             <div className="container">
-                <div style={{ textAlign: 'center', padding: '2vw' }}>
+                <div className="App-logo-wrapper">
                     <img src={logo} className="App-logo" alt="Dhroraryus" />
                 </div>
 
@@ -112,11 +112,17 @@ class App extends React.Component {
 
                 <div className="row">
                     <div className="col-sm">
-                        <Constraints constraints={this.state.constraints} handleAdd={(day, start, end) => this.handleConstraintAdd(day, start, end)} />
+                        <Constraints
+                            constraints={this.state.constraints}
+                            handleAdd={(day, start, end) => this.handleConstraintAdd(day, start, end)}
+                        />
                     </div>
 
                     <div className="col-sm">
-                        <Preferences preferences={this.state.preferences} handleChange={(e, p) => this.handlePreferenceChange(e, p)} />
+                        <Preferences
+                            preferences={this.state.preferences}
+                            handleChange={(e, p) => this.handlePreferenceChange(e, p)}
+                        />
                     </div>
                 </div>
 

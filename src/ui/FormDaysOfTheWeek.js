@@ -1,8 +1,9 @@
 import React from 'react';
-import { FormControl } from 'react-bootstrap';
+
+export const WeekDays = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 
 export const FormDaysOfTheWeek = ({ defaultValue, onChange }) => (
-    <FormControl componentClass="select" defaultValue={defaultValue} onChange={onChange}>
+    <select className="form-control" defaultValue={defaultValue} onChange={onChange}>
         <option value="0">Saturday</option>
         <option value="1">Sunday</option>
         <option value="2">Monday</option>
@@ -10,5 +11,5 @@ export const FormDaysOfTheWeek = ({ defaultValue, onChange }) => (
         <option value="4">Wednesday</option>
         <option value="5">Thursday</option>
         <option value="6">Friday</option>
-    </FormControl>
+    </select>
 )

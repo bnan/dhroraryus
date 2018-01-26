@@ -1,11 +1,7 @@
 import React from 'react'
 import { TimePicker } from '../ui/TimePicker';
-import { FormDaysOfTheWeek } from '../ui/FormDaysOfTheWeek';
-import { Form, FormControl } from 'react-bootstrap';
-import { Table } from 'react-bootstrap';
+import { WeekDays, FormDaysOfTheWeek } from '../ui/FormDaysOfTheWeek';
 import moment from 'moment'
-
-const WEEKDAYS = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 
 export class Events extends React.Component {
     constructor(props) {
@@ -44,21 +40,21 @@ export class Events extends React.Component {
             <div className="card">
                 <h5 className="card-header">Events</h5>
                 <div className="card-body">
-                    <Form inline>
+                    <form className="form-inline">
                         <input
                             type="text"
                             value={this.state.name}
                             placeholder="Event"
                             onChange={(e) => this.handleNameChange(e)}
-                            style={{ width: '150px' }}
                             className="form-control"
                         />
                         {' '}
-                        <FormControl
+                        <input
                             type="text"
                             value={this.state.option}
                             placeholder="Option"
                             onChange={(e) => this.handleOptionChange(e)}
+                            className="form-control"
                         />
                         {' on '}
                         <FormDaysOfTheWeek defaultValue={this.state.day} onChange={(e) => this.handleDayChange(e)} />
@@ -72,7 +68,7 @@ export class Events extends React.Component {
                         </button>
 
                         { this.props.events.length > 0 &&
-                            <Table responsive striped bordered condensed hover style={{ marginTop: '20px' }}>
+                            <table className="table table-responsive table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>Event</th>
@@ -89,8 +85,8 @@ export class Events extends React.Component {
                                             <tr key={i + '' + j}>
                                                 <td>{event.event.name}</td>
                                                 <td>{event.option}</td>
-                                                <td>{WEEKDAYS[instance.start.day]} at {instance.start.time.hour}:{instance.start.time.min}</td>
-                                                <td>{WEEKDAYS[instance.end.day]} at {instance.end.time.hour}:{instance.end.time.min}</td>
+                                                <td>{WeekDays[instance.start.day]} at {instance.start.time.hour}:{instance.start.time.min}</td>
+                                                <td>{WeekDays[instance.end.day]} at {instance.end.time.hour}:{instance.end.time.min}</td>
                                                 <td>
                                                     <button type="button" className="btn btn-danger btn-sm" onClick={() => this.props.handleDelete(i)}>
                                                         Remove
@@ -99,9 +95,9 @@ export class Events extends React.Component {
                                             </tr>
                                     ))}
                                 </tbody>
-                            </Table>
+                            </table>
                         }
-                    </Form>
+                    </form>
                 </div>
             </div>
         )
