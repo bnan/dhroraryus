@@ -40,5 +40,5 @@ $ yarn test
 ## Deployment
 
 ```bash
-$ yarn build
+$ yarn deploy
 ```
