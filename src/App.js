@@ -3,6 +3,7 @@ import React from 'react';
 import { Time, WeekDate, Event, EventOption, TimeInterval } from './suppClasses'
 import { makeDomain, search } from './cSearch'
 import { Schedule , scheduleEvaluation } from './schedule'
+import { miect4 } from './data/miect4';
 
 import logo from './logo.svg';
 import './App.css';
@@ -93,11 +94,20 @@ class App extends React.Component {
         })
     }
 
+    handleImport() {
+        this.setState(prevState => ({
+            events: miect4
+        }))
+    }
+
     render() {
         return (
             <div className="container">
                 <div className="App-logo-wrapper">
                     <img src={logo} className="App-logo" alt="Dhroraryus" />
+                    <button type="button" className="btn btn-primary" onClick={() => this.handleImport()}>
+                        Import
+                    </button>
                 </div>
 
                 <div className="row">
