@@ -41,6 +41,16 @@ export class Events extends React.Component {
                 <h5 className="card-header">Events</h5>
                 <div className="card-body">
                     <form className="form-inline">
+                        <div className="dropdown show">
+                            <button className="btn btn-primary dropdown-toggle" type="button" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Import 
+                            </button>
+
+                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a className="dropdown-item" onClick={() => this.props.handleImport()}>MIECT 4º ano</a>
+                            </div>
+                        </div>
+                        {' or manually specify '}
                         <input
                             type="text"
                             value={this.state.name}

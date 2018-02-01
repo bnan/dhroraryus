@@ -105,9 +105,7 @@ class App extends React.Component {
             <div className="container">
                 <div className="App-logo-wrapper">
                     <img src={logo} className="App-logo" alt="Dhroraryus" />
-                    <button type="button" className="btn btn-primary" onClick={() => this.handleImport()}>
-                        Import
-                    </button>
+                    <span className="align-top">beta</span>
                 </div>
 
                 <div className="row">
@@ -116,6 +114,7 @@ class App extends React.Component {
                             events={this.state.events}
                             handleAdd={(name, option, day, start, end) => this.handleEventAdd(name, option, day, start, end)}
                             handleDelete={(index) => this.handleOptionDelete(index)}
+                            handleImport={() => this.handleImport()}
                         />
                     </div>
                 </div>
