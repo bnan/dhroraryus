@@ -42,7 +42,7 @@ export class Events extends React.Component {
                 <div className="card-body">
                     <form className="form-inline">
                         <div className="dropdown show">
-                            <button className="btn btn-primary dropdown-toggle" type="button" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Import 
                             </button>
 
