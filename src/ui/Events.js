@@ -43,7 +43,7 @@ export class Events extends React.Component {
                     <form className="form-inline">
                         <div className="dropdown show">
                             <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Import 
+                                Import
                             </button>
 
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -77,35 +77,37 @@ export class Events extends React.Component {
                             Add
                         </button>
 
-                        { this.props.events.length > 0 &&
-                            <table className="mt-3 table table-responsive table-striped table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Event</th>
-                                        <th>Option</th>
-                                        <th>From</th>
-                                        <th>To</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                </thead>
+                        {this.props.events.length > 0 &&
+                            <div className="table-responsive">
+                                <table className="mt-3 table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Event</th>
+                                            <th>Option</th>
+                                            <th>From</th>
+                                            <th>To</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
 
-                                <tbody>
-                                    {this.props.events.map((event, i) =>
-                                        event.instances.map((instance, j) =>
-                                            <tr key={i + '' + j}>
-                                                <td>{event.event.name}</td>
-                                                <td>{event.option}</td>
-                                                <td>{WeekDays[instance.start.day]} at {instance.start.time.hour}:{instance.start.time.min}</td>
-                                                <td>{WeekDays[instance.end.day]} at {instance.end.time.hour}:{instance.end.time.min}</td>
-                                                <td>
-                                                    <button type="button" className="btn btn-danger btn-sm" onClick={() => this.props.handleDelete(i)}>
-                                                        Remove
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    <tbody>
+                                        {this.props.events.map((event, i) =>
+                                            event.instances.map((instance, j) =>
+                                                <tr key={i + '' + j}>
+                                                    <td>{event.event.name}</td>
+                                                    <td>{event.option}</td>
+                                                    <td>{WeekDays[instance.start.day]} at {instance.start.time.hour}:{instance.start.time.min}</td>
+                                                    <td>{WeekDays[instance.end.day]} at {instance.end.time.hour}:{instance.end.time.min}</td>
+                                                    <td>
+                                                        <button type="button" className="btn btn-danger btn-sm" onClick={() => this.props.handleDelete(i)}>
+                                                            Remove
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         }
                     </form>
                 </div>
