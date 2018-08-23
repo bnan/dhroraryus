@@ -17,28 +17,28 @@ Picking a schedule in universities where you have to make your own is difficult 
 
 ## Development
 
-1. [Install Node and Yarn](https://yarnpkg.com/en/docs/install).
+1. Install Node.js and npm.
 
 2. Install dependencies.
 
 ```shell
-$ yarn install
+$ npm install
 ```
 
 3. Build, live-reload and open the browser at http://localhost:3000.
 
 ```shell
-$ yarn start
+$ npm run start
 ```
 
 ## Testing
 
 ```shell
-$ yarn test
+$ npm test
 ```
 
 ## Deployment
 
 ```bash
-$ yarn deploy
+$ npm run deploy
 ```
