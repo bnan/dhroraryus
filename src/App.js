@@ -112,16 +112,12 @@ class App extends React.Component {
                     </div>
                 </div>
 
-                <div className="row">
-                    <div className="col-sm">
-                        <Events
-                            events={this.state.events}
-                            handleAdd={(name, option, day, start, end) => this.handleEventAdd(name, option, day, start, end)}
-                            handleDelete={(index) => this.handleOptionDelete(index)}
-                            handleImport={() => this.handleImport()}
-                        />
-                    </div>
-                </div>
+                <Events
+                    events={this.state.events}
+                    handleAdd={(name, option, day, start, end) => this.handleEventAdd(name, option, day, start, end)}
+                    handleDelete={(index) => this.handleOptionDelete(index)}
+                    handleImport={() => this.handleImport()}
+                />
 
                 <div className="row">
                     <div className="col-sm">
@@ -139,27 +135,21 @@ class App extends React.Component {
                     </div>
                 </div>
 
-                <button type="button" className="btn btn-primary btn-lg btn-block" disabled={this.state.events.length === 0} onClick={() => this.handleGenerate()}>
+                <button type="button" className="mb-3 btn btn-primary btn-lg btn-block" disabled={this.state.events.length === 0} onClick={() => this.handleGenerate()}>
                     Generate
                 </button>
 
-                {this.state.schedules.length > 0 &&
-                    <div className="row">
-                        <div className="col-sm">
-                            <div className="card">
-                                <h5 className="card-header">Schedules</h5>
-                                <div className="card-body">
-                                    {this.state.schedules.map((schedule, index) => (
-                                        <Calendar
-                                            key={index}
-                                            events={schedule}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
+                {this.state.schedules.map((schedule, index) => (
+                    <div className="card mb-3">
+                        <h5 className="card-header">Schedule #{index+1}</h5>
+                        <div className="card-body">
+                            <Calendar
+                                key={index}
+                                events={schedule}
+                            />
                         </div>
                     </div>
-                }
+                ))}
             </div>
         );
     }

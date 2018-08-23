@@ -37,7 +37,7 @@ export class Events extends React.Component {
 
     render() {
         return (
-            <div className="card">
+            <div className="mb-3 card">
                 <h5 className="card-header">Events</h5>
                 <div className="card-body">
                     <form className="form-inline">
@@ -78,7 +78,7 @@ export class Events extends React.Component {
                         </button>
 
                         { this.props.events.length > 0 &&
-                            <table className="table table-responsive table-striped table-bordered table-hover">
+                            <table className="mt-3 table table-responsive table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>Event</th>
