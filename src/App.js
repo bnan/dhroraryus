@@ -106,10 +106,6 @@ class App extends React.Component {
                 <div className="App-logo-wrapper">
                     <img src={logo} className="App-logo" alt="Dhroraryus" />
                     <span className="align-top">beta</span>
-
-                    <div className="mt-3">
-                        <a className="github-button" href="https://github.com/bnan/dhroraryus" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star bnan/dhroraryus on GitHub">Star</a>
-                    </div>
                 </div>
 
                 <Events
