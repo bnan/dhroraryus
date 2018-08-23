@@ -7,11 +7,11 @@
     "gh-pages": "^1.0.0",
     "moment": "^2.19.1",
     "react": "^16.0.0",
-    "react-big-calendar": "^0.16.1",
-    "react-bootstrap": "^0.31.5",
+    "react-big-calendar": "^0.19.2",
+    "react-bootstrap": "^0.32.3",
     "react-datetime": "^2.10.3",
     "react-dom": "^16.0.0",
-    "react-scripts": "1.0.14"
+    "react-scripts": "1.1.5"
   },
   "scripts": {
     "start": "react-scripts start",
