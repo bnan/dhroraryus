@@ -1,5 +1,4 @@
 import React from 'react'
-import { FormScore } from './FormScore';
 
 export class Preferences extends React.Component {
     constructor(props) {
