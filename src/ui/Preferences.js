@@ -14,10 +14,7 @@ export class Preferences extends React.Component {
                 <div className="card-body">
                     {Object.keys(this.props.preferences).map((p, index) => (
                         <form key={index} className="form-inline">
-                            <div className="form-group">
-                                <FormScore defaultValue={this.props.preferences[p]} onChange={(e) => this.props.handleChange(e, p)} />
-                                {' ' + p}
-                            </div>
+                            <input className="form-control mr-1 mb-1" type="number" min="0" max="10" value={this.props.preferences[p]} onChange={(e) => this.props.handleChange(e, p)} /> {p}
                         </form>
                     ))}
                 </div>
