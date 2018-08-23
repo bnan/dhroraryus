@@ -42,7 +42,7 @@ export class Events extends React.Component {
                 <div className="card-body">
                     <form className="form-inline">
                         <div className="dropdown show">
-                            <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button className="mr-1 btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Import
                             </button>
 
@@ -56,7 +56,7 @@ export class Events extends React.Component {
                             value={this.state.name}
                             placeholder="Event"
                             onChange={(e) => this.handleNameChange(e)}
-                            className="form-control"
+                            className="mr-1 ml-1 form-control"
                         />
                         {' '}
                         <input
@@ -64,14 +64,20 @@ export class Events extends React.Component {
                             value={this.state.option}
                             placeholder="Option"
                             onChange={(e) => this.handleOptionChange(e)}
-                            className="form-control"
+                            className="mr-1 form-control"
                         />
                         {' on '}
-                        <FormDaysOfTheWeek defaultValue={this.state.day} onChange={(e) => this.handleDayChange(e)} />
+                        <div className="mr-1 ml-1">
+                            <FormDaysOfTheWeek defaultValue={this.state.day} onChange={(e) => this.handleDayChange(e)} />
+                        </div>
                         {' from '}
-                        <TimePicker onChange={(e) => this.handleStartChange(e)} />
+                        <div className="mr-1 ml-1">
+                            <TimePicker onChange={(e) => this.handleStartChange(e)} />
+                        </div>
                         {' to '}
-                        <TimePicker onChange={(e) => this.handleEndChange(e)} />
+                        <div className="mr-1 ml-1">
+                            <TimePicker onChange={(e) => this.handleEndChange(e)} />
+                        </div>
                         {' '}
                         <button type="button" className="btn btn-success" onClick={() => this.props.handleAdd(this.state.name, this.state.option, this.state.day, this.state.start, this.state.end)}>
                             Add

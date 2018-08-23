@@ -32,14 +32,19 @@ export class Constraints extends React.Component {
                 <div className="card-body">
                     <form className="form-inline">
                         {'On '}
-                        <FormDaysOfTheWeek defaultValue={this.state.day} onChange={(e) => this.handleDayChange(e)} />
+                        <div className="ml-1 mr-1">
+                            <FormDaysOfTheWeek defaultValue={this.state.day} onChange={(e) => this.handleDayChange(e)} />
+                        </div>
                         {' from '}
-                        <TimePicker onChange={(e) => this.handleStartChange(e)} />
+                        <div className="ml-1 mr-1">
+                            <TimePicker onChange={(e) => this.handleStartChange(e)} />
+                        </div>
                         {' to '}
-                        <TimePicker onChange={(e) => this.handleEndChange(e)} />
+                        <div className="ml-1 mr-1">
+                            <TimePicker onChange={(e) => this.handleEndChange(e)} />
+                        </div>
                         {' '}
-
-                        <button type="button" className="btn btn-success" onClick={() => this.props.handleAdd(this.state.day, this.state.start, this.state.end)}>
+                        <button type="button" className="mr-1 btn btn-success" onClick={() => this.props.handleAdd(this.state.day, this.state.start, this.state.end)}>
                             Add
                         </button>
                     </form>
