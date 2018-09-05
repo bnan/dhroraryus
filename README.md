@@ -34,7 +34,7 @@ $ npm run start
 ## Testing
 
 ```shell
-$ npm test
+$ npm run test
 ```
 
 ## Deployment
