@@ -3,7 +3,7 @@ import React from 'react';
 import { Time, WeekDate, Event, EventOption, TimeInterval } from './suppClasses'
 import { makeDomain, search } from './cSearch'
 import { Schedule , scheduleEvaluation } from './schedule'
-import { miect4 } from './data/miect4';
+//import { miect4 } from './data/miect4';
 import { miect2 } from './data/miect2';
 
 import logo from './logo.svg';
