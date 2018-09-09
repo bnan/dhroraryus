@@ -47,7 +47,7 @@ export class Events extends React.Component {
                             </button>
 
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a className="dropdown-item" onClick={() => this.props.handleImport()}>MIECT 4º ano</a>
+                                <a className="dropdown-item" onClick={() => this.props.handleImport()}>MIECT 2º ano</a>
                             </div>
                         </div>
                         {' or manually specify '}
