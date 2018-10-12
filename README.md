@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://travis-ci.org/bnan/dhroraryus"><img src="https://img.shields.io/travis/bnan/dhroraryus.svg" alt="Build Status"></a>
-  <img src="https://img.shields.io/librariesio/github/bnan/dhroraryus.svg">
+  <img src="https://img.shields.io/github/license/bnan/dhroraryus.svg">
 </p>
 
 <p align="center">
