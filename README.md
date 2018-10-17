@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  Live beta at <a href="https://bnan.github.io/dhroraryus/">https://bnan.github.io/dhroraryus/</a>
+  Live at <a href="https://bnan.github.io/dhroraryus/">https://bnan.github.io/dhroraryus/</a>
 </p>
 
 # dhroraryus
